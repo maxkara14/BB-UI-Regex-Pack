@@ -4,13 +4,13 @@ import { extension_settings } from "../../../extensions.js";
 const extensionName = "BB-UI-Regex-Pack";
 const extensionFolderPath = `/scripts/extensions/third-party/${extensionName}`;
 
-// Реестр твоих деталей
+// РЕЕСТР ДЕТАЛЕЙ (Теперь используем массив files вместо одного file)
 const bbModules = [
-    { id: "tablet", file: "regex-[bb]_tablet.json", name: "📱 tablet" },
-    { id: "radio", file: "regex-[bb]_radio.json", name: "🎙️ radio" },
-    { id: "clocks", file: "regex-[bb]_clocks.json", name: "⌛ clocks" },
-    { id: "trans_single", file: "regex-[bb]_transitions_single.json", name: "🚦 transitions (single)" },
-    { id: "trans_paired", file: "regex-[bb]_transitions_paired.json", name: "🚦 transitions (paired)" }
+    { id: "tablet", files: ["regex-[bb]_tablet.json"], name: "📱 tablet" },
+    { id: "radio", files: ["regex-[bb]_radio.json"], name: "🎙️ radio" },
+    { id: "clocks", files: ["regex-[bb]_clocks.json"], name: "⌛ clocks" },
+    // А вот тут мы объединили оба файла переходов в одну галочку!
+    { id: "transitions", files: ["regex-[bb]_transitions_single.json", "regex-[bb]_transitions_paired.json"], name: "🚦 transitions" }
 ];
 
 let loadedRegexes = {};
@@ -18,7 +18,12 @@ let loadedRegexes = {};
 jQuery(async () => {
     try {
         const settingsHtml = await $.get(`${extensionFolderPath}/index.html`);
-        $("#extensions_settings2").append(settingsHtml);
+        // Проверяем, куда встраивать. У разных версий ST могут быть разные контейнеры
+        if ($("#extensions_settings2").length) {
+            $("#extensions_settings2").append(settingsHtml);
+        } else {
+            $("#extensions_settings").append(settingsHtml);
+        }
 
         if (!extension_settings[extensionName]) {
             extension_settings[extensionName] = { enabled: [] };
@@ -38,25 +43,33 @@ jQuery(async () => {
     }
 });
 
+// Обновленная функция: загружает сразу ВСЕ файлы из массива для каждого узла
 async function loadRegexFiles() {
     for (const mod of bbModules) {
-        try {
-            const response = await fetch(`${extensionFolderPath}/regexes/${mod.file}`);
-            if (response.ok) {
-                loadedRegexes[mod.id] = await response.json();
+        loadedRegexes[mod.id] = []; // Готовим пустой контейнер под массив
+        for (const file of mod.files) {
+            try {
+                const response = await fetch(`${extensionFolderPath}/regexes/${file}`);
+                if (response.ok) {
+                    const parsed = await response.json();
+                    loadedRegexes[mod.id].push(parsed);
+                }
+            } catch (e) {
+                console.warn(`[BB RM] Не удалось загрузить деталь: ${file}`);
             }
-        } catch (e) {
-            console.warn(`[BB RM] Не удалось загрузить деталь: ${mod.file}`);
         }
     }
 }
 
 function renderManagerUI() {
     const listContainer = $("#bb-rm-list");
+    if (!listContainer.length) return; // Защита от ошибок, если HTML еще не прогрузился
+    
     listContainer.empty();
 
     bbModules.forEach(mod => {
-        if (!loadedRegexes[mod.id]) return; 
+        // Если ни один файл из пака не загрузился - не рисуем карточку
+        if (!loadedRegexes[mod.id] || loadedRegexes[mod.id].length === 0) return; 
 
         const isEnabled = extension_settings[extensionName].enabled.includes(mod.id);
 
@@ -79,50 +92,47 @@ function renderManagerUI() {
 }
 
 async function toggleRegex(modId, isChecked) {
-    const regexObj = loadedRegexes[modId];
-    if (!regexObj) return;
+    const regexList = loadedRegexes[modId];
+    if (!regexList || regexList.length === 0) return;
 
     let enabledList = extension_settings[extensionName].enabled;
 
-    // Синхронизируем обе коробки передач (память и сейвы)
     if (!Array.isArray(window.regex_data)) window.regex_data = [];
     if (!Array.isArray(extension_settings.regex)) extension_settings.regex = [];
 
     if (isChecked) {
-        // ВКЛЮЧИТЬ
+        // ВКЛЮЧИТЬ ПАК
         if (!enabledList.includes(modId)) enabledList.push(modId);
         
-        // Вшиваем в настройки
-        const exists = extension_settings.regex.findIndex(r => r.id === regexObj.id);
-        if (exists === -1) extension_settings.regex.push(regexObj);
-        else extension_settings.regex[exists] = regexObj; 
+        regexList.forEach(regexObj => {
+            const exists = extension_settings.regex.findIndex(r => r.id === regexObj.id);
+            if (exists === -1) extension_settings.regex.push(regexObj);
+            else extension_settings.regex[exists] = regexObj; 
 
-        // Вшиваем в оперативную память ST
-        const existsLive = window.regex_data.findIndex(r => r.id === regexObj.id);
-        if (existsLive === -1) window.regex_data.push(regexObj);
-        else window.regex_data[existsLive] = regexObj;
+            const existsLive = window.regex_data.findIndex(r => r.id === regexObj.id);
+            if (existsLive === -1) window.regex_data.push(regexObj);
+            else window.regex_data[existsLive] = regexObj;
+        });
 
         toastr.success(`Включено:\n${bbModules.find(m => m.id === modId).name}`);
     } else {
-        // ВЫКЛЮЧИТЬ
+        // ВЫКЛЮЧИТЬ ПАК
         extension_settings[extensionName].enabled = enabledList.filter(id => id !== modId);
         
-        // Вырезаем отовсюду
-        extension_settings.regex = extension_settings.regex.filter(r => r.id !== regexObj.id);
-        window.regex_data = window.regex_data.filter(r => r.id !== regexObj.id);
+        regexList.forEach(regexObj => {
+            extension_settings.regex = extension_settings.regex.filter(r => r.id !== regexObj.id);
+            window.regex_data = window.regex_data.filter(r => r.id !== regexObj.id);
+        });
         
         toastr.info(`Выключено:\n${bbModules.find(m => m.id === modId).name}`);
     }
 
-    // 1. Сохраняем настройки
     saveSettingsDebounced();
     
-    // 2. Мгновенно обновляем стандартный список регулярок в меню
     if (typeof window.populateRegex === 'function') {
         window.populateRegex();
     }
 
-    // 3. ТУРБО-БУСТ: Мгновенно перезагружаем чат, чтобы интерфейс прямо на глазах поменялся!
     if (typeof window.SillyTavern !== 'undefined' && window.SillyTavern.getContext) {
         const ctx = window.SillyTavern.getContext();
         if (ctx && typeof ctx.reloadCurrentChat === 'function') {

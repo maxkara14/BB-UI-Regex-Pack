@@ -42,7 +42,7 @@
 
 P.S.
 
-Благодарность автору [ЯБлочного пресета](https://kykaaj.github.io/yablochny/) и [**[Kukachzh]** ](https://github.com/kykaaj/regex-manager/commits?author=kykaaj).
+Благодарность автору [Яблочного пресета](https://kykaaj.github.io/yablochny/) и [**[Kukachzh]** ](https://github.com/kykaaj/regex-manager/commits?author=kykaaj).
 База его Regex Manager послужила главным источником вдохновения и фундаментом для создания этого расширения.
 
 Также огромнейшее спасибо Ульяне за идею по созданию регекса радиоведущего и за помощь в улучшении внешнего вида планшета.

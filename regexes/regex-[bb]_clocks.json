@@ -1,0 +1,19 @@
+{
+    "id": "1690eecc-157d-4457-ac75-36742fe38fc3",
+    "scriptName": "[BB] clocks",
+    "findRegex": "<info>\\s*(.*?)\\s*\\|\\s*(.*?)\\s*\\|\\s*(.*?)\\s*\\|\\s*(.*?)\\s*\\|\\s*(.*?)\\s*<\\/info>",
+    "replaceString": "<style>\n@keyframes swayLantern {\n  0%, 100% { transform: rotate(-6deg); }\n  50% { transform: rotate(6deg); }\n}\n.kanban-clock {\n  background: linear-gradient(to bottom, #1e1313, #120a0a);\n  border: 1px solid #3f2c2c;\n  border-top: 2px solid #b91c1c;\n  border-bottom: 2px solid #b91c1c;\n  border-radius: 4px;\n  padding: 8px 16px;\n  margin: 15px 0;\n  width: 100%; /* Растягиваем на всю ширину сообщения */\n  box-sizing: border-box;\n  display: flex;\n  align-items: center;\n  justify-content: center; /* Центрируем контент внутри плашки */\n  gap: 12px;\n  font-family: 'Georgia', serif;\n  position: relative;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.6), inset 0 0 10px rgba(0,0,0,0.8);\n  overflow: hidden;\n}\n.kanban-clock::before {\n  content: '';\n  position: absolute;\n  top: 2px; left: 2px; right: 2px; bottom: 2px;\n  border: 1px dashed rgba(212, 175, 55, 0.2);\n  pointer-events: none;\n}\n.lantern-container {\n  transform-origin: top center;\n  animation: swayLantern 4s ease-in-out infinite;\n  filter: drop-shadow(0 0 6px rgba(220, 38, 38, 0.4));\n  margin-top: -2px;\n}\n.k-time { color: #fef08a; font-size: 1.1em; font-weight: bold; letter-spacing: 1px; text-shadow: 0 0 8px rgba(212, 175, 55, 0.5); }\n.k-div { color: #523939; font-size: 1em; margin: 0 2px; }\n.k-date { color: #d1d5db; font-size: 0.8em; text-transform: uppercase; letter-spacing: 1px; }\n.k-loc { color: #fca5a5; font-size: 0.8em; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; }\n.k-wea { color: #d4af37; font-size: 0.85em; letter-spacing: 1px; }\n</style>\n\n<div class=\"kanban-clock\">\n  <div class=\"lantern-container\">\n    <svg width=\"14\" height=\"22\" viewBox=\"0 0 12 20\">\n       <line x1=\"6\" y1=\"0\" x2=\"6\" y2=\"3\" stroke=\"#d4af37\" stroke-width=\"1.5\"/>\n       <rect x=\"1\" y=\"3\" width=\"10\" height=\"11\" rx=\"2\" fill=\"#b91c1c\" stroke=\"#d4af37\" stroke-width=\"1\"/>\n       <line x1=\"1\" y1=\"6.5\" x2=\"11\" y2=\"6.5\" stroke=\"#d4af37\" stroke-width=\"0.5\" opacity=\"0.6\"/>\n       <line x1=\"1\" y1=\"10.5\" x2=\"11\" y2=\"10.5\" stroke=\"#d4af37\" stroke-width=\"0.5\" opacity=\"0.6\"/>\n       <rect x=\"4\" y=\"14\" width=\"4\" height=\"2\" fill=\"#d4af37\"/>\n       <line x1=\"6\" y1=\"16\" x2=\"6\" y2=\"20\" stroke=\"#d4af37\" stroke-width=\"0.5\" stroke-dasharray=\"1.5 1.5\"/>\n    </svg>\n  </div>\n  <span class=\"k-time\">$5</span>\n  <span class=\"k-div\">|</span>\n  <span class=\"k-date\">$1, $2</span>\n  <span class=\"k-div\">|</span>\n  <span class=\"k-loc\">$3</span>\n  <span class=\"k-div\">|</span>\n  <span class=\"k-wea\">$4</span>\n</div>",
+    "trimStrings": [],
+    "placement": [
+        1,
+        2,
+        6
+    ],
+    "disabled": false,
+    "markdownOnly": true,
+    "promptOnly": false,
+    "runOnEdit": true,
+    "substituteRegex": 0,
+    "minDepth": null,
+    "maxDepth": null
+}

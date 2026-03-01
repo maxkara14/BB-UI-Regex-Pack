@@ -63,7 +63,6 @@ At the VERY START of your response, generate a hidden data block for the radio w
 **ROLE:** You are "MC Kairi" (Kairi Moriyoshi) hosting 104.5 LYCORIS FM. You are an 18-year-old wannabe tough girl.
 **SLANG RULES:** You MUST use heavy street slang (e.g., "yo", "fam", "no cap", "fire", "based"). If instructed to translate to another language, adapt the slang to fit local street culture.
 **CONTENT:** Write ONE short monologue (2-3 sentences) where Kairi tries to FREESTYLE RAP about the current weather, a random city event, or her own coolness. Her rhymes MUST BE TERRIBLE, forced, and cringe-worthy, but she acts like she just dropped the hottest bars ever. 
-**SONG:** Pick a REAL song name (Artist - Title) that she thinks makes her look cool.
 **SLANG RULES:** - You MUST use heavy street slang (e.g., "yo", "fam", "no cap", "fire", "based"). 
 - ⚠️ CRITICAL: When outputting in RUSSIAN, NEVER literally translate English idioms. 
 - "No cap" -> "Без б", "Рил", "Отвечаю", "Чекай". (NEVER "Без кепки"!)
@@ -73,11 +72,10 @@ At the VERY START of your response, generate a hidden data block for the radio w
 - Adapt the slang to fit Russian "tough girl" / "street" culture. Make it feel authentic, but slightly forced/cringe as per role.
 
 **OUTPUT FORMAT:**
-You MUST use this EXACT format with the specific separators:
+You MUST use this EXACT format:
 
 ::RADIO_START::
 Comment: [Kairi's terrible freestyle rap]
-Song: [Artist Name - Song Title]
 ::RADIO_END::
 
 [After this block, continue with the normal RP response.]`
@@ -137,9 +135,12 @@ Allowed Types: MEANWHILE, MEMORY, DREAM, LORE, THOUGHT, FOCUS, WHISPER, ECHO.
     { 
         id: "cleaners", 
         files: ["regex-[bb]_hide_reasoning.json", "regex-[bb]_html_vanisher.json", "regex-[bb]_html_vanisher_(fixed).json", "regex-[bb]_vanisher_custom.json"],
-        name: "🧹 cleaners",
+        name: "🧹 cleaners"
     }
 ];
+
+// 🚨 ВОТ ЭТА ПЕРЕМЕННАЯ БЫЛА УТЕРЯНА 🚨
+let loadedRegexes = {};
 
 jQuery(async () => {
     try {
@@ -150,8 +151,12 @@ jQuery(async () => {
             $("#extensions_settings").append(settingsHtml);
         }
 
+        // Усиленная защита от сбоев настроек
         if (!extension_settings[extensionName]) {
             extension_settings[extensionName] = { enabled: [] };
+        }
+        if (!Array.isArray(extension_settings[extensionName].enabled)) {
+            extension_settings[extensionName].enabled = [];
         }
         if (!Array.isArray(extension_settings.regex)) {
             extension_settings.regex = [];
@@ -163,18 +168,30 @@ jQuery(async () => {
         await loadRegexFiles();
         renderManagerUI();
 
-        // 🎧 ГЛОБАЛЬНАЯ ЗАЩИТА УШЕЙ (АВТО-ГРОМКОСТЬ 15%)
-        // Слушаем все нажатия "Play" во всей Таверне
-        document.addEventListener('play', function(e) {
-            // Если это наш кастомный плеер из радио...
-            if (e.target && e.target.classList.contains('l-audio-player')) {
-                // Проверяем, меняли ли мы уже громкость для этого плеера
-                if (e.target.dataset.volumeSet !== 'true') {
-                    e.target.volume = 0.15; // Скручиваем до 15%
-                    e.target.dataset.volumeSet = 'true'; // Ставим метку, чтобы больше не сбрасывать, если юзер захочет сделать погромче
-                }
-            }
-        }, true); // Улавливаем событие на этапе погружения
+        // 🎧 ГЛОБАЛЬНАЯ ЗАЩИТА УШЕЙ v2.0 (РАДАР)
+        const setVolumeObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                mutation.addedNodes.forEach((node) => {
+                    if (node.nodeType === 1) { 
+                        if (node.classList && node.classList.contains('l-audio-player')) {
+                            node.volume = 0.15;
+                        } 
+                        else if (node.querySelectorAll) {
+                            const audioPlayers = node.querySelectorAll('.l-audio-player');
+                            audioPlayers.forEach(player => {
+                                player.volume = 0.15;
+                            });
+                        }
+                    }
+                });
+            });
+        });
+
+        setVolumeObserver.observe(document.body, { childList: true, subtree: true });
+
+        document.querySelectorAll('.l-audio-player').forEach(player => {
+            player.volume = 0.15;
+        });
 
     } catch (e) {
         console.error("[BB Regex Manager] Ошибка запуска:", e);
@@ -207,9 +224,8 @@ function renderManagerUI() {
     bbModules.forEach(mod => {
         if (!loadedRegexes[mod.id] || loadedRegexes[mod.id].length === 0) return; 
 
-const isEnabled = extension_settings[extensionName].enabled.includes(mod.id);
+        const isEnabled = extension_settings[extensionName].enabled.includes(mod.id);
 
-        // Умная кнопка: рисуем только если есть промпт
         const copyBtnHtml = mod.prompt ? `
             <div class="bb-rm-copy" data-mod-id="${mod.id}" title="Скопировать системный промпт">
                 <i class="fa-solid fa-copy"></i>
@@ -228,14 +244,12 @@ const isEnabled = extension_settings[extensionName].enabled.includes(mod.id);
         listContainer.append(cardHtml);
     });
 
-    // Обработчик чекбоксов
     listContainer.find("input[type=checkbox]").on("change", function() {
         const modId = $(this).data("mod-id");
         const isChecked = $(this).is(":checked");
         toggleRegex(modId, isChecked);
     });
 
-    // ОБРАБОТЧИК КНОПКИ КОПИРОВАНИЯ
     listContainer.find(".bb-rm-copy").on("click", function(e) {
         e.preventDefault(); 
         const modId = $(this).data("mod-id");
@@ -251,7 +265,6 @@ const isEnabled = extension_settings[extensionName].enabled.includes(mod.id);
         }
     });
 
-    // ОБРАБОТЧИКИ КНОПОК СКАЧИВАНИЯ ЭКСТРА-ФАЙЛОВ (Теперь они внутри функции и 100% сработают!)
     $("#bb-btn-dl-qr").off("click").on("click", function(e) {
         e.preventDefault();
         downloadAsset('Enhance Generation.json');
@@ -263,7 +276,6 @@ const isEnabled = extension_settings[extensionName].enabled.includes(mod.id);
     });
 }
 
-// Функция-помощник для скачивания
 function downloadAsset(filename) {
     const link = document.createElement('a');
     link.href = `${extensionFolderPath}/extras/${filename}`;

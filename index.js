@@ -1,10 +1,7 @@
-import { saveSettingsDebounced } from "../../../../script.js";
-import { extension_settings } from "../../../extensions.js";
-
-const extensionName = "bb-regex-pack";
+// ВАЖНО: Убедись, что имя папки в ST в точности совпадает с этой переменной!
+const extensionName = "bb-regex-pack"; 
 const extensionFolderPath = `/scripts/extensions/third-party/${extensionName}`;
 
-// Список твоих файлов (без изменений)
 const myRegexes = [
     "regex-[bb]_tablet.json",
     "regex-[bb]_radio.json",
@@ -14,30 +11,30 @@ const myRegexes = [
 ];
 
 jQuery(async () => {
-    console.log("[BB Regex Pack] Заводим мотор...");
+    console.log("[BB Regex Pack] Запуск скрипта...");
 
     try {
-        // 1. Прикручиваем нашу панель в меню расширений ST
+        // Загружаем HTML интерфейс
         const settingsHtml = await $.get(`${extensionFolderPath}/index.html`);
         $("#extensions_settings").append(settingsHtml);
         
-        // 2. Вешаем слушатель на кнопку
+        // Подключаем кнопку
         $('#bb-rp-install-btn').on('click', installRegexes);
         
-        console.log("[BB Regex Pack] Приборная панель установлена!");
+        console.log("[BB Regex Pack] Панель успешно отрисована!");
     } catch (e) {
-        console.error("[BB Regex Pack] Ошибка сборки интерфейса:", e);
+        console.error("[BB Regex Pack] ОШИБКА: Не удалось загрузить index.html. Скорее всего, имя папки не совпадает с 'bb-regex-pack'.", e);
     }
 });
 
 async function installRegexes() {
     const statusEl = document.getElementById("bb-rp-status");
-    statusEl.innerText = "Впрыск...";
+    statusEl.innerText = "Установка...";
     statusEl.className = "bb-status-visible";
 
-    // Убедимся, что массив регулярок существует в ядре
-    if (!Array.isArray(extension_settings.regex)) {
-        extension_settings.regex = [];
+    // Инициализируем массив регулярок, если он пуст
+    if (!window.extension_settings.regex) {
+        window.extension_settings.regex = [];
     }
 
     let installedCount = 0;
@@ -46,37 +43,38 @@ async function installRegexes() {
         try {
             const response = await fetch(`${extensionFolderPath}/regexes/${file}`);
             if (!response.ok) {
-                console.warn(`[BB Regex Pack] Деталь не найдена: ${file}`);
+                console.warn(`[BB Regex Pack] Файл не найден: ${file}`);
                 continue;
             }
             const regexObj = await response.json();
 
-            // Проверяем по ID, чтобы не плодить дубликаты
-            const existingIndex = extension_settings.regex.findIndex(r => r.id === regexObj.id);
+            const existingIndex = window.extension_settings.regex.findIndex(r => r.id === regexObj.id);
 
             if (existingIndex !== -1) {
-                // Обновляем старую регулярку
-                extension_settings.regex[existingIndex] = regexObj;
-                console.log(`[BB Regex Pack] Обновлено: ${regexObj.scriptName}`);
+                // Обновляем
+                window.extension_settings.regex[existingIndex] = regexObj;
             } else {
-                // Вшиваем новую
-                extension_settings.regex.push(regexObj);
-                console.log(`[BB Regex Pack] Установлено: ${regexObj.scriptName}`);
+                // Добавляем
+                window.extension_settings.regex.push(regexObj);
             }
             installedCount++;
         } catch (error) {
-            console.error(`[BB Regex Pack] Сбой при установке ${file}:`, error);
+            console.error(`[BB Regex Pack] Ошибка при чтении ${file}:`, error);
         }
     }
 
-    // Сохраняем в базу данных таверны по-современному
-    saveSettingsDebounced();
+    // Сохраняем настройки
+    if (typeof window.saveSettingsDebounced === 'function') {
+        window.saveSettingsDebounced();
+    } else if (typeof window.saveSettings === 'function') {
+        window.saveSettings();
+    }
     
-    // Обновляем UI списка регулярок
+    // Обновляем интерфейс менеджера регулярок
     if (typeof window.populateRegex === 'function') {
         window.populateRegex();
     }
 
-    statusEl.innerText = `Успех! Вшито: ${installedCount}`;
+    statusEl.innerText = `Успешно! Добавлено: ${installedCount}`;
     setTimeout(() => { statusEl.className = ""; }, 3000);
 }

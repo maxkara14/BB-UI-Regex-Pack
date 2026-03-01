@@ -133,6 +133,11 @@ Allowed Types: MEANWHILE, MEMORY, DREAM, LORE, THOUGHT, FOCUS, WHISPER, ECHO.
 1. NEVER end your response with a transition block. 
 2. If you use a ※TIME SKIP: ...※ or ※SHIFT: ...※, you MUST immediately write the narrative that follows it.
 3. Describe the new setting, the new time, and initiate the next plot event. Do not wait for the user to start the new scene. Drive the plot forward!`
+    },
+    { 
+        id: "cleaners", 
+        files: ["regex-[bb]_hide_reasoning.json", "regex-[bb]_html_vanisher.json", "regex-[bb]_html_vanisher_(fixed).json", "regex-[bb]_vanisher_custom.json"],
+        name: "🧹 cleaners",
     }
 ];
 
@@ -191,7 +196,14 @@ function renderManagerUI() {
     bbModules.forEach(mod => {
         if (!loadedRegexes[mod.id] || loadedRegexes[mod.id].length === 0) return; 
 
-        const isEnabled = extension_settings[extensionName].enabled.includes(mod.id);
+const isEnabled = extension_settings[extensionName].enabled.includes(mod.id);
+
+        // Умная кнопка: рисуем только если есть промпт
+        const copyBtnHtml = mod.prompt ? `
+            <div class="bb-rm-copy" data-mod-id="${mod.id}" title="Скопировать системный промпт">
+                <i class="fa-solid fa-copy"></i>
+            </div>
+        ` : '';
 
         const cardHtml = `
             <div class="bb-rm-card" style="display: flex; justify-content: space-between; align-items: center;">
@@ -199,9 +211,7 @@ function renderManagerUI() {
                     <input type="checkbox" data-mod-id="${mod.id}" ${isEnabled ? "checked" : ""}>
                     ${mod.name}
                 </label>
-                <div class="bb-rm-copy" data-mod-id="${mod.id}" title="Скопировать промпт">
-                    <i class="fa-solid fa-copy"></i>
-                </div>
+                ${copyBtnHtml}
             </div>
         `;
         listContainer.append(cardHtml);

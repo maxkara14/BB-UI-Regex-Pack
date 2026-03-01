@@ -163,6 +163,19 @@ jQuery(async () => {
         await loadRegexFiles();
         renderManagerUI();
 
+        // 🎧 ГЛОБАЛЬНАЯ ЗАЩИТА УШЕЙ (АВТО-ГРОМКОСТЬ 15%)
+        // Слушаем все нажатия "Play" во всей Таверне
+        document.addEventListener('play', function(e) {
+            // Если это наш кастомный плеер из радио...
+            if (e.target && e.target.classList.contains('l-audio-player')) {
+                // Проверяем, меняли ли мы уже громкость для этого плеера
+                if (e.target.dataset.volumeSet !== 'true') {
+                    e.target.volume = 0.15; // Скручиваем до 15%
+                    e.target.dataset.volumeSet = 'true'; // Ставим метку, чтобы больше не сбрасывать, если юзер захочет сделать погромче
+                }
+            }
+        }, true); // Улавливаем событие на этапе погружения
+
     } catch (e) {
         console.error("[BB Regex Manager] Ошибка запуска:", e);
     }

@@ -1,6 +1,8 @@
-// ВАЖНО: Убедись, что имя папки в ST в точности совпадает с этой переменной!
-const extensionName = "bb-regex-pack"; 
-const extensionFolderPath = `/scripts/extensions/third-party/${extensionName}`;
+// bb-regex-pack/index.js
+const extensionName = "bb-regex-pack";
+
+// ВАЖНО: Никакого ведущего слэша! Это решает проблему путей на любых сборках.
+const extensionFolderPath = `scripts/extensions/third-party/${extensionName}`;
 
 const myRegexes = [
     "regex-[bb]_tablet.json",
@@ -10,31 +12,48 @@ const myRegexes = [
     "regex-[bb]_transitions_paired.json"
 ];
 
+// Загружаемся только когда ядро ST готово
 jQuery(async () => {
-    console.log("[BB Regex Pack] Запуск скрипта...");
+    console.log("[BB Regex Pack] Пробуем отрисовать панель...");
 
     try {
-        // Загружаем HTML интерфейс
+        // Подтягиваем HTML по относительному пути
         const settingsHtml = await $.get(`${extensionFolderPath}/index.html`);
+        
+        // Встраиваем в меню расширений
         $("#extensions_settings").append(settingsHtml);
         
-        // Подключаем кнопку
+        // Оживляем кнопку
         $('#bb-rp-install-btn').on('click', installRegexes);
         
-        console.log("[BB Regex Pack] Панель успешно отрисована!");
+        console.log("[BB Regex Pack] Панель успешно добавлена в #extensions_settings!");
     } catch (e) {
-        console.error("[BB Regex Pack] ОШИБКА: Не удалось загрузить index.html. Скорее всего, имя папки не совпадает с 'bb-regex-pack'.", e);
+        console.error("[BB Regex Pack] Критическая ошибка сборки интерфейса:", e);
     }
 });
 
 async function installRegexes() {
     const statusEl = document.getElementById("bb-rp-status");
-    statusEl.innerText = "Установка...";
+    if (!statusEl) return;
+    
+    statusEl.innerText = "Впрыск...";
     statusEl.className = "bb-status-visible";
 
-    // Инициализируем массив регулярок, если он пуст
-    if (!window.extension_settings.regex) {
-        window.extension_settings.regex = [];
+    // Ищем, где хранятся регулярки в текущей версии ST (совместимость со всеми версиями)
+    let targetArray = null;
+    if (window.extension_settings && Array.isArray(window.extension_settings.regex)) {
+        targetArray = window.extension_settings.regex;
+    } else if (Array.isArray(window.regex_data)) {
+        targetArray = window.regex_data;
+    } else {
+        if (window.extension_settings) {
+            window.extension_settings.regex = [];
+            targetArray = window.extension_settings.regex;
+        } else {
+            console.error("[BB Regex Pack] Ядро регулярок не найдено.");
+            statusEl.innerText = "Ошибка ядра";
+            return;
+        }
     }
 
     let installedCount = 0;
@@ -43,38 +62,37 @@ async function installRegexes() {
         try {
             const response = await fetch(`${extensionFolderPath}/regexes/${file}`);
             if (!response.ok) {
-                console.warn(`[BB Regex Pack] Файл не найден: ${file}`);
+                console.warn(`[BB Regex Pack] Деталь не найдена: ${file}`);
                 continue;
             }
             const regexObj = await response.json();
 
-            const existingIndex = window.extension_settings.regex.findIndex(r => r.id === regexObj.id);
+            // Проверяем дубликаты
+            const existingIndex = targetArray.findIndex(r => r.id === regexObj.id || r.scriptName === regexObj.scriptName);
 
             if (existingIndex !== -1) {
-                // Обновляем
-                window.extension_settings.regex[existingIndex] = regexObj;
+                targetArray[existingIndex] = regexObj; // Обновляем
             } else {
-                // Добавляем
-                window.extension_settings.regex.push(regexObj);
+                targetArray.push(regexObj); // Добавляем новые
             }
             installedCount++;
         } catch (error) {
-            console.error(`[BB Regex Pack] Ошибка при чтении ${file}:`, error);
+            console.error(`[BB Regex Pack] Сбой установки ${file}:`, error);
         }
     }
 
-    // Сохраняем настройки
+    // Сохраняем на диск безопасным методом (универсальный фоллбэк)
     if (typeof window.saveSettingsDebounced === 'function') {
         window.saveSettingsDebounced();
     } else if (typeof window.saveSettings === 'function') {
         window.saveSettings();
     }
-    
-    // Обновляем интерфейс менеджера регулярок
+
+    // Обновляем визуальный список в меню
     if (typeof window.populateRegex === 'function') {
         window.populateRegex();
     }
 
-    statusEl.innerText = `Успешно! Добавлено: ${installedCount}`;
+    statusEl.innerText = `Успех! Вшито: ${installedCount}`;
     setTimeout(() => { statusEl.className = ""; }, 3000);
 }

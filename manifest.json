@@ -6,5 +6,6 @@
     "author": "Бруняк",
     "js": "index.js",
     "css": "style.css",
-    "optional": false
+    "optional": false,
+    "module": true
 }

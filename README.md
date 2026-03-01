@@ -47,7 +47,8 @@ P.S.
 
 Также огромнейшее спасибо Ульяне за идею по созданию регекса радиоведущего и за помощь в улучшении внешнего вида планшета.
 
-[Lycoris](https://t.me/+mB9Z1gsHQ0UyNjEy) вы пупсики! ❤️
+**[Lycoris](https://t.me/+mB9Z1gsHQ0UyNjEy)** вы пупсики! ❤️
 
-[Мой TG](https://t.me/Brun11kBr0n)
-[Чат](https://t.me/+rOyDlht2nJI2OTVi)
+*[Мой TG Канал](https://t.me/Brun11kBr0n)*
+
+*[TG Чат](https://t.me/+rOyDlht2nJI2OTVi)*

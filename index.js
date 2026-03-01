@@ -193,7 +193,6 @@ function renderManagerUI() {
 
         const isEnabled = extension_settings[extensionName].enabled.includes(mod.id);
 
-        // ОБНОВЛЕННАЯ РАЗМЕТКА: Добавили кнопку копирования справа!
         const cardHtml = `
             <div class="bb-rm-card" style="display: flex; justify-content: space-between; align-items: center;">
                 <label style="flex-grow: 1; display: flex; align-items: center; gap: 12px; margin: 0; cursor: pointer;">
@@ -217,7 +216,7 @@ function renderManagerUI() {
 
     // ОБРАБОТЧИК КНОПКИ КОПИРОВАНИЯ
     listContainer.find(".bb-rm-copy").on("click", function(e) {
-        e.preventDefault(); // Предотвращаем случайное сворачивание панелей
+        e.preventDefault(); 
         const modId = $(this).data("mod-id");
         const mod = bbModules.find(m => m.id === modId);
         
@@ -230,11 +229,8 @@ function renderManagerUI() {
             });
         }
     });
-}
 
-// ... (тут твой код кнопки копирования) ...
-
-    // ОБРАБОТЧИКИ КНОПОК СКАЧИВАНИЯ ЭКСТРА-ФАЙЛОВ
+    // ОБРАБОТЧИКИ КНОПОК СКАЧИВАНИЯ ЭКСТРА-ФАЙЛОВ (Теперь они внутри функции и 100% сработают!)
     $("#bb-btn-dl-qr").off("click").on("click", function(e) {
         e.preventDefault();
         downloadAsset('Enhance Generation.json');
@@ -244,17 +240,18 @@ function renderManagerUI() {
         e.preventDefault();
         downloadAsset('GGSytemPrompt.json');
     });
+}
 
-    // Функция-помощник для скачивания
-    function downloadAsset(filename) {
-        const link = document.createElement('a');
-        link.href = `${extensionFolderPath}/extras/${filename}`;
-        link.download = filename;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        toastr.success(`Файл ${filename} скачан!\nИмпортируйте его в настройках.`);
-    }
+// Функция-помощник для скачивания
+function downloadAsset(filename) {
+    const link = document.createElement('a');
+    link.href = `${extensionFolderPath}/extras/${filename}`;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    toastr.success(`Файл ${filename} скачан!\nИмпортируйте его в настройках.`);
+}
 
 async function toggleRegex(modId, isChecked) {
     const regexList = loadedRegexes[modId];

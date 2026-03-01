@@ -2,8 +2,8 @@
     "display_name": "BB UI Regex Pack",
     "name": "bb-regex-pack",
     "version": "1.0.0",
-    "description": "Установка кастомных регулярных выражений (Tablet, Radio, Transitions, Clocks) в один клик.",
-    "author": "Бруняк",
+    "description": "Установка регулярных выражений (Tablet, Radio, Transitions, Clocks и другое).",
+    "author": "Бруник",
     "js": "index.js",
     "css": "style.css",
     "optional": false

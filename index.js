@@ -168,31 +168,6 @@ jQuery(async () => {
         await loadRegexFiles();
         renderManagerUI();
 
-        // 🎧 ГЛОБАЛЬНАЯ ЗАЩИТА УШЕЙ v2.0 (РАДАР)
-        const setVolumeObserver = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                mutation.addedNodes.forEach((node) => {
-                    if (node.nodeType === 1) { 
-                        if (node.classList && node.classList.contains('l-audio-player')) {
-                            node.volume = 0.15;
-                        } 
-                        else if (node.querySelectorAll) {
-                            const audioPlayers = node.querySelectorAll('.l-audio-player');
-                            audioPlayers.forEach(player => {
-                                player.volume = 0.15;
-                            });
-                        }
-                    }
-                });
-            });
-        });
-
-        setVolumeObserver.observe(document.body, { childList: true, subtree: true });
-
-        document.querySelectorAll('.l-audio-player').forEach(player => {
-            player.volume = 0.15;
-        });
-
     } catch (e) {
         console.error("[BB Regex Manager] Ошибка запуска:", e);
     }

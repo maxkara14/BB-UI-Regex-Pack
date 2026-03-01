@@ -1,7 +1,7 @@
 import { saveSettingsDebounced } from "../../../../script.js";
 import { extension_settings } from "../../../extensions.js";
 
-const extensionName = "bb-regex-pack";
+const extensionName = "BB-UI-Regex-Pack";
 
 // Твой список файлов
 const myRegexes = [

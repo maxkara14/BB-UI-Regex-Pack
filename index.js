@@ -6,11 +6,11 @@ const extensionFolderPath = `/scripts/extensions/third-party/${extensionName}`;
 
 // Реестр твоих деталей
 const bbModules = [
-    { id: "tablet", file: "regex-[bb]_tablet.json", name: "clocks" },
-    { id: "radio", file: "regex-[bb]_radio.json", name: "radio" },
-    { id: "clocks", file: "regex-[bb]_clocks.json", name: "clocks" },
-    { id: "trans_single", file: "regex-[bb]_transitions_single.json", name: "transitions (single)" },
-    { id: "trans_paired", file: "regex-[bb]_transitions_paired.json", name: "transitions (paired)" }
+    { id: "tablet", file: "regex-[bb]_tablet.json", name: "📱 tablet" },
+    { id: "radio", file: "regex-[bb]_radio.json", name: "🎙️ radio" },
+    { id: "clocks", file: "regex-[bb]_clocks.json", name: "⌛ clocks" },
+    { id: "trans_single", file: "regex-[bb]_transitions_single.json", name: "🚦 transitions (single)" },
+    { id: "trans_paired", file: "regex-[bb]_transitions_paired.json", name: "🚦 transitions (paired)" }
 ];
 
 let loadedRegexes = {};

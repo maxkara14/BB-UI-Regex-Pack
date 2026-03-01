@@ -199,7 +199,7 @@ function renderManagerUI() {
                     <input type="checkbox" data-mod-id="${mod.id}" ${isEnabled ? "checked" : ""}>
                     ${mod.name}
                 </label>
-                <div class="bb-rm-copy" data-mod-id="${mod.id}" title="Скопировать системный промпт">
+                <div class="bb-rm-copy" data-mod-id="${mod.id}" title="Скопировать промпт">
                     <i class="fa-solid fa-copy"></i>
                 </div>
             </div>
@@ -250,7 +250,7 @@ function downloadAsset(filename) {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    toastr.success(`Файл ${filename} скачан!\nИмпортируйте его в настройках.`);
+    toastr.success(`Файл ${filename} скачан!\nИмпортируйте его.`);
 }
 
 async function toggleRegex(modId, isChecked) {

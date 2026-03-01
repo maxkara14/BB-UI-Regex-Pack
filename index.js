@@ -232,6 +232,30 @@ function renderManagerUI() {
     });
 }
 
+// ... (тут твой код кнопки копирования) ...
+
+    // ОБРАБОТЧИКИ КНОПОК СКАЧИВАНИЯ ЭКСТРА-ФАЙЛОВ
+    $("#bb-btn-dl-qr").off("click").on("click", function(e) {
+        e.preventDefault();
+        downloadAsset('Enhance Generation.json');
+    });
+
+    $("#bb-btn-dl-preset").off("click").on("click", function(e) {
+        e.preventDefault();
+        downloadAsset('GGSytemPrompt.json');
+    });
+
+    // Функция-помощник для скачивания
+    function downloadAsset(filename) {
+        const link = document.createElement('a');
+        link.href = `${extensionFolderPath}/extras/${filename}`;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        toastr.success(`Файл ${filename} скачан!\nИмпортируйте его в настройках.`);
+    }
+
 async function toggleRegex(modId, isChecked) {
     const regexList = loadedRegexes[modId];
     if (!regexList || regexList.length === 0) return;

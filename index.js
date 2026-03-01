@@ -27,10 +27,8 @@ jQuery(async () => {
 });
 
 async function installRegexes() {
-    const statusEl = $("#bb-rp-status");
-    statusEl.text("Впрыск...").css("opacity", "1");
+    toastr.info("Впрыск регулярок запущен..."); // Желтое уведомление о начале
 
-    // Инициализируем массив регексов, если его нет (как в рабочем примере)
     if (!Array.isArray(extension_settings.regex)) {
         extension_settings.regex = [];
     }
@@ -46,9 +44,9 @@ async function installRegexes() {
             const existingIndex = extension_settings.regex.findIndex(r => r.id === regexObj.id);
 
             if (existingIndex !== -1) {
-                extension_settings.regex[existingIndex] = regexObj; // Обновляем
+                extension_settings.regex[existingIndex] = regexObj; 
             } else {
-                extension_settings.regex.push(regexObj); // Добавляем новый
+                extension_settings.regex.push(regexObj); 
             }
             added++;
         } catch (error) {
@@ -57,13 +55,11 @@ async function installRegexes() {
     }
 
     if (added > 0) {
-        saveSettingsDebounced(); // Нативное сохранение ST
+        saveSettingsDebounced(); // Сохраняем
         
-        if (typeof window.populateRegex === 'function') {
-            window.populateRegex(); // Обновляем список на экране
-        }
-        
-        statusEl.text(`Успех! Вшито: ${added}`).css("color", "#10b981");
-        setTimeout(() => statusEl.css("opacity", "0"), 3000);
+        // Зеленое уведомление об успехе
+        toastr.success(`Успех! Вшито деталей: ${added}.<br>Нажмите F5, чтобы обновить список.`);
+    } else {
+        toastr.warning("Не удалось найти файлы регулярок.");
     }
 }

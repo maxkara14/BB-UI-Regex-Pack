@@ -34,3 +34,26 @@
     height: 18px;
     accent-color: #b91c1c;
 }
+
+/* Кнопка копирования промпта */
+.bb-rm-copy {
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+}
+
+.bb-rm-copy:hover {
+    color: #d4af37;
+    background: rgba(212, 175, 55, 0.15);
+    transform: scale(1.1);
+}
+
+.bb-rm-copy:active {
+    transform: scale(0.95);
+}

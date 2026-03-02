@@ -31,4 +31,4 @@ P.S.
 
 *[Lycoris](https://t.me/+mB9Z1gsHQ0UyNjEy)* вы пупсики! ❤️
 
-*[BruniikBron](https://maxkara14.github.io/BruniikBron/)* не пупсик, но всё же 👀
+*[BruniikBron](https://maxkara14.github.io/BruniikBron/)* Заглядывайте на мой сайт за новыми расширениями. 👀

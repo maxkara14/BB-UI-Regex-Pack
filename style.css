@@ -68,38 +68,3 @@
 .bb-extras-details summary::-webkit-details-marker {
     display: none;
 }
-
-/* Крутим стрелочку при раскрытии */
-.bb-extras-details[open] summary .fa-chevron-down {
-    transform: rotate(180deg);
-}
-
-/* Делаем кнопки скачивания в стиле карточек */
-.bb-dl-btn {
-    flex: 1;
-    background: rgba(20, 15, 15, 0.6) !important;
-    border: 1px solid var(--SmartThemeBorderColor, #444) !important;
-    border-left: 3px solid #d4af37 !important;
-    color: #e5e7eb !important;
-    padding: 10px !important;
-    border-radius: 6px !important;
-    font-size: 0.85em !important;
-    transition: all 0.2s ease !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 8px !important;
-    font-weight: 600 !important;
-    box-shadow: none !important;
-}
-
-.bb-dl-btn:hover {
-    background: rgba(30, 20, 20, 0.8) !important;
-    border-color: #d4af37 !important;
-    color: #d4af37 !important;
-    transform: translateX(2px) !important;
-}
-
-.bb-dl-btn:active {
-    transform: translateX(0) !important;
-}

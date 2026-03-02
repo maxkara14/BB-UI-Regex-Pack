@@ -239,16 +239,7 @@ function renderManagerUI() {
             });
         }
     });
-
-    $("#bb-btn-dl-qr").off("click").on("click", function(e) {
-        e.preventDefault();
-        downloadAsset('Enhance Generation.json');
-    });
-
-    $("#bb-btn-dl-preset").off("click").on("click", function(e) {
-        e.preventDefault();
-        downloadAsset('GGSytemPrompt.json');
-    });
+    
 }
 
 function downloadAsset(filename) {

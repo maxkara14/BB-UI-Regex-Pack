@@ -1,0 +1,17 @@
+{
+    "id": "66f99e86-805a-478c-b837-c5859ea53cd6",
+    "scriptName": "[BB] clean asterisks in paired",
+    "findRegex": "(⟦[A-Za-zА-Яа-яЁё\\s]+?:\\s*[^⟧]*?⟧)\\s*\\*([\\s\\S]*?)\\*\\s*(⟦\\/\\s*[A-Za-zА-Яа-яЁё\\s]+?\\s*⟧)",
+    "replaceString": "$1 $2 $3",
+    "trimStrings": [],
+    "placement": [
+        1,
+        2,
+        6
+    ],
+    "disabled": false,
+    "markdownOnly": true,
+    "promptOnly": false,
+    "runOnEdit": true,
+    "substituteRegex": 0
+}

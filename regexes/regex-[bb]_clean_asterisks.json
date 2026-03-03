@@ -1,7 +1,7 @@
 {
     "id": "66f99e86-805a-478c-b837-c5859ea53cd6",
     "scriptName": "[BB] clean asterisks",
-    "findRegex": "(⟦[A-Za-zА-Яа-яЁё\\s]+?:\\s*[^⟧]*?⟧)\\s*\\*+([\\s\\S]*?)\\*+\\s*(⟦\\/\\s*[A-Za-zА-Яа-яЁё\\s]+?\\s*⟧)",
+    "findRegex": "/(⟦[A-Za-zА-Яа-яЁё\\s]+?:\\s*[^⟧]*?⟧)\\s*\\*+([\\s\\S]*?)\\*+\\s*(⟦\\/\\s*[A-Za-zА-Яа-яЁё\\s]+?\\s*⟧)/g",
     "replaceString": "$1 $2 $3",
     "trimStrings": [],
     "placement": [

@@ -97,40 +97,35 @@ Start EVERY response with an info block reflecting the current scene.
     },
     { 
         id: "transitions", 
-        files: ["regex-[bb]_transitions_single.json", "regex-[bb]_transitions_paired.json"], 
+        files: ["regex-[bb]_clean_asterisks_in_paired.json", "regex-[bb]_transitions_single.json", "regex-[bb]_transitions_paired.json"], 
         name: "🚦 transitions",
-        prompt: `[TRANSITIONS]
-ALWAYS use the transitions system to structure the narrative. Characters are unaware of these blocks. Every message MUST include at least 1 transition.
+        prompt: `[SCENE & TRANSITIONS SYSTEM]
+Your ENTIRE response MUST be structured as a cinematic script using container blocks. Characters are unaware of these blocks.
 
-⛔ SYNTAX RULES (STRICT XML-LIKE STRUCTURE):
+⛔ THE MASTER RULE (SCENE CONTAINERS):
+100% of your narrative, dialogue, and actions MUST be inside a SCENE block. You must open a scene at the very beginning of your message and close it at the very end.
+Format: ※SCENE: Current Time & Location※ [All narrative goes here] ※/SCENE※
 
-1. SINGLE BLOCKS (Self-closing) - Use for time/space shifts.
-Format: ※TYPE: Description※
-Allowed Types: TIME SKIP, SHIFT, CUT, SCENE, FAST FORWARD.
-
-2. PAIRED BLOCKS (Container) - Use for deep dives, inner thoughts, or parallel events.
-Treat these EXACTLY like HTML/XML tags. You MUST close every block you open.
-Format: ⟦TYPE: Theme⟧ Content text goes here... ⟦/TYPE⟧
+⛔ NESTED PAIRED BLOCKS (Inner thoughts & deep dives):
+Inside the SCENE block, use PAIRED BLOCKS for thoughts, memories, or parallel events.
+Format: ⟦TYPE: Theme⟧ Content text... ⟦/TYPE⟧
 Allowed Types: MEANWHILE, MEMORY, DREAM, LORE, THOUGHT, FOCUS, WHISPER, ECHO.
 
-⚠️ CRITICAL SYNTAX CHECK:
-1. OPENING: \`⟦TYPE: Theme⟧\` (Must include Type, Colon, Theme).
-2. CONTENT: The narrative text MUST be inside.
-3. CLOSING: \`⟦/TYPE⟧\` (You MUST close the tag immediately after the content).
+⛔ SCENE SHIFTS & TIME JUMPS:
+If characters move to a new location, or time jumps forward, you MUST CLOSE the current scene and IMMEDIATELY OPEN a new one.
+Example: ...they left the room. ※/SCENE※
+※SCENE: 2 Hours Later, The Dark Alleyway※ The rain was pouring...
 
-✅ RIGHT:
-⟦MEMORY: Forgotten Evening⟧ The air smelled of rain and old paper... ⟦/MEMORY⟧
-※TIME SKIP: The Next Morning※
+⚠️ CRITICAL FORMATTING:
+- NO ASTERISKS: Do NOT use asterisks (*) or quotes for thoughts inside ⟦THOUGHT⟧ blocks!
+- Language: TYPE names MUST ALWAYS be in English. Theme and Content in the narrative language.
 
-⛔ RULES:
-- The \`⟦/TYPE⟧\` is NOT optional.
-- Language: TYPE names MUST ALWAYS be in English. Theme/Description/Content in the default language unless overridden.
-- NO MARKDOWN inside the brackets.
-
-⛔ SCENE ADVANCEMENT RULES (CRITICAL):
-1. NEVER end your response with a transition block. 
-2. If you use a ※TIME SKIP: ...※ or ※SHIFT: ...※, you MUST immediately write the narrative that follows it.
-3. Describe the new setting, the new time, and initiate the next plot event. Do not wait for the user to start the new scene. Drive the plot forward!`
+✅ PERFECT STRUCTURE EXAMPLE:
+※SCENE: 23:00, Rainy Alleyway※
+The rain was pouring down. He looked at her, his jaw clenched.
+⟦THOUGHT: Regret⟧ I shouldn't have said that. I ruin everything. ⟦/THOUGHT⟧
+He turned away and walked into the shadows.
+※/SCENE※`
     },
     { 
         id: "cleaners", 

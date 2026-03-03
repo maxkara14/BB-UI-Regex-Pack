@@ -14,7 +14,8 @@ const bbModules = [
 At the VERY END of your response, generate a hidden data block.
 **STYLE:** Modern Smartphone OS.
 **RULES:**
-1. Track {{user}}'s status (0-100 scale).
+1. Track {{user}}'s status (0-100 scale). 
+🛑 HARD LIMIT: Needs and Battery values MUST be strictly between 0 and 100. DO NOT use negative numbers or go over 100 under ANY circumstances. If a stat drops to zero, keep it at 0.
 2. **MOODLETS:** Generate 4 active buffs/moodlets. Format: "Emoji | Title | Short Comment".
 3. **GEAR:** Consolidate Inventory and Outfit.
 4. **FEED CONTENT (IMPORTANT):**

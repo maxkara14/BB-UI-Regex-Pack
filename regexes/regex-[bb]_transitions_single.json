@@ -1,8 +1,8 @@
 {
-    "id": "23deb4bf-408f-4b85-becf-9354b676fe97",
+    "id": "0c75faed-b5c3-4ad5-930c-ec6ecf6e66ba",
     "scriptName": "[BB] transitions single",
-    "findRegex": "※(.*?):\\s*(.*?)※",
-    "replaceString": "<style>\n@keyframes bladeGlow {\n  0% { background-position: -200% center; }\n  100% { background-position: 200% center; }\n}\n.k-single {\n  display: flex; align-items: center; justify-content: center; gap: 12px;\n  margin: 24px 0; font-family: 'Georgia', serif; font-size: 0.85em; text-transform: uppercase; letter-spacing: 2px;\n  position: relative; width: 100%; box-sizing: border-box;\n}\n.k-line {\n  flex-grow: 1; height: 1px; background: linear-gradient(90deg, transparent, #b91c1c, transparent);\n  position: relative; overflow: hidden;\n}\n.k-line::after {\n  content: ''; position: absolute; top: -1px; left: 0; right: 0; bottom: -1px;\n  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.9), transparent);\n  background-size: 50% auto; background-repeat: no-repeat;\n  animation: bladeGlow 3s infinite linear; opacity: 0.7;\n}\n.k-emblem {\n  width: 8px; height: 8px; transform: rotate(45deg);\n  border: 1px solid #d4af37; background: #120a0a; box-shadow: 0 0 5px #d4af37; flex-shrink: 0;\n}\n.k-type { color: #d4af37; font-weight: bold; text-shadow: 0 0 8px rgba(212,175,55,0.6); white-space: nowrap; }\n.k-desc { color: #fca5a5; font-size: 0.85em; opacity: 0.9; letter-spacing: 1px; white-space: nowrap; }\n</style>\n<div class=\"k-single\">\n  <div class=\"k-line\"></div>\n  <div class=\"k-emblem\"></div>\n  <div class=\"k-type\">$1 <span style=\"color:#523939; margin: 0 4px;\">|</span> <span class=\"k-desc\">$2</span></div>\n  <div class=\"k-emblem\"></div>\n  <div class=\"k-line\"></div>\n</div>",
+    "findRegex": "※([A-Za-zА-Яа-яЁё\\s]+?)\\s*:\\s*(.*?)※([\\s\\S]*?)※\\/\\s*\\1\\s*※",
+    "replaceString": "<style>\n@keyframes bladeGlow {\n  0% { background-position: -200% center; }\n  100% { background-position: 200% center; }\n}\n.k-scene-wrap {\n  margin: 24px 0; width: 100%; box-sizing: border-box;\n}\n.k-single {\n  display: flex; align-items: center; justify-content: center; gap: 12px;\n  font-family: 'Georgia', serif; font-size: 0.85em; text-transform: uppercase; letter-spacing: 2px;\n  position: relative; width: 100%; box-sizing: border-box; margin-bottom: 12px;\n}\n.k-line {\n  flex-grow: 1; height: 1px; background: linear-gradient(90deg, transparent, #b91c1c, transparent);\n  position: relative; overflow: hidden;\n}\n.k-line::after {\n  content: ''; position: absolute; top: -1px; left: 0; right: 0; bottom: -1px;\n  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.9), transparent);\n  background-size: 50% auto; background-repeat: no-repeat;\n  animation: bladeGlow 3s infinite linear; opacity: 0.7;\n}\n.k-emblem {\n  width: 8px; height: 8px; transform: rotate(45deg);\n  border: 1px solid #d4af37; background: #120a0a; box-shadow: 0 0 5px #d4af37; flex-shrink: 0;\n}\n.k-type { color: #d4af37; font-weight: bold; text-shadow: 0 0 8px rgba(212,175,55,0.6); white-space: nowrap; }\n.k-desc { color: #fca5a5; font-size: 0.85em; opacity: 0.9; letter-spacing: 1px; white-space: nowrap; }\n.k-scene-body {\n  padding: 10px 20px; color: #e5e7eb; font-size: 1.05em; line-height: 1.6;\n  font-family: 'Georgia', serif; text-shadow: 0 1px 2px rgba(0,0,0,0.8);\n  border-left: 2px solid rgba(185,28,28,0.5);\n  background: linear-gradient(90deg, rgba(30,20,20,0.4), transparent);\n  border-radius: 0 8px 8px 0;\n}\n</style>\n<div class=\"k-scene-wrap\">\n  <div class=\"k-single\">\n    <div class=\"k-line\"></div>\n    <div class=\"k-emblem\"></div>\n    <div class=\"k-type\">$1 <span style=\"color:#523939; margin: 0 4px;\">|</span> <span class=\"k-desc\">$2</span></div>\n    <div class=\"k-emblem\"></div>\n    <div class=\"k-line\"></div>\n  </div>\n  <div class=\"k-scene-body\">\n    $3\n  </div>\n</div>",
     "trimStrings": [],
     "placement": [
         1,
@@ -13,7 +13,5 @@
     "markdownOnly": true,
     "promptOnly": false,
     "runOnEdit": true,
-    "substituteRegex": 0,
-    "minDepth": null,
-    "maxDepth": null
+    "substituteRegex": 0
 }

@@ -97,7 +97,7 @@ Start EVERY response with an info block reflecting the current scene.
     },
     { 
         id: "transitions", 
-        files: ["regex-[bb]_clean_asterisks_in_paired.json", "regex-[bb]_transitions_single.json", "regex-[bb]_transitions_paired.json"], 
+        files: ["regex-[bb]_clean_asterisks.json", "regex-[bb]_transitions_single.json", "regex-[bb]_transitions_paired.json"], 
         name: "🚦 transitions",
         prompt: `[SCENE & TRANSITIONS SYSTEM]
 Your ENTIRE response MUST be structured as a cinematic script using container blocks. Characters are unaware of these blocks.
@@ -117,12 +117,13 @@ Example: ...they left the room. ※/SCENE※
 ※SCENE: 2 Hours Later, The Dark Alleyway※ The rain was pouring...
 
 ⚠️ CRITICAL FORMATTING:
-- NO ASTERISKS: Do NOT use asterisks (*) or quotes for thoughts inside ⟦THOUGHT⟧ blocks!
+- NO ASTERISKS FOR THOUGHTS: Do NOT use asterisks (*) or quotes around text inside ⟦THOUGHT⟧ blocks.
 - Language: TYPE names MUST ALWAYS be in English. Theme and Content in the narrative language.
+- HTML & STYLING: You MAY use safe HTML tags (like <span style="color:..."> or <font>) to colorize specific dialogue or elements to make them visually appealing. Do NOT use <style> or <div> layout tags.
 
 ✅ PERFECT STRUCTURE EXAMPLE:
 ※SCENE: 23:00, Rainy Alleyway※
-The rain was pouring down. He looked at her, his jaw clenched.
+The rain was pouring down. <font color="red">He looked at her</font>, his jaw clenched.
 ⟦THOUGHT: Regret⟧ I shouldn't have said that. I ruin everything. ⟦/THOUGHT⟧
 He turned away and walked into the shadows.
 ※/SCENE※`
@@ -134,7 +135,6 @@ He turned away and walked into the shadows.
     }
 ];
 
-// 🚨 ВОТ ЭТА ПЕРЕМЕННАЯ БЫЛА УТЕРЯНА 🚨
 let loadedRegexes = {};
 
 jQuery(async () => {
@@ -146,7 +146,6 @@ jQuery(async () => {
             $("#extensions_settings").append(settingsHtml);
         }
 
-        // Усиленная защита от сбоев настроек
         if (!extension_settings[extensionName]) {
             extension_settings[extensionName] = { enabled: [] };
         }
@@ -156,7 +155,9 @@ jQuery(async () => {
         if (!Array.isArray(extension_settings.regex)) {
             extension_settings.regex = [];
         }
+        // @ts-ignore
         if (!Array.isArray(window.regex_data)) {
+            // @ts-ignore
             window.regex_data = [];
         }
 
@@ -227,24 +228,15 @@ function renderManagerUI() {
         
         if (mod && mod.prompt) {
             navigator.clipboard.writeText(mod.prompt).then(() => {
+                // @ts-ignore
                 toastr.success(`Промпт скопирован:\n${mod.name}`);
             }).catch(err => {
                 console.error("Не удалось скопировать:", err);
+                // @ts-ignore
                 toastr.error("Ошибка копирования");
             });
         }
     });
-    
-}
-
-function downloadAsset(filename) {
-    const link = document.createElement('a');
-    link.href = `${extensionFolderPath}/extras/${filename}`;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    toastr.success(`Файл ${filename} скачан!\nИмпортируйте его.`);
 }
 
 async function toggleRegex(modId, isChecked) {
@@ -253,6 +245,7 @@ async function toggleRegex(modId, isChecked) {
 
     let enabledList = extension_settings[extensionName].enabled;
 
+    // @ts-ignore
     if (!Array.isArray(window.regex_data)) window.regex_data = [];
     if (!Array.isArray(extension_settings.regex)) extension_settings.regex = [];
 
@@ -264,30 +257,43 @@ async function toggleRegex(modId, isChecked) {
             if (exists === -1) extension_settings.regex.push(regexObj);
             else extension_settings.regex[exists] = regexObj; 
 
+            // @ts-ignore
             const existsLive = window.regex_data.findIndex(r => r.id === regexObj.id);
-            if (existsLive === -1) window.regex_data.push(regexObj);
-            else window.regex_data[existsLive] = regexObj;
+            if (existsLive === -1) {
+                // @ts-ignore
+                window.regex_data.push(regexObj);
+            } else {
+                // @ts-ignore
+                window.regex_data[existsLive] = regexObj;
+            }
         });
 
+        // @ts-ignore
         toastr.success(`Включено:\n${bbModules.find(m => m.id === modId).name}`);
     } else {
         extension_settings[extensionName].enabled = enabledList.filter(id => id !== modId);
         
         regexList.forEach(regexObj => {
             extension_settings.regex = extension_settings.regex.filter(r => r.id !== regexObj.id);
+            // @ts-ignore
             window.regex_data = window.regex_data.filter(r => r.id !== regexObj.id);
         });
         
+        // @ts-ignore
         toastr.info(`Выключено:\n${bbModules.find(m => m.id === modId).name}`);
     }
 
     saveSettingsDebounced();
     
+    // @ts-ignore
     if (typeof window.populateRegex === 'function') {
+        // @ts-ignore
         window.populateRegex();
     }
 
+    // @ts-ignore
     if (typeof window.SillyTavern !== 'undefined' && window.SillyTavern.getContext) {
+        // @ts-ignore
         const ctx = window.SillyTavern.getContext();
         if (ctx && typeof ctx.reloadCurrentChat === 'function') {
             await ctx.reloadCurrentChat();

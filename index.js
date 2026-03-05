@@ -22,13 +22,15 @@ At the VERY END of your response, generate a hidden data block.
    - **Events:** Describe brief but VIVID off-screen scenes happening elsewhere in the world.
    - **Comments:** Social media/Reader reactions to the current situation. Use internet slang, memes, caps lock.
 5. **BATTERY:** Track the phone's battery level (0-100). Decrease it by 1-3% with each message depending on active use.
+6. **NOTIFICATIONS:** The 'Notif' push notification MUST be strictly external. It should come from a person, app, or service that is NOT currently present in the immediate scene with {{user}}.
 
 **OUTPUT FORMAT:**
 Use this EXACT format. One variable per line. Keep variable names (left side) in English.
 
 ::OS_START::
-Time: [HH:MM | DD Month (e.g., 14 Oct)]
-Loc: [Current Location]
+Time: [HH:MM]
+Date: [Short Day, DD Mon (e.g., Thu, 5 Mar)]
+Notif: [Short external push notification (e.g., "💬 Mom: Call me", "☁️ Weather: Rain", "⚠️ Low Balance")]
 Mood_Main: [Main Emotion]
 Mood_Color: [Hex Color]
 Thought: [Current thought]
@@ -59,75 +61,19 @@ Battery: [0-100]
         id: "radio", 
         files: ["regex-[bb]_radio.json"], 
         name: "🎙️ radio",
-        prompt: `[SYSTEM INSTRUCTION: RADIO DATA GENERATION]
-At the VERY START of your response, generate a hidden data block for the radio widget.
-**ROLE:** You are "MC Kairi" (Kairi Moriyoshi) hosting 104.5 LYCORIS FM. You are an 18-year-old wannabe tough girl.
-**SLANG RULES:** You MUST use heavy street slang (e.g., "yo", "fam", "no cap", "fire", "based"). If instructed to translate to another language, adapt the slang to fit local street culture.
-**CONTENT:** Write ONE short monologue (2-3 sentences) where Kairi tries to FREESTYLE RAP about the current weather, a random city event, or her own coolness. Her rhymes MUST BE TERRIBLE, forced, and cringe-worthy, but she acts like she just dropped the hottest bars ever. 
-**SLANG RULES:** - You MUST use heavy street slang (e.g., "yo", "fam", "no cap", "fire", "based"). 
-- ⚠️ CRITICAL: When outputting in RUSSIAN, NEVER literally translate English idioms. 
-- "No cap" -> "Без б", "Рил", "Отвечаю", "Чекай". (NEVER "Без кепки"!)
-- "Fire" -> "Пушка", "Огонь", "Разъёб".
-- "Based" -> "База", "Основано".
-- "Fam/Bro" -> "Братишка", "Чумба", "Йоу".
-- Adapt the slang to fit Russian "tough girl" / "street" culture. Make it feel authentic, but slightly forced/cringe as per role.
-
-**OUTPUT FORMAT:**
-You MUST use this EXACT format:
-
-::RADIO_START::
-Comment: [Kairi's terrible freestyle rap]
-::RADIO_END::
-
-[After this block, continue with the normal RP response.]`
+        prompt: `[SYSTEM INSTRUCTION: RADIO DATA GENERATION]\nAt the VERY START of your response, generate a hidden data block for the radio widget.\n**ROLE:** You are "MC Kairi" (Kairi Moriyoshi) hosting 104.5 LYCORIS FM. You are an 18-year-old wannabe tough girl.\n**SLANG RULES:** You MUST use heavy street slang (e.g., "yo", "fam", "no cap", "fire", "based"). If instructed to translate to another language, adapt the slang to fit local street culture.\n**CONTENT:** Write ONE short monologue (2-3 sentences) where Kairi tries to FREESTYLE RAP about the current weather, a random city event, or her own coolness. Her rhymes MUST BE TERRIBLE, forced, and cringe-worthy, but she acts like she just dropped the hottest bars ever. \n**SLANG RULES:** - You MUST use heavy street slang (e.g., "yo", "fam", "no cap", "fire", "based"). \n- ⚠️ CRITICAL: When outputting in RUSSIAN, NEVER literally translate English idioms. \n- "No cap" -> "Без б", "Рил", "Отвечаю", "Чекай". (NEVER "Без кепки"!)\n- "Fire" -> "Пушка", "Огонь", "Разъёб".\n- "Based" -> "База", "Основано".\n- "Fam/Bro" -> "Братишка", "Чумба", "Йоу".\n- Adapt the slang to fit Russian "tough girl" / "street" culture. Make it feel authentic, but slightly forced/cringe as per role.\n\n**OUTPUT FORMAT:**\nYou MUST use this EXACT format:\n\n::RADIO_START::\nComment: [Kairi's terrible freestyle rap]\n::RADIO_END::\n\n[After this block, continue with the normal RP response.]`
     },
     { 
         id: "clocks", 
         files: ["regex-[bb]_clocks.json"], 
         name: "⌛ clocks",
-        prompt: `[TIME INFO]
-Start EVERY response with an info block reflecting the current scene.
-⛔ FORMAT:
-<info>DD.MM.YY | Short Day | LOCATION | Weather Emoji Temp°C | HH:MM</info>
-
-⛔ RULES:
-- Fictional date/time fitting the story era.
-- Location must be in CAPS.
-- Weather emoji must match the scene's atmosphere.
-- ONLY output one line in this exact format at the very beginning of your message.`
+        prompt: `[TIME INFO]\nStart EVERY response with an info block reflecting the current scene.\n⛔ FORMAT:\n<info>DD.MM.YY | Short Day | LOCATION | Weather Emoji Temp°C | HH:MM</info>\n\n⛔ RULES:\n- Fictional date/time fitting the story era.\n- Location must be in CAPS.\n- Weather emoji must match the scene's atmosphere.\n- ONLY output one line in this exact format at the very beginning of your message.`
     },
     { 
         id: "transitions", 
         files: ["regex-[bb]_clean_asterisks.json", "regex-[bb]_transitions_single.json", "regex-[bb]_transitions_paired.json"], 
         name: "🚦 transitions",
-        prompt: `[SCENE & TRANSITIONS SYSTEM]
-Your ENTIRE response MUST be structured as a cinematic script using container blocks. Characters are unaware of these blocks.
-
-⛔ THE MASTER RULE (SCENE CONTAINERS):
-100% of your narrative, dialogue, and actions MUST be inside a SCENE block. You must open a scene at the very beginning of your message and close it at the very end.
-Format: ※SCENE: Current Time & Location※ [All narrative goes here] ※/SCENE※
-
-⛔ NESTED PAIRED BLOCKS (Inner thoughts & deep dives):
-Inside the SCENE block, use PAIRED BLOCKS for thoughts, memories, or parallel events.
-Format: ⟦TYPE: Theme⟧ Content text... ⟦/TYPE⟧
-Allowed Types: MEANWHILE, MEMORY, DREAM, LORE, THOUGHT, FOCUS, WHISPER, ECHO.
-
-⛔ SCENE SHIFTS & TIME JUMPS:
-If characters move to a new location, or time jumps forward, you MUST CLOSE the current scene and IMMEDIATELY OPEN a new one.
-Example: ...they left the room. ※/SCENE※
-※SCENE: 2 Hours Later, The Dark Alleyway※ The rain was pouring...
-
-⚠️ CRITICAL FORMATTING:
-- NO ASTERISKS FOR THOUGHTS: Do NOT use asterisks (*) or quotes around text inside ⟦THOUGHT⟧ blocks.
-- Language: TYPE names MUST ALWAYS be in English. Theme and Content in the narrative language.
-- HTML & STYLING: You MAY use safe HTML tags (like <span style="color:..."> or <font>) to colorize specific dialogue or elements to make them visually appealing. Do NOT use <style> or <div> layout tags.
-
-✅ PERFECT STRUCTURE EXAMPLE:
-※SCENE: 23:00, Rainy Alleyway※
-The rain was pouring down. <font color="red">He looked at her</font>, his jaw clenched.
-⟦THOUGHT: Regret⟧ I shouldn't have said that. I ruin everything. ⟦/THOUGHT⟧
-He turned away and walked into the shadows.
-※/SCENE※`
+        prompt: `[SCENE & TRANSITIONS SYSTEM]\nYour ENTIRE response MUST be structured as a cinematic script using container blocks. Characters are unaware of these blocks.\n\n⛔ THE MASTER RULE (SCENE CONTAINERS):\n100% of your narrative, dialogue, and actions MUST be inside a SCENE block. You must open a scene at the very beginning of your message and close it at the very end.\nFormat: ※TYPE: Creative Scene Title※ [All narrative goes here] ※/TYPE※\n- TYPE can be SCENE, EPISODE, CHAPTER, or ACT.\n- Title must be a creative, atmospheric name for the current moment (e.g., "Tension in the Air", "Unexpected Allies", "The Rain Falls"). DO NOT output raw dates or locations here.\n\n⛔ NESTED PAIRED BLOCKS (Inner thoughts & deep dives):\nInside the SCENE block, use PAIRED BLOCKS for thoughts, memories, or parallel events.\nFormat: ⟦TYPE: Theme⟧ Content text... ⟦/TYPE⟧\nAllowed Types: MEANWHILE, MEMORY, DREAM, LORE, THOUGHT, FOCUS, WHISPER, ECHO.\n\n⛔ SCENE SHIFTS & TIME JUMPS:\nIf characters move to a new location, or time jumps forward, you MUST CLOSE the current scene and IMMEDIATELY OPEN a new one.\nExample: ...they left the room. ※/EPISODE※\n※SCENE: The Dark Alleyway※ The rain was pouring...\n\n⚠️ CRITICAL FORMATTING:\n- NO ASTERISKS FOR THOUGHTS: Do NOT use asterisks (*) or quotes around text inside ⟦THOUGHT⟧ blocks.\n- Language: TYPE names MUST ALWAYS be in English. Theme and Content in the narrative language.\n- HTML & STYLING: You MAY use safe HTML tags (like <span style="color:..."> or <font>) to colorize specific dialogue or elements to make them visually appealing. Do NOT use <style> or <div> layout tags.\n\n✅ PERFECT STRUCTURE EXAMPLE:\n※EPISODE: The Dark Alleyway※\nThe rain was pouring down. <font color="red">He looked at her</font>, his jaw clenched.\n⟦THOUGHT: Regret⟧ I shouldn't have said that. I ruin everything. ⟦/THOUGHT⟧\nHe turned away and walked into the shadows.\n※/EPISODE※`
     },
     { 
         id: "cleaners", 
@@ -290,14 +236,5 @@ async function toggleRegex(modId, isChecked) {
     if (typeof window.populateRegex === 'function') {
         // @ts-ignore
         window.populateRegex();
-    }
-
-    // @ts-ignore
-    if (typeof window.SillyTavern !== 'undefined' && window.SillyTavern.getContext) {
-        // @ts-ignore
-        const ctx = window.SillyTavern.getContext();
-        if (ctx && typeof ctx.reloadCurrentChat === 'function') {
-            await ctx.reloadCurrentChat();
-        }
     }
 }

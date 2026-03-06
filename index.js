@@ -18,9 +18,10 @@ At the VERY END of your response, generate a hidden data block.
 🛑 HARD LIMIT: Needs and Battery values MUST be strictly between 0 and 100. DO NOT use negative numbers or go over 100 under ANY circumstances. If a stat drops to zero, keep it at 0.
 2. **MOODLETS:** Generate 4 active buffs/moodlets. Format: "Emoji | Title | Short Comment".
 3. **GEAR:** Consolidate Inventory and Outfit.
-4. **FEED CONTENT (IMPORTANT):**
-   - **Events:** Describe brief but VIVID off-screen scenes happening elsewhere in the world.
-   - **Comments:** Social media/Reader reactions to the current situation. Use internet slang, memes, caps lock.
+4. **FEED CONTENT (STORY & WORLD-BUILDING):**
+   - **Events (News):** Generate 2 logical, in-world news updates, public rumors, or media alerts. They should reflect the state of the world, overarching plot, or consequences of past public events.
+     ⚠️ CRITICAL: Do NOT report private events that just happened and nobody saw. The news must be realistic for the setting and media.
+   - **Comments:** Generate 3 social media comments reacting STRICTLY to the News updates above. Use internet slang, mixed opinions (support, panic, jokes, skepticism), and fit the culture of the setting.
 5. **BATTERY:** Track the phone's battery level (0-100). Decrease it by 1-3% with each message depending on active use.
 6. **NOTIFICATIONS:** The 'Notif' push notification MUST be strictly external. It should come from a person, app, or service that is NOT currently present in the immediate scene with {{user}}.
 
@@ -49,11 +50,11 @@ Outfit_Shoes: [Item]
 Outfit_Acc: [Accessories]
 Inv_Hand: [Item in hand]
 Inv_Bag: [Bag content]
-Event_1: [Time] | [Location] | [Vivid Description of off-screen event]
-Event_2: [Time] | [Location] | [Vivid Description of off-screen event]
-Comm_1: [Emoji] | [Nick] | [Reaction/Comment]
-Comm_2: [Emoji] | [Nick] | [Reaction/Comment]
-Comm_3: [Emoji] | [Nick] | [Reaction/Comment]
+Event_1: [Time] | [News Source/Channel] | [Headline & Brief Summary of public event]
+Event_2: [Time] | [News Source/Channel] | [Headline & Brief Summary of public event]
+Comm_1: [Emoji] | [Username] | [Reaction to the News above]
+Comm_2: [Emoji] | [Username] | [Reaction to the News above]
+Comm_3: [Emoji] | [Username] | [Reaction to the News above]
 Battery: [0-100]
 ::OS_END::`
     },

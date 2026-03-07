@@ -24,6 +24,7 @@ At the VERY END of your response, generate a hidden data block.
    - **Comments:** Generate 3 social media comments reacting STRICTLY to the News updates above. Use internet slang, mixed opinions (support, panic, jokes, skepticism), and fit the culture of the setting.
 5. **BATTERY:** Track the phone's battery level (0-100). Decrease it by 1-3% with each message depending on active use.
 6. **NOTIFICATIONS:** The 'Notif' push notification MUST be strictly external. It should come from a person, app, or service that is NOT currently present in the immediate scene with {{user}}.
+   ⚠️ CRITICAL LOGIC CHECK: If the notification is a "Low Battery" warning, the actual 'Battery' stat at the bottom MUST logically match it (e.g., be under 20%). Do NOT send low battery notifications if the battery level is high.
 
 **OUTPUT FORMAT:**
 Use this EXACT format. One variable per line. Keep variable names (left side) in English.

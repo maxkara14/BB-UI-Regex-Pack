@@ -7,32 +7,23 @@ const extensionFolderPath = `/scripts/extensions/third-party/${extensionName}`;
 // РЕЕСТР ДЕТАЛЕЙ С ЗАШИТЫМИ ПРОМПТАМИ
 const bbModules = [
     { 
-        id: "tablet", 
-        files: ["regex-[bb]_tablet.json"], 
-        name: "📱 tablet",
-        prompt: `[SYSTEM INSTRUCTION: SimsOS GENERATION]
-At the VERY END of your response, generate a hidden data block.
-**STYLE:** Modern Smartphone OS.
-**RULES:**
-1. Track {{user}}'s status (0-100 scale). 
-🛑 HARD LIMIT: Needs and Battery values MUST be strictly between 0 and 100. DO NOT use negative numbers or go over 100 under ANY circumstances. If a stat drops to zero, keep it at 0.
-2. **MOODLETS:** Generate 4 active buffs/moodlets. Format: "Emoji | Title | Short Comment".
-3. **GEAR:** Consolidate Inventory and Outfit.
-4. **FEED CONTENT (STORY & WORLD-BUILDING):**
-   - **Events (News):** Generate 2 logical, in-world news updates, public rumors, or media alerts. They should reflect the state of the world, overarching plot, or consequences of past public events.
-     ⚠️ CRITICAL: Do NOT report private events that just happened and nobody saw. The news must be realistic for the setting and media.
-   - **Comments:** Generate 3 social media comments reacting STRICTLY to the News updates above. Use internet slang, mixed opinions (support, panic, jokes, skepticism), and fit the culture of the setting.
-5. **BATTERY:** Track the phone's battery level (0-100). Decrease it by 1-3% with each message depending on active use.
-6. **NOTIFICATIONS:** The 'Notif' push notification MUST be strictly external. It should come from a person, app, or service that is NOT currently present in the immediate scene with {{user}}.
-   ⚠️ CRITICAL LOGIC CHECK: If the notification is a "Low Battery" warning, the actual 'Battery' stat at the bottom MUST logically match it (e.g., be under 20%). Do NOT send low battery notifications if the battery level is high.
+        id: "phone", 
+        files: ["regex-[bb]_phone_-_feed.json", "regex-[bb]_phone_-_post.json", "regex-[bb]_phone_-_story.json",  "regex-[bb]_phone_-_dm.json"], 
+        name: "📱 phone",
+        prompt: `[SYSTEM INSTRUCTION: SMARTPHONE ECOSYSTEM]
+{{user}} has a personal Smartphone. CRITICAL RULE: You MUST generate EXACTLY ONE hidden data block representing the phone's screen at the VERY END of EVERY SINGLE RESPONSE. Do NOT skip this step! The phone OS tracks background stats even when resting in a pocket.
 
-**OUTPUT FORMAT:**
-Use this EXACT format. One variable per line. Keep variable names (left side) in English.
+<rules>
+1. LORE & LOGIC: Everything on the phone is canon and impacts the plot. Usernames remain consistent. News must be logical for the setting.
+2. STATS & BATTERY: Track battery and Needs (0-100 scale). NEVER go below 0 or above 100. Decrease battery by 1-3% every turn.
+3. IMAGE FORMULA: If an image is needed, use: <img data-iig-instruction='{"style":"anime","prompt":"[Char], [age], [gender]. Hair: [exact]. Eyes: [expr]. Skin: [tone]. Build: [type]. Wearing: [outfit]. Action: [pose]. Location: [place]. Lighting: [mood]. Style: high-quality anime art, masterpiece.","aspect_ratio":"RATIO","image_size":"1K"}' src="/user/images/[CONTEXT_PATH]/iig_[TIMESTAMP].png"> (replace [TIMESTAMP] with random numbers).
+4. SELECT ONLY ONE MODULE PER TURN based on user actions.
+</rules>
 
-::OS_START::
+**EVERY MODULE MUST START WITH THIS CORE OS DATA:**
 Time: [HH:MM]
-Date: [Short Day, DD Mon (e.g., Thu, 5 Mar)]
-Notif: [Short external push notification (e.g., "💬 Mom: Call me", "☁️ Weather: Rain", "⚠️ Low Balance")]
+Date: [e.g., Thu, 5 Mar]
+Notif: [External push notification]
 Mood_Main: [Main Emotion]
 Mood_Color: [Hex Color]
 Thought: [Current thought]
@@ -51,11 +42,65 @@ Outfit_Shoes: [Item]
 Outfit_Acc: [Accessories]
 Inv_Hand: [Item in hand]
 Inv_Bag: [Bag content]
-Event_1: [Time] | [News Source/Channel] | [Headline & Brief Summary of public event]
-Event_2: [Time] | [News Source/Channel] | [Headline & Brief Summary of public event]
-Comm_1: [Emoji] | [Username] | [Reaction to the News above]
-Comm_2: [Emoji] | [Username] | [Reaction to the News above]
-Comm_3: [Emoji] | [Username] | [Reaction to the News above]
+
+**MODULE 1: FEED POST** (Ratio 1:1)
+::KG_POST_START::
+[INSERT CORE OS DATA HERE]
+Author: [Display Name]
+Initials: [1-2 Letters]
+Nick: [@username]
+Location: [Location]
+Post_Time: [Time ago]
+Image: [Insert 1:1 <img> tag here]
+Caption: [Caption text]
+Likes: [Number]
+C1_Nick: [@user]
+C1_Text: [Text]
+C2_Nick: [@user]
+C2_Text: [Text]
+C3_Nick: [@user]
+C3_Text: [Text]
+Battery: [0-100]
+::KG_POST_END::
+
+**MODULE 2: DIRECT MESSAGES (DM)**
+::KG_CHAT_START::
+[INSERT CORE OS DATA HERE]
+Chat_With: [Display Name]
+Initials: [1-2 Letters]
+Nick: [@username]
+Status: [e.g., В сети]
+M1_From: [Them or Me]
+M1_Text: [Text or <img>]
+M2_From: [Them or Me]
+M2_Text: [Text or <img>]
+M3_From: [Them or Me]
+M3_Text: [Text or <img>]
+M4_From: [Them or Me]
+M4_Text: [Text or <img>]
+Battery: [0-100]
+::KG_CHAT_END::
+
+**MODULE 3: STORY** (Ratio 9:16)
+::KG_STORY_START::
+[INSERT CORE OS DATA HERE]
+Author: [Display Name]
+Initials: [1-2 Letters]
+Post_Time: [Time ago]
+Image: [Insert 9:16 <img> tag here]
+Overlay_Text: [Text]
+Overlay_Tag: [Location or #Tag]
+Battery: [0-100]
+::KG_STORY_END::
+
+**MODULE 4: OS (STATUS & NEWS)**
+::OS_START::
+[INSERT CORE OS DATA HERE]
+Event_1: [Time] | [Source] | [News Headline]
+Event_2: [Time] | [Source] | [News Headline]
+Comm_1: [Emoji] | [Username] | [Reaction to Event_1]
+Comm_2: [Emoji] | [Username] | [Reaction to Event_2]
+Comm_3: [Emoji] | [Username] | [Reaction to general news]
 Battery: [0-100]
 ::OS_END::`
     },

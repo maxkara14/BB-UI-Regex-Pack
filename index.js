@@ -215,20 +215,50 @@ function renderManagerUI() {
         toggleRegex(modId, isChecked);
     });
 
-    listContainer.find(".bb-rm-copy").on("click", function(e) {
+    // Делегирование событий (надежнее, если элементы перерисовываются)
+    listContainer.off("click", ".bb-rm-copy").on("click", ".bb-rm-copy", function(e) {
         e.preventDefault(); 
         const modId = $(this).data("mod-id");
         const mod = bbModules.find(m => m.id === modId);
         
         if (mod && mod.prompt) {
-            navigator.clipboard.writeText(mod.prompt).then(() => {
-                // @ts-ignore
-                toastr.success(`Промпт скопирован:\n${mod.name}`);
-            }).catch(err => {
-                console.error("Не удалось скопировать:", err);
-                // @ts-ignore
-                toastr.error("Ошибка копирования");
-            });
+            // Пытаемся использовать современный API (если есть HTTPS или localhost)
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(mod.prompt).then(() => {
+                    // @ts-ignore
+                    toastr.success(`Промпт скопирован:\n${mod.name}`);
+                }).catch(err => {
+                    console.error("[BB RM] Не удалось скопировать (API):", err);
+                    // @ts-ignore
+                    toastr.error("Ошибка копирования");
+                });
+            } else {
+                // 🔧 Гидравлический фоллбек для HTTP (локальные сети)
+                let textArea = document.createElement("textarea");
+                textArea.value = mod.prompt;
+                
+                // Прячем поле далеко за пределы экрана
+                textArea.style.position = "fixed";
+                textArea.style.left = "-999999px";
+                textArea.style.top = "-999999px";
+                document.body.appendChild(textArea);
+                
+                textArea.focus();
+                textArea.select();
+                
+                try {
+                    document.execCommand('copy');
+                    // @ts-ignore
+                    toastr.success(`Промпт скопирован:\n${mod.name}`);
+                } catch (err) {
+                    console.error("[BB RM] Fallback-копирование не удалось:", err);
+                    // @ts-ignore
+                    toastr.error("Ошибка копирования");
+                }
+                
+                // Подметаем за собой
+                textArea.remove();
+            }
         }
     });
 }

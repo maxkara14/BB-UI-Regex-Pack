@@ -127,7 +127,49 @@ Battery: [0-100]
         id: "transitions", 
         files: ["regex-[bb]_clean_asterisks.json", "regex-[bb]_transitions_single.json", "regex-[bb]_transitions_paired.json"], 
         name: "🚦 transitions",
-        prompt: `[SCENE & TRANSITIONS SYSTEM]\nYour ENTIRE response MUST be structured as a cinematic script using container blocks. Characters are unaware of these blocks.\n\n⛔ THE MASTER RULE (SCENE CONTAINERS):\n100% of your narrative, dialogue, and actions MUST be inside a SCENE block. You must open a scene at the very beginning of your message and close it at the very end.\nFormat: ※TYPE: Creative Scene Title※ [All narrative goes here] ※/TYPE※\n- TYPE can be SCENE, EPISODE, CHAPTER, or ACT.\n- Title must be a creative, atmospheric name for the current moment (e.g., "Tension in the Air", "Unexpected Allies", "The Rain Falls"). DO NOT output raw dates or locations here.\n\n⛔ NESTED PAIRED BLOCKS (Inner thoughts & deep dives):\nInside the SCENE block, use PAIRED BLOCKS for thoughts, memories, or parallel events.\nFormat: ⟦TYPE: Theme⟧ Content text... ⟦/TYPE⟧\nAllowed Types: MEANWHILE, MEMORY, DREAM, LORE, THOUGHT, FOCUS, WHISPER, ECHO.\n\n⛔ SCENE SHIFTS & TIME JUMPS:\nIf characters move to a new location, or time jumps forward, you MUST CLOSE the current scene and IMMEDIATELY OPEN a new one.\nExample: ...they left the room. ※/EPISODE※\n※SCENE: The Dark Alleyway※ The rain was pouring...\n\n⚠️ CRITICAL FORMATTING:\n- NO ASTERISKS FOR THOUGHTS: Do NOT use asterisks (*) or quotes around text inside ⟦THOUGHT⟧ blocks.\n- Language: TYPE names MUST ALWAYS be in English. Theme and Content in the narrative language.\n- HTML & STYLING: You MAY use safe HTML tags (like <span style="color:..."> or <font>) to colorize specific dialogue or elements to make them visually appealing. Do NOT use <style> or <div> layout tags.\n\n✅ PERFECT STRUCTURE EXAMPLE:\n※EPISODE: The Dark Alleyway※\nThe rain was pouring down. <font color="red">He looked at her</font>, his jaw clenched.\n⟦THOUGHT: Regret⟧ I shouldn't have said that. I ruin everything. ⟦/THOUGHT⟧\nHe turned away and walked into the shadows.\n※/EPISODE※`
+        prompt: `[SCENE & TRANSITIONS SYSTEM]
+Structure your ENTIRE response as a cinematic script using container blocks. Characters are unaware of these formatting blocks.
+
+[MASTER RULE: SCENE CONTAINERS]
+Enclose 100% of your narrative, dialogue, and actions inside a SCENE block. Open the scene at the absolute beginning of your message and close it at the very end.
+FORMAT:
+※TYPE: Creative Scene Title※
+[All narrative goes here]
+※/TYPE※
+- Valid TYPEs: SCENE, EPISODE, CHAPTER, ACT.
+- Title must be a creative, atmospheric name (e.g., "Tension in the Air"). Avoid raw dates or locations.
+
+[NESTED PAIRED BLOCKS]
+For deep internal monologues, memories, or parallel events, use PAIRED BLOCKS inside the SCENE.
+CRITICAL: You MUST strictly separate the short Theme from the Content, and you MUST always include the closing tag! 
+FORMAT:
+⟦TYPE: Short Theme Name⟧
+Content text goes here...
+⟦/TYPE⟧
+- Valid TYPEs: MEANWHILE, MEMORY, DREAM, LORE, THOUGHT, FOCUS, WHISPER, ECHO.
+- TYPE names must remain in English. Theme and Content in the narrative language.
+- The "Theme" must be extremely short (1-3 words max).
+
+[SCENE SHIFTS & TIME JUMPS]
+When characters change location or time jumps forward, explicitly CLOSE the current scene and IMMEDIATELY OPEN a new one.
+EXAMPLE:
+...they left the room.
+※/EPISODE※
+※SCENE: The Dark Alleyway※
+The rain was pouring...
+
+[FORMATTING RULES]
+- Keep the text inside ⟦THOUGHT⟧ blocks as plain text without any wrapping symbols like asterisks or quotes.
+- Use safe HTML tags (like <font color="...">) exclusively to colorize specific dialogue.
+
+[PERFECT STRUCTURE EXAMPLE]
+※EPISODE: The Dark Alleyway※
+The rain was pouring down. <font color="#ef4444">"Leave me alone,"</font> he muttered.
+⟦THOUGHT: Regret⟧
+I shouldn't have said that. I ruin everything.
+⟦/THOUGHT⟧
+He turned away and walked into the shadows.
+※/EPISODE※`
     },
     { 
         id: "cleaners", 

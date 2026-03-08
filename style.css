@@ -55,16 +55,3 @@
 .bb-rm-copy:active {
     transform: scale(0.95);
 }
-
-/* --- СТИЛИ ДЛЯ СПОЙЛЕРА ENHANCE GENERATION --- */
-
-.bb-extras-details summary {
-    list-style: none;
-    justify-content: space-between;
-    cursor: pointer;
-    border-left-color: #d4af37; /* Выделяем золотым цветом, а не красным */
-}
-
-.bb-extras-details summary::-webkit-details-marker {
-    display: none;
-}

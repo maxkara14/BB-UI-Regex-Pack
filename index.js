@@ -11,16 +11,23 @@ const bbModules = [
         files: ["regex-[bb]_phone_-_feed.json", "regex-[bb]_phone_-_post.json", "regex-[bb]_phone_-_story.json",  "regex-[bb]_phone_-_dm.json"], 
         name: "📱 phone",
         prompt: `[SYSTEM INSTRUCTION: SMARTPHONE ECOSYSTEM]
-{{user}} has a personal Smartphone. CRITICAL RULE: You MUST generate EXACTLY ONE hidden data block representing the phone's screen at the VERY END of EVERY SINGLE RESPONSE. Do NOT skip this step! The phone OS tracks background stats even when resting in a pocket.
+{{user}} has a personal Smartphone. CRITICAL RULE: You MUST generate EXACTLY ONE hidden data block representing the phone's screen at the VERY END of EVERY SINGLE RESPONSE. The phone OS tracks background stats even when resting in a pocket.
 
 <rules>
 1. LORE & LOGIC: Everything on the phone is canon and impacts the plot. Usernames remain consistent. News must be logical for the setting.
 2. STATS & BATTERY: Track battery and Needs (0-100 scale). NEVER go below 0 or above 100. Decrease battery by 1-3% every turn.
 3. IMAGE FORMULA: If an image is needed, use: <img data-iig-instruction='{"style":"anime","prompt":"[Char], [age], [gender]. Hair: [exact]. Eyes: [expr]. Skin: [tone]. Build: [type]. Wearing: [outfit]. Action: [pose]. Location: [place]. Lighting: [mood]. Style: high-quality anime art, masterpiece.","aspect_ratio":"RATIO","image_size":"1K"}' src="/user/images/[CONTEXT_PATH]/iig_[TIMESTAMP].png"> (replace [TIMESTAMP] with random numbers).
-4. SELECT ONLY ONE MODULE PER TURN based on user actions.
+4. MODULE SELECTION LOGIC (CRITICAL TRIGGER): You MUST select exactly ONE module per turn based on the character's CURRENT action:
+   - IF the character takes a photo for their profile, writes a post, or explicitly scrolls the main photo feed -> USE MODULE 1 (FEED POST).
+   - IF the character is texting, reading personal texts, or chatting in private -> USE MODULE 2 (DIRECT MESSAGES).
+   - IF the character records a quick video, takes a temporary selfie, or views someone's 24h story -> USE MODULE 3 (STORY).
+   - IN ALL OTHER CASES (phone is idle, in pocket, character is fighting, talking face-to-face, or just glancing at the lock screen) -> ALWAYS USE MODULE 4 (OS STATUS & NEWS) as the background default.
+5. DEVICE AVAILABILITY: If the phone is confiscated, lost, destroyed, or completely inaccessible to the character in the current scene, DO NOT output ANY smartphone blocks. Resume generation only when the phone is returned or accessible again.
+6. FILL ALL DATA: NEVER leave keys blank (like C1_Nick, C1_Text, M1_Text, etc.). If a post or story is brand new ("Just now"), simulate instant reactions from friends, bots, or followers to keep the interface populated!
 </rules>
 
-**EVERY MODULE MUST START WITH THIS CORE OS DATA:**
+**CORE OS DATA (MANDATORY PREFIX FOR ALL MODULES):**
+When generating your chosen module, you MUST write out EVERY SINGLE KEY from this list first, immediately followed by the module-specific keys.
 Time: [HH:MM]
 Date: [e.g., Thu, 5 Mar]
 Notif: [External push notification]
@@ -45,7 +52,7 @@ Inv_Bag: [Bag content]
 
 **MODULE 1: FEED POST** (Ratio 1:1)
 ::KG_POST_START::
-[INSERT CORE OS DATA HERE]
+[... Write out all CORE OS DATA keys here ...]
 Author: [Display Name]
 Initials: [1-2 Letters]
 Nick: [@username]
@@ -65,7 +72,7 @@ Battery: [0-100]
 
 **MODULE 2: DIRECT MESSAGES (DM)**
 ::KG_CHAT_START::
-[INSERT CORE OS DATA HERE]
+[... Write out all CORE OS DATA keys here ...]
 Chat_With: [Display Name]
 Initials: [1-2 Letters]
 Nick: [@username]
@@ -83,7 +90,7 @@ Battery: [0-100]
 
 **MODULE 3: STORY** (Ratio 9:16)
 ::KG_STORY_START::
-[INSERT CORE OS DATA HERE]
+[... Write out all CORE OS DATA keys here ...]
 Author: [Display Name]
 Initials: [1-2 Letters]
 Post_Time: [Time ago]
@@ -95,7 +102,7 @@ Battery: [0-100]
 
 **MODULE 4: OS (STATUS & NEWS)**
 ::OS_START::
-[INSERT CORE OS DATA HERE]
+[... Write out all CORE OS DATA keys here ...]
 Event_1: [Time] | [Source] | [News Headline]
 Event_2: [Time] | [Source] | [News Headline]
 Comm_1: [Emoji] | [Username] | [Reaction to Event_1]

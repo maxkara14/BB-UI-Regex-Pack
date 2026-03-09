@@ -1,5 +1,5 @@
 {
-    "id": "08fab02a-542a-4c5c-9471-edf795738f0f",
+    "id": "d216e753-b348-4bf9-b345-5e343e47e84d",
     "scriptName": "[BB] stylized divider",
     "findRegex": "/(?:\\r?\\n)?\\s*\\*{3,}\\s*(?:\\r?\\n)?/g",
     "replaceString": "<style>\n@keyframes divBreath { 0%, 100% { opacity: 0.5; transform: scaleX(0.95); } 50% { opacity: 1; transform: scaleX(1); } }\n@keyframes coreSpin { \n  0% { transform: rotate(45deg) scale(0.8); box-shadow: 0 0 4px rgba(212,175,55,0.4); } \n  50% { transform: rotate(225deg) scale(1.1); box-shadow: 0 0 10px rgba(212,175,55,0.9); } \n  100% { transform: rotate(405deg) scale(0.8); box-shadow: 0 0 4px rgba(212,175,55,0.4); }\n}\n.k-divider-wrap {\n  display: flex; align-items: center; justify-content: center; \n  margin: 32px 0; width: 100%; user-select: none;\n  animation: sceneFadeIn 0.8s ease-out forwards; opacity: 0;\n}\n.k-div-line {\n  flex-grow: 1; height: 1px; \n  background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.5), transparent);\n  animation: divBreath 4s infinite ease-in-out;\n}\n.k-div-core {\n  width: 5px; height: 5px; background: #d4af37; \n  margin: 0 20px; \n  animation: coreSpin 6s infinite linear;\n}\n</style>\n<div class=\"k-divider-wrap\">\n  <div class=\"k-div-line\"></div>\n  <div class=\"k-div-core\"></div>\n  <div class=\"k-div-line\"></div>\n</div>",

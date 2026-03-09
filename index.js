@@ -125,7 +125,7 @@ Battery: [0-100]
     },
     { 
         id: "transitions", 
-        files: ["regex-[bb]_clean_asterisks.json", "regex-[bb]_transitions_single.json", "regex-[bb]_transitions_paired.json"], 
+        files: ["regex-[bb]_stylized_divider.json", "regex-[bb]_transitions_single.json", "regex-[bb]_transitions_paired.json"], 
         name: "🚦 transitions",
         prompt: `[SCENE & TRANSITIONS SYSTEM]
 Structure your ENTIRE response as a cinematic script using container blocks. Characters are unaware of these formatting blocks.
@@ -173,7 +173,7 @@ He turned away and walked into the shadows.
     },
     { 
         id: "cleaners", 
-        files: ["regex-[bb]_hide_reasoning.json", "regex-[bb]_html_vanisher.json", "regex-[bb]_html_vanisher_(fixed).json", "regex-[bb]_vanisher_custom.json"],
+        files: ["regex-[bb]_hide_reasoning.json"],
         name: "🧹 cleaners"
     }
 ];

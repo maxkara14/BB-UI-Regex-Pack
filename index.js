@@ -11,44 +11,46 @@ const bbModules = [
         files: ["regex-[bb]_phone_-_feed.json", "regex-[bb]_phone_-_post.json", "regex-[bb]_phone_-_story.json",  "regex-[bb]_phone_-_dm.json"], 
         name: "📱 phone",
         prompt: `[SYSTEM INSTRUCTION: SMARTPHONE ECOSYSTEM]
-{{user}} has a personal Smartphone. CRITICAL RULE: You MUST generate EXACTLY ONE hidden data block representing the phone's screen at the VERY END of EVERY SINGLE RESPONSE. The phone OS tracks background stats even when resting in a pocket.
+You act as the background OS of {{user}}'s personal Smartphone. You MUST generate EXACTLY ONE hidden data block representing {{user}}'s phone screen at the very end of your response. 
 
 <rules>
-1. LORE & LOGIC: Everything on the phone is canon and impacts the plot. Usernames remain consistent. News must be logical for the setting.
-2. STATS & BATTERY: Track battery and Needs (0-100 scale). NEVER go below 0 or above 100. Decrease battery by 1-3% every turn.
-3. IMAGE FORMULA: If an image is needed, use: <img data-iig-instruction='{"style":"anime","prompt":"[Char], [age], [gender]. Hair: [exact]. Eyes: [expr]. Skin: [tone]. Build: [type]. Wearing: [outfit]. Action: [pose]. Location: [place]. Lighting: [mood]. Style: high-quality anime art, masterpiece.","aspect_ratio":"RATIO","image_size":"1K"}' src="/user/images/[CONTEXT_PATH]/iig_[TIMESTAMP].png"> (replace [TIMESTAMP] with random numbers).
-4. MODULE SELECTION LOGIC (CRITICAL TRIGGER): You MUST select exactly ONE module per turn based on the character's CURRENT action:
-   - IF the character takes a photo for their profile, writes a post, or explicitly scrolls the main photo feed -> USE MODULE 1 (FEED POST).
-   - IF the character is texting, reading personal texts, or chatting in private -> USE MODULE 2 (DIRECT MESSAGES).
-   - IF the character records a quick video, takes a temporary selfie, or views someone's 24h story -> USE MODULE 3 (STORY).
-   - IN ALL OTHER CASES (phone is idle, in pocket, character is fighting, talking face-to-face, or just glancing at the lock screen) -> ALWAYS USE MODULE 4 (OS STATUS & NEWS) as the background default.
-5. DEVICE AVAILABILITY: If the phone is confiscated, lost, destroyed, or completely inaccessible to the character in the current scene, DO NOT output ANY smartphone blocks. Resume generation only when the phone is returned or accessible again.
-6. FILL ALL DATA: NEVER leave keys blank (like C1_Nick, C1_Text, M1_Text, etc.). If a post or story is brand new ("Just now"), simulate instant reactions from friends, bots, or followers to keep the interface populated!
+1. OWNERSHIP: The device belongs strictly to {{user}}. All generated metrics (Thoughts, Mood, Needs, Inventory, Notifications, Clothes) MUST reflect {{user}}'s exact physical and mental state, observing them as the device owner.
+2. LORE & LOGIC: Everything on the phone is canon. Usernames remain consistent. News must logically match the current roleplay setting.
+3. STATS & BATTERY: Track battery and Needs for {{user}} strictly within the 0 to 100 range. Decrease battery by 1-3% every turn.
+4. IMAGE FORMULA: If an image is needed, use: <img data-iig-instruction='{"style":"anime","prompt":"[Char/Subject], [age], [gender]. Hair: [exact]. Eyes: [expr]. Skin: [tone]. Build: [type]. Wearing: [outfit]. Action: [pose]. Location: [place]. Lighting: [mood]. Style: high-quality anime art, masterpiece.","aspect_ratio":"RATIO","image_size":"1K"}' src="/user/images/[CONTEXT_PATH]/iig_[TIMESTAMP].png"> (replace [TIMESTAMP] with random numbers).
+5. MODULE SELECTION LOGIC: Select exactly ONE module per turn based on {{user}}'s current roleplay action:
+   - IF {{user}} interacts with the social feed or posts a photo -> USE MODULE 1 (FEED POST).
+   - IF {{user}} interacts with a messenger or reads texts -> USE MODULE 2 (DIRECT MESSAGES).
+   - IF {{user}} views or creates stories -> USE MODULE 3 (STORY).
+   - For all other background situations (phone in pocket, fighting, talking) -> USE MODULE 4 (OS STATUS & NEWS).
+6. DIRECT MESSAGES LOGIC: Maintain a continuous conversation history in Module 2. M1 and M2 represent older past messages for context, while M3 and M4 represent the newest current replies. 
+7. DEVICE AVAILABILITY: Generate the smartphone block only when {{user}} has physical access to the device. Pause generation if the phone is confiscated, lost, or destroyed.
+8. FILL ALL DATA: Populate every single key with relevant text. Simulate instant reactions from friends or followers for brand new posts to keep the interface lively.
 </rules>
 
 **CORE OS DATA (MANDATORY PREFIX FOR ALL MODULES):**
-When generating your chosen module, you MUST write out EVERY SINGLE KEY from this list first, immediately followed by the module-specific keys.
+When generating your chosen module, you MUST write out EVERY SINGLE KEY from this list first, immediately followed by the module-specific keys. Deduce {{user}}'s current stats based on their latest actions.
 Time: [HH:MM]
 Date: [e.g., Thu, 5 Mar]
-Notif: [External push notification]
-Mood_Main: [Main Emotion]
-Mood_Color: [Hex Color]
-Thought: [Current thought]
-Moodlet_1: [Emoji] | [Title] | [Comment]
-Moodlet_2: [Emoji] | [Title] | [Comment]
-Moodlet_3: [Emoji] | [Title] | [Comment]
-Moodlet_4: [Emoji] | [Title] | [Comment]
+Notif: [External push notification received by {{user}}]
+Mood_Main: [{{user}}'s Main Emotion]
+Mood_Color: [Hex Color matching {{user}}'s mood]
+Thought: [{{user}}'s current internal thought]
+Moodlet_1: [Emoji] | [Title] | [{{user}}'s specific condition]
+Moodlet_2: [Emoji] | [Title] | [{{user}}'s specific condition]
+Moodlet_3: [Emoji] | [Title] | [{{user}}'s specific condition]
+Moodlet_4: [Emoji] | [Title] | [{{user}}'s specific condition]
 Need_Energy: [0-100]
 Need_Hunger: [0-100]
 Need_Social: [0-100]
 Need_Comfort: [0-100]
-Outfit_Head: [Item]
-Outfit_Top: [Item]
-Outfit_Legs: [Item]
-Outfit_Shoes: [Item]
-Outfit_Acc: [Accessories]
-Inv_Hand: [Item in hand]
-Inv_Bag: [Bag content]
+Outfit_Head: [Item worn by {{user}}]
+Outfit_Top: [Item worn by {{user}}]
+Outfit_Legs: [Item worn by {{user}}]
+Outfit_Shoes: [Item worn by {{user}}]
+Outfit_Acc: [Accessories worn by {{user}}]
+Inv_Hand: [Item held by {{user}}]
+Inv_Bag: [Items in {{user}}'s bag]
 
 **MODULE 1: FEED POST** (Ratio 1:1)
 ::KG_POST_START::
@@ -78,13 +80,13 @@ Initials: [1-2 Letters]
 Nick: [@username]
 Status: [e.g., В сети]
 M1_From: [Them or Me]
-M1_Text: [Text or <img>]
+M1_Text: [Older message for context]
 M2_From: [Them or Me]
-M2_Text: [Text or <img>]
+M2_Text: [Older message for context]
 M3_From: [Them or Me]
-M3_Text: [Text or <img>]
+M3_Text: [Recent message]
 M4_From: [Them or Me]
-M4_Text: [Text or <img>]
+M4_Text: [Newest reply]
 Battery: [0-100]
 ::KG_CHAT_END::
 

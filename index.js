@@ -201,7 +201,7 @@ Minutes passed in absolute silence. The only sound was the distant rumble of thu
     },
     { 
         id: "cleaners", 
-        files: ["regex-[bb]_hide_reasoning.json"],
+        files: ["regex-[bb]_hide_reasoning.json", "regex-[bb]_asterisk_fixer_(to_italics).json"],
         name: "🧹 cleaners"
     }
 ];

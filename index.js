@@ -170,6 +170,10 @@ Content text goes here...
 - TYPE names must remain in English. Theme and Content in the narrative language.
 - The "Theme" must be extremely short (1-3 words max).
 
+[NARRATIVE BREAKS & DIVIDERS]
+Use exactly *** on its own line to insert a stylized visual divider. 
+Use this to indicate a significant pause in the narrative, a shift in pacing, a change of focus within the same room, or the logical conclusion of a heavy moment. Do not overuse it (1-2 times per response max).
+
 [SCENE SHIFTS & TIME JUMPS]
 When characters change location or time jumps forward, explicitly CLOSE the current scene and IMMEDIATELY OPEN a new one.
 EXAMPLE:
@@ -189,6 +193,10 @@ The rain was pouring down. <font color="#ef4444">"Leave me alone,"</font> he mut
 I shouldn't have said that. I ruin everything.
 ⟦/THOUGHT⟧
 He turned away and walked into the shadows.
+
+***
+
+Minutes passed in absolute silence. The only sound was the distant rumble of thunder.
 ※/EPISODE※`
     },
     { 

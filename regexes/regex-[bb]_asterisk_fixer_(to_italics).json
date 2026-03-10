@@ -1,0 +1,17 @@
+{
+    "id": "409c0552-744d-4275-8d26-3dd7f9b7762a",
+    "scriptName": "[BB] Asterisk Fixer (To Italics)",
+    "findRegex": "/\\*+(?=[^\\s*])([^*\\n]+?)(?<=[^\\s*])\\*+/g",
+    "replaceString": "<em>$1</em>",
+    "trimStrings": [],
+    "placement": [
+        2
+    ],
+    "disabled": false,
+    "markdownOnly": true,
+    "promptOnly": false,
+    "runOnEdit": true,
+    "substituteRegex": 0,
+    "minDepth": null,
+    "maxDepth": null
+}

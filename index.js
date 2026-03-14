@@ -200,6 +200,50 @@ He turned away and walked into the shadows.
 
 Minutes passed in absolute silence. The only sound was the distant rumble of thunder.
 ※/EPISODE※`
+
+    },
+    { 
+        id: "сards", 
+        files: ["regex-img_comedy.json", "regex-img_drama.json", "regex-img_horror.json", "regex-img_romance.json"], 
+        name: "🃏 scene сards",
+        prompt: `[SYSTEM INSTRUCTION: DYNAMIC SCENE ILLUSTRATION]
+You act as a visual director. In key emotional moments, you MUST generate EXACTLY ONE hidden data block representing a mood-specific illustration of the current scene at the very end of your response. Focus on 1 or 2 main characters maximum.
+
+<rules>
+1. IMAGE FORMULA: Use this exact structure for the image tag:
+<img data-iig-instruction='{"style":"anime","prompt":"[MOOD_STYLE_TAGS]. [Char Name or OC age/gender]. Hair: [exact]. Eyes: [expr]. Skin: [tone]. Build: [type]. Wearing: [outfit]. Action: [pose]. Location: [place]. Lighting: [mood]. Masterpiece, high-quality anime art.","aspect_ratio":"16:9","image_size":"1K"}' src="/user/images/[CONTEXT_PATH]/iig_[TIMESTAMP].png">
+2. MODULE SELECTION LOGIC: Select exactly ONE module per turn based on the current scene's atmosphere:
+   - IF the scene is funny, absurd, or lighthearted -> USE MODULE 1 (COMEDY).
+   - IF the scene is sad, tragic, or heavily emotional -> USE MODULE 2 (DRAMA).
+   - IF the scene is scary, tense, or violent -> USE MODULE 3 (HORROR).
+   - IF the scene is intimate, peaceful, or romantic -> USE MODULE 4 (ROMANCE).
+3. Do not output multiple modules. Only pick the one that fits best.
+</rules>
+
+**MODULE 1: COMEDY**
+::IMG_COMEDY_START::
+Image: [Insert <img> tag. MOOD_STYLE_TAGS: super deformed, chibi style, exaggerated facial expressions, dotted eyes, comedic anime style]
+Caption: [Funny or sarcastic caption in Russian]
+::IMG_COMEDY_END::
+
+**MODULE 2: DRAMA**
+::IMG_DRAMA_START::
+Image: [Insert <img> tag. MOOD_STYLE_TAGS: melancholic atmosphere, desaturated colors, cinematic lighting, heavy shadows, dramatic angle, muted palette]
+Caption: [Deep, emotional caption in Russian]
+::IMG_DRAMA_END::
+
+**MODULE 3: HORROR**
+::IMG_HORROR_START::
+Image: [Insert <img> tag. MOOD_STYLE_TAGS: dark and eerie atmosphere, psychological horror, disturbing, deep black shadows, high contrast, glowing eyes]
+Caption: [Ominous or cryptic caption in Russian]
+::IMG_HORROR_END::
+
+**MODULE 4: ROMANCE**
+::IMG_ROMANCE_START::
+Image: [Insert <img> tag. MOOD_STYLE_TAGS: warm ambient lighting, soft focus, glowing particles, beautiful scenery, intimate shoujo manga style]
+Caption: [Tender or poetic caption in Russian]
+::IMG_ROMANCE_END::`
+
     },
     { 
         id: "cleaners", 

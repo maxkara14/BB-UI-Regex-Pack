@@ -1,0 +1,19 @@
+{
+    "id": "689b84c7-35b2-4da2-9b90-f7a7e03ef2b4",
+    "scriptName": "img drama",
+    "findRegex": "/::IMG_DRAMA_START::\\s*(?:Image:\\s*(<img[^>]+>)\\s*)?(?:Caption:\\s*([^\\n]*)\\s*)?[\\s\\S]*?::IMG_DRAMA_END::/g",
+    "replaceString": "<style>\n@keyframes kg-dra-breathe { 0%, 100% { box-shadow: 0 0 15px rgba(255,255,255,0.05); } 50% { box-shadow: 0 0 35px rgba(255,255,255,0.25); } }\n@keyframes kg-dra-rain { 0% { background-position: 0 0; } 100% { background-position: -20px 200px; } }\n.kg-card-dra { max-width: 440px; margin: 25px auto; perspective: 1500px; cursor: pointer; animation: kg-dra-breathe 4s infinite; border-radius: 8px; }\n.kg-inner-dra { display: grid; width: 100%; min-height: 250px; transform-style: preserve-3d; transition: transform 1.2s ease-in-out; }\n.kg-card-dra:hover .kg-inner-dra { transform: rotateY(180deg); }\n.kg-front-dra, .kg-back-dra { grid-area: 1 / 1; backface-visibility: hidden; border-radius: 8px; border: 1px solid #333; }\n.kg-front-dra { background: #0a0a0c; background-image: radial-gradient(#333 1px, transparent 1px); background-size: 20px 20px; display: flex; align-items: center; justify-content: center; }\n.kg-front-dra::after { content: 'F A T E'; color: #6b7280; font-family: 'Georgia', serif; font-size: 18px; letter-spacing: 10px; border-top: 1px solid #333; border-bottom: 1px solid #333; padding: 10px 0; transition: color 0.5s; }\n.kg-card-dra:hover .kg-front-dra::after { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.8); }\n.kg-back-dra { transform: rotateY(180deg); background: #050505; display: flex; flex-direction: column; position: relative; overflow: hidden; }\n.kg-back-dra img { width: 100%; height: auto; display: block; filter: sepia(0.3) grayscale(0.4) brightness(0.9); border-radius: 8px 8px 0 0; transition: filter 1.5s ease; }\n.kg-card-dra:hover .kg-back-dra img { filter: sepia(0.6) grayscale(0.8) contrast(1.3) brightness(0.7) blur(0.5px); }\n.kg-dra-rain-fx { position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(170deg, rgba(255,255,255,0) 40%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0) 60%); background-size: 15px 120px; animation: kg-dra-rain 0.6s linear infinite; opacity: 0; transition: opacity 1s 0.5s; mix-blend-mode: overlay; z-index: 3; }\n.kg-card-dra:hover .kg-dra-rain-fx { opacity: 1; }\n.kg-cap-dra { padding: 16px; text-align: center; font-family: 'Georgia', serif; font-style: italic; color: #a1a1aa; font-size: 14px; position: relative; z-index: 4; text-shadow: 0 2px 4px #000; }\n</style>\n<div class=\"kg-card-dra\">\n  <div class=\"kg-inner-dra\">\n    <div class=\"kg-front-dra\"></div>\n    <div class=\"kg-back-dra\">\n      $1<div class=\"kg-dra-rain-fx\"></div><div class=\"kg-cap-dra\">\"$2\"</div>\n    </div>\n  </div>\n</div>",
+    "trimStrings": [],
+    "placement": [
+        1,
+        2,
+        6
+    ],
+    "disabled": false,
+    "markdownOnly": true,
+    "promptOnly": false,
+    "runOnEdit": true,
+    "substituteRegex": 0,
+    "minDepth": null,
+    "maxDepth": null
+}

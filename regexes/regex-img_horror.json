@@ -1,0 +1,19 @@
+{
+    "id": "0683f820-7ed6-4a5f-8260-3715280f4cff",
+    "scriptName": "img horror",
+    "findRegex": "/::IMG_HORROR_START::\\s*(?:Image:\\s*(<img[^>]+>)\\s*)?(?:Caption:\\s*([^\\n]*)\\s*)?[\\s\\S]*?::IMG_HORROR_END::/g",
+    "replaceString": "<style>\n@keyframes kg-hor-twitch { 0%, 94%, 98% { transform: translate(0,0) rotate(0); filter: hue-rotate(0); } 95% { transform: translate(-4px, 3px) rotate(-1deg); filter: invert(0.1); } 96% { transform: translate(4px, -3px) rotate(1deg); filter: hue-rotate(90deg); } 97% { transform: translate(-2px, 2px) rotate(0); } }\n@keyframes kg-hor-noise { 0%, 100% { background-position: 0 0; } 50% { background-position: 0 100px; } }\n.kg-card-hor { max-width: 440px; margin: 25px auto; perspective: 1000px; cursor: crosshair; animation: kg-hor-twitch 3.5s infinite; }\n.kg-inner-hor { display: grid; width: 100%; min-height: 250px; transform-style: preserve-3d; transition: transform 0.25s cubic-bezier(0.68, -0.55, 0.265, 1.55); }\n.kg-card-hor:hover .kg-inner-hor { transform: rotateY(180deg); }\n.kg-front-hor, .kg-back-hor { grid-area: 1 / 1; backface-visibility: hidden; border-radius: 4px; border: 1px solid #7f1d1d; background: #000; box-shadow: 0 0 20px rgba(220, 38, 38, 0.1); }\n.kg-front-hor { display: flex; align-items: center; justify-content: center; background: repeating-linear-gradient(45deg, #0a0000, #0a0000 10px, #150000 10px, #150000 20px); position: relative; overflow: hidden; }\n.kg-front-hor::before { content:''; position: absolute; inset:0; background: rgba(255,0,0,0.05); animation: kg-hor-twitch 0.5s infinite alternate; }\n.kg-front-hor::after { content: 'DO NOT OPEN'; color: #ef4444; font-family: monospace; font-size: 20px; font-weight: 800; border: 2px dashed #ef4444; padding: 10px; background: rgba(0,0,0,0.8); z-index: 2; text-shadow: 3px 0 rgba(0,0,255,0.6), -3px 0 rgba(255,0,0,0.6); }\n.kg-back-hor { transform: rotateY(180deg); display: flex; flex-direction: column; position: relative; overflow: hidden; }\n.kg-back-hor img { width: 100%; height: auto; display: block; filter: contrast(1.4) sepia(0.3) hue-rotate(-15deg) brightness(0.8); border-bottom: 2px solid #450a0a; }\n.kg-hor-static { position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(transparent, transparent 2px, rgba(0,0,0,0.5) 2px, rgba(0,0,0,0.5) 4px), repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,0.04) 2px, rgba(255,255,255,0.04) 4px); animation: kg-hor-noise 0.2s steps(3) infinite; mix-blend-mode: overlay; opacity: 0; z-index: 3; }\n.kg-card-hor:hover .kg-hor-static { opacity: 1; }\n.kg-cap-hor { padding: 12px; text-align: center; font-family: monospace; font-weight: 800; color: #ef4444; font-size: 14px; text-transform: uppercase; letter-spacing: 3px; animation: kg-hor-twitch 2.5s infinite alternate; position: relative; z-index: 4; }\n</style>\n<div class=\"kg-card-hor\">\n  <div class=\"kg-inner-hor\">\n    <div class=\"kg-front-hor\"></div>\n    <div class=\"kg-back-hor\">\n      $1<div class=\"kg-hor-static\"></div><div class=\"kg-cap-hor\">$2</div>\n    </div>\n  </div>\n</div>",
+    "trimStrings": [],
+    "placement": [
+        1,
+        2,
+        6
+    ],
+    "disabled": false,
+    "markdownOnly": true,
+    "promptOnly": false,
+    "runOnEdit": true,
+    "substituteRegex": 0,
+    "minDepth": null,
+    "maxDepth": null
+}

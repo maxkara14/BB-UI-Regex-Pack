@@ -1,0 +1,19 @@
+{
+    "id": "5ed31e7d-f089-481d-833a-12a2f09bc619",
+    "scriptName": "img romance",
+    "findRegex": "/::IMG_ROMANCE_START::\\s*(?:Image:\\s*(<img[^>]+>)\\s*)?(?:Caption:\\s*([^\\n]*)\\s*)?[\\s\\S]*?::IMG_ROMANCE_END::/g",
+    "replaceString": "<style>\n@keyframes kg-rom-beat { 0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(244,114,182,0.1); } 15% { transform: scale(1.04); box-shadow: 0 0 30px rgba(244,114,182,0.4); } 30% { transform: scale(1); box-shadow: 0 0 15px rgba(244,114,182,0.1); } 45% { transform: scale(1.04); box-shadow: 0 0 30px rgba(244,114,182,0.4); } }\n@keyframes kg-rom-float { 0% { transform: translateY(10px) scale(0.8); opacity: 0; } 50% { opacity: 0.9; } 100% { transform: translateY(-120px) scale(1.3); opacity: 0; } }\n.kg-card-rom { max-width: 440px; margin: 25px auto; perspective: 1200px; cursor: pointer; animation: kg-rom-beat 2.5s infinite; border-radius: 16px; }\n.kg-inner-rom { display: grid; width: 100%; min-height: 250px; transform-style: preserve-3d; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1); }\n.kg-card-rom:hover .kg-inner-rom { transform: rotateY(180deg); }\n.kg-front-rom, .kg-back-rom { grid-area: 1 / 1; backface-visibility: hidden; border-radius: 16px; border: 1px solid rgba(244, 114, 182, 0.3); }\n.kg-front-rom { background: linear-gradient(135deg, #2a1625, #1a1016); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }\n.kg-front-rom::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; border: 2px solid rgba(244, 114, 182, 0.08); transform: rotate(45deg); }\n.kg-front-rom::after { content: '♥'; color: rgba(244, 114, 182, 0.6); font-size: 55px; text-shadow: 0 0 20px rgba(244, 114, 182, 0.6); z-index: 1; }\n.kg-back-rom { transform: rotateY(180deg); background: rgba(20, 15, 20, 0.95); display: flex; flex-direction: column; padding: 12px; position: relative; overflow: hidden; }\n.kg-back-rom img { width: 100%; height: auto; display: block; border-radius: 8px; filter: brightness(0.95) saturate(1.1); transition: filter 1s; z-index: 2; position: relative; }\n.kg-card-rom:hover .kg-back-rom img { filter: brightness(1.05) saturate(1.2) drop-shadow(0 0 10px rgba(244,114,182,0.2)); }\n.kg-rom-hearts { position: absolute; inset: 0; pointer-events: none; z-index: 3; }\n.kg-card-rom:hover .kg-rom-hearts::before { content: '♥'; position: absolute; bottom: 40px; left: 15%; color: rgba(244, 114, 182, 0.7); font-size: 26px; animation: kg-rom-float 2s infinite ease-in; opacity: 0; text-shadow: 0 0 10px rgba(244,114,182,0.8); }\n.kg-card-rom:hover .kg-rom-hearts::after { content: '♥'; position: absolute; bottom: 20px; right: 20%; color: rgba(212, 175, 55, 0.7); font-size: 20px; animation: kg-rom-float 2.5s infinite ease-in 0.5s; opacity: 0; text-shadow: 0 0 10px rgba(212,175,55,0.8); }\n.kg-cap-rom { padding-top: 14px; text-align: center; font-family: 'Georgia', serif; font-style: italic; color: #fbcfe8; font-size: 15px; position: relative; z-index: 4; }\n</style>\n<div class=\"kg-card-rom\">\n  <div class=\"kg-inner-rom\">\n    <div class=\"kg-front-rom\"></div>\n    <div class=\"kg-back-rom\">\n      $1<div class=\"kg-rom-hearts\"></div><div class=\"kg-cap-rom\">✦ $2 ✦</div>\n    </div>\n  </div>\n</div>",
+    "trimStrings": [],
+    "placement": [
+        1,
+        2,
+        6
+    ],
+    "disabled": false,
+    "markdownOnly": true,
+    "promptOnly": false,
+    "runOnEdit": true,
+    "substituteRegex": 0,
+    "minDepth": null,
+    "maxDepth": null
+}

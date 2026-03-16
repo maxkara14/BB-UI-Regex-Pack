@@ -7,9 +7,9 @@ const extensionFolderPath = `/scripts/extensions/third-party/${extensionName}`;
 // РЕЕСТР ДЕТАЛЕЙ С ЗАШИТЫМИ ПРОМПТАМИ
 const bbModules = [
     { 
-        id: "tablet", 
-        files: ["regex-[bb]_tablet.json"], 
-        name: "📱 tablet",
+        id: "phone", 
+        files: ["regex-[bb]_phone_-_feed.json", "regex-[bb]_phone_-_post.json", "regex-[bb]_phone_-_story.json",  "regex-[bb]_phone_-_dm.json"], 
+        name: "📱 phone",
         prompt: `[SYSTEM INSTRUCTION: SMARTPHONE ECOSYSTEM]
 You act as the background OS of {{user}}'s personal Smartphone. You MUST generate EXACTLY ONE hidden data block representing {{user}}'s phone screen at the very end of your response. 
 
@@ -120,7 +120,27 @@ Battery: [0-100]
         id: "radio", 
         files: ["regex-[bb]_radio.json"], 
         name: "🎙️ radio",
-        prompt: `[SYSTEM INSTRUCTION: RADIO DATA GENERATION]\nAt the VERY START of your response, generate a hidden data block for the radio widget.\n**ROLE:** You are "MC Kairi" (Kairi Moriyoshi) hosting 104.5 LYCORIS FM. You are an 18-year-old wannabe tough girl.\n**SLANG RULES:** You MUST use heavy street slang (e.g., "yo", "fam", "no cap", "fire", "based"). If instructed to translate to another language, adapt the slang to fit local street culture.\n**CONTENT:** Write ONE short monologue (2-3 sentences) where Kairi tries to FREESTYLE RAP about the current weather, a random city event, or her own coolness. Her rhymes MUST BE TERRIBLE, forced, and cringe-worthy, but she acts like she just dropped the hottest bars ever. \n**SLANG RULES:** - You MUST use heavy street slang (e.g., "yo", "fam", "no cap", "fire", "based"). \n- ⚠️ CRITICAL: When outputting in RUSSIAN, NEVER literally translate English idioms. \n- "No cap" -> "Без б", "Рил", "Отвечаю", "Чекай". (NEVER "Без кепки"!)\n- "Fire" -> "Пушка", "Огонь", "Разъёб".\n- "Based" -> "База", "Основано".\n- "Fam/Bro" -> "Братишка", "Чумба", "Йоу".\n- Adapt the slang to fit Russian "tough girl" / "street" culture. Make it feel authentic, but slightly forced/cringe as per role.\n\n**OUTPUT FORMAT:**\nYou MUST use this EXACT format:\n\n::RADIO_START::\nComment: [Kairi's terrible freestyle rap]\n::RADIO_END::\n\n[After this block, continue with the normal RP response.]`
+        prompt: `[SYSTEM INSTRUCTION: RADIO DATA GENERATION]
+At the VERY START of your response, generate a hidden data block for the radio widget.
+**ROLE:** You are "MC Kairi" (Kairi Moriyoshi) hosting 104.5 LYCORIS FM. You are an 18-year-old wannabe tough girl.
+**CONTENT:** Write ONE short monologue (2-3 sentences) where Kairi tries to FREESTYLE RAP. 
+⚠️ CRITICAL: The topic MUST BE COMPLETELY DIFFERENT in every single response! Randomize the topic: complaining about fake thugs, awful imaginary rap beefs, failing at graffiti, cheap energy drinks, trying to look tough in front of cops, or her own "legendary" coolness. Her rhymes MUST BE TERRIBLE, forced, and cringe-worthy, but she acts like she just dropped the hottest bars ever. NEVER repeat the exact same freestyle or topic twice. Be unpredictable!
+**SLANG RULES:** - You MUST use heavy street slang (e.g., "yo", "fam", "no cap", "fire", "based"). 
+- ⚠️ CRITICAL: When outputting in RUSSIAN, NEVER literally translate English idioms. 
+- "No cap" -> "Рил", "Без шуток", "Тру"
+- "Fire" -> "Пушка", "Огонь", "Разъёб"
+- "Based" -> "База", "Фундамент"
+- "Fam/Bro" -> "Бро", "Братан", "Кент"
+- Adapt the slang to fit Russian "tough girl" / "street" culture. Make it feel authentic, but slightly forced/cringe as per role.
+
+**OUTPUT FORMAT:**
+You MUST use this EXACT format:
+
+::RADIO_START::
+Comment: [Kairi's terrible freestyle rap]
+::RADIO_END::
+
+[After this block, continue with the normal RP response.]`
     },
     { 
         id: "clocks", 
@@ -130,13 +150,107 @@ Battery: [0-100]
     },
     { 
         id: "transitions", 
-        files: ["regex-[bb]_clean_asterisks.json", "regex-[bb]_transitions_single.json", "regex-[bb]_transitions_paired.json"], 
+        files: ["regex-[bb]_stylized_divider.json", "regex-[bb]_transitions_single.json", "regex-[bb]_transitions_paired.json"], 
         name: "🚦 transitions",
-        prompt: `[SCENE & TRANSITIONS SYSTEM]\nYour ENTIRE response MUST be structured as a cinematic script using container blocks. Characters are unaware of these blocks.\n\n⛔ THE MASTER RULE (SCENE CONTAINERS):\n100% of your narrative, dialogue, and actions MUST be inside a SCENE block. You must open a scene at the very beginning of your message and close it at the very end.\nFormat: ※TYPE: Creative Scene Title※ [All narrative goes here] ※/TYPE※\n- TYPE can be SCENE, EPISODE, CHAPTER, or ACT.\n- Title must be a creative, atmospheric name for the current moment (e.g., "Tension in the Air", "Unexpected Allies", "The Rain Falls"). DO NOT output raw dates or locations here.\n\n⛔ NESTED PAIRED BLOCKS (Inner thoughts & deep dives):\nInside the SCENE block, use PAIRED BLOCKS for thoughts, memories, or parallel events.\nFormat: ⟦TYPE: Theme⟧ Content text... ⟦/TYPE⟧\nAllowed Types: MEANWHILE, MEMORY, DREAM, LORE, THOUGHT, FOCUS, WHISPER, ECHO.\n\n⛔ SCENE SHIFTS & TIME JUMPS:\nIf characters move to a new location, or time jumps forward, you MUST CLOSE the current scene and IMMEDIATELY OPEN a new one.\nExample: ...they left the room. ※/EPISODE※\n※SCENE: The Dark Alleyway※ The rain was pouring...\n\n⚠️ CRITICAL FORMATTING:\n- NO ASTERISKS FOR THOUGHTS: Do NOT use asterisks (*) or quotes around text inside ⟦THOUGHT⟧ blocks.\n- Language: TYPE names MUST ALWAYS be in English. Theme and Content in the narrative language.\n- HTML & STYLING: You MAY use safe HTML tags (like <span style="color:..."> or <font>) to colorize specific dialogue or elements to make them visually appealing. Do NOT use <style> or <div> layout tags.\n\n✅ PERFECT STRUCTURE EXAMPLE:\n※EPISODE: The Dark Alleyway※\nThe rain was pouring down. <font color="red">He looked at her</font>, his jaw clenched.\n⟦THOUGHT: Regret⟧ I shouldn't have said that. I ruin everything. ⟦/THOUGHT⟧\nHe turned away and walked into the shadows.\n※/EPISODE※`
+        prompt: `[SCENE & TRANSITIONS SYSTEM]
+Structure your ENTIRE response as a cinematic script using container blocks. Characters are unaware of these formatting blocks.
+
+[MASTER RULE: SCENE CONTAINERS]
+Enclose 100% of your narrative, dialogue, and actions inside a SCENE block. Open the scene at the absolute beginning of your message and close it at the very end.
+FORMAT:
+※TYPE: Creative Scene Title※
+[All narrative goes here]
+※/TYPE※
+- Valid TYPEs: SCENE, EPISODE, CHAPTER, ACT.
+- Title must be a creative, atmospheric name (e.g., "Tension in the Air"). Avoid raw dates or locations.
+
+[NESTED PAIRED BLOCKS]
+For deep internal monologues, memories, or parallel events, use PAIRED BLOCKS inside the SCENE.
+CRITICAL: You MUST strictly separate the short Theme from the Content, and you MUST always include the closing tag! 
+FORMAT:
+⟦TYPE: Short Theme Name⟧
+Content text goes here...
+⟦/TYPE⟧
+- Valid TYPEs: MEANWHILE, MEMORY, DREAM, LORE, THOUGHT, FOCUS, WHISPER, ECHO.
+- TYPE names must remain in English. Theme and Content in the narrative language.
+- The "Theme" must be extremely short (1-3 words max).
+
+[NARRATIVE BREAKS & DIVIDERS]
+Use exactly *** on its own line to insert a stylized visual divider. 
+Use this to indicate a significant pause in the narrative, a shift in pacing, a change of focus within the same room, or the logical conclusion of a heavy moment. Do not overuse it (1-2 times per response max).
+
+[SCENE SHIFTS & TIME JUMPS]
+When characters change location or time jumps forward, explicitly CLOSE the current scene and IMMEDIATELY OPEN a new one.
+EXAMPLE:
+...they left the room.
+※/EPISODE※
+※SCENE: The Dark Alleyway※
+The rain was pouring...
+
+[FORMATTING RULES]
+- Keep the text inside ⟦THOUGHT⟧ blocks as plain text without any wrapping symbols like asterisks or quotes.
+- Use safe HTML tags (like <font color="...">) exclusively to colorize specific dialogue.
+
+[PERFECT STRUCTURE EXAMPLE]
+※EPISODE: The Dark Alleyway※
+The rain was pouring down. <font color="#ef4444">"Leave me alone,"</font> he muttered.
+⟦THOUGHT: Regret⟧
+I shouldn't have said that. I ruin everything.
+⟦/THOUGHT⟧
+He turned away and walked into the shadows.
+
+***
+
+Minutes passed in absolute silence. The only sound was the distant rumble of thunder.
+※/EPISODE※`
+
+    },
+    { 
+        id: "сards", 
+        files: ["regex-img_comedy.json", "regex-img_drama.json", "regex-img_horror.json", "regex-img_romance.json"], 
+        name: "🃏 scene сards",
+        prompt: `[SYSTEM INSTRUCTION: DYNAMIC SCENE ILLUSTRATION]
+You act as a visual director. In key emotional moments, you MUST generate EXACTLY ONE hidden data block representing a mood-specific illustration of the current scene at the very end of your response. Focus on 1 or 2 main characters maximum.
+
+<rules>
+1. IMAGE FORMULA: Use this exact structure for the image tag:
+<img data-iig-instruction='{"style":"anime","prompt":"[MOOD_STYLE_TAGS]. [Char Name or OC age/gender]. Hair: [exact]. Eyes: [expr]. Skin: [tone]. Build: [type]. Wearing: [outfit]. Action: [pose]. Location: [place]. Lighting: [mood]. Masterpiece, high-quality anime art.","aspect_ratio":"16:9","image_size":"1K"}' src="/user/images/[CONTEXT_PATH]/iig_[TIMESTAMP].png">
+2. MODULE SELECTION LOGIC: Select exactly ONE module per turn based on the current scene's atmosphere:
+   - IF the scene is funny, absurd, or lighthearted -> USE MODULE 1 (COMEDY).
+   - IF the scene is sad, tragic, or heavily emotional -> USE MODULE 2 (DRAMA).
+   - IF the scene is scary, tense, or violent -> USE MODULE 3 (HORROR).
+   - IF the scene is intimate, peaceful, or romantic -> USE MODULE 4 (ROMANCE).
+3. Do not output multiple modules. Only pick the one that fits best.
+</rules>
+
+**MODULE 1: COMEDY**
+::IMG_COMEDY_START::
+Image: [Insert <img> tag. MOOD_STYLE_TAGS: super deformed, chibi style, exaggerated facial expressions, dotted eyes, comedic anime style]
+Caption: [Funny or sarcastic caption in Russian]
+::IMG_COMEDY_END::
+
+**MODULE 2: DRAMA**
+::IMG_DRAMA_START::
+Image: [Insert <img> tag. MOOD_STYLE_TAGS: melancholic atmosphere, desaturated colors, cinematic lighting, heavy shadows, dramatic angle, muted palette]
+Caption: [Deep, emotional caption in Russian]
+::IMG_DRAMA_END::
+
+**MODULE 3: HORROR**
+::IMG_HORROR_START::
+Image: [Insert <img> tag. MOOD_STYLE_TAGS: dark and eerie atmosphere, psychological horror, disturbing, deep black shadows, high contrast, glowing eyes]
+Caption: [Ominous or cryptic caption in Russian]
+::IMG_HORROR_END::
+
+**MODULE 4: ROMANCE**
+::IMG_ROMANCE_START::
+Image: [Insert <img> tag. MOOD_STYLE_TAGS: warm ambient lighting, soft focus, glowing particles, beautiful scenery, intimate shoujo manga style]
+Caption: [Tender or poetic caption in Russian]
+::IMG_ROMANCE_END::`
+
     },
     { 
         id: "cleaners", 
-        files: ["regex-[bb]_hide_reasoning.json", "regex-[bb]_html_vanisher.json", "regex-[bb]_html_vanisher_(fixed).json", "regex-[bb]_vanisher_custom.json"],
+        files: ["regex-[bb]_hide_reasoning.json", "regex-[bb]_asterisk_fixer_(to_italics).json"],
         name: "🧹 cleaners"
     }
 ];

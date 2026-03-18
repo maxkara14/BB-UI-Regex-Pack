@@ -210,40 +210,39 @@ Minutes passed in absolute silence. The only sound was the distant rumble of thu
         files: ["regex-img_comedy.json", "regex-img_drama.json", "regex-img_horror.json", "regex-img_romance.json"], 
         name: "🃏 scene сards",
         prompt: `[SYSTEM INSTRUCTION: DYNAMIC SCENE ILLUSTRATION]
-You act as a visual director. In key emotional moments, you MUST generate EXACTLY ONE hidden data block representing a mood-specific illustration of the current scene at the very end of your response. Focus on 1 or 2 main characters maximum.
+You act as a visual director. In key emotional moments, you MUST generate EXACTLY ONE hidden data block representing a mood-specific illustration of the current scene at the very end of your response.
 
-<rules>
-1. IMAGE FORMULA: Use this exact structure for the image tag:
-<img data-iig-instruction='{"style":"anime","prompt":"[MOOD_STYLE_TAGS]. [Char Name or OC age/gender]. Hair: [exact]. Eyes: [expr]. Skin: [tone]. Build: [type]. Wearing: [outfit]. Action: [pose]. Location: [place]. Lighting: [mood]. Masterpiece, high-quality anime art.","aspect_ratio":"16:9","image_size":"1K"}' src="/user/images/[CONTEXT_PATH]/iig_[TIMESTAMP].png">
-2. MODULE SELECTION LOGIC: Select exactly ONE module per turn based on the current scene's atmosphere:
-   - IF the scene is funny, absurd, or lighthearted -> USE MODULE 1 (COMEDY).
-   - IF the scene is sad, tragic, or heavily emotional -> USE MODULE 2 (DRAMA).
-   - IF the scene is scary, tense, or violent -> USE MODULE 3 (HORROR).
-   - IF the scene is intimate, peaceful, or romantic -> USE MODULE 4 (ROMANCE).
-3. Do not output multiple modules. Only pick the one that fits best.
-</rules>
+<critical_rules>
+1. STRICT CHARACTER LIMIT: The image prompt MUST contain EXACTLY ONE or MAXIMUM TWO main characters. Completely ignore background characters. Generating 3 or more characters is strictly forbidden.
+2. FOCUS ON CHARACTERS: The background must be minimal or abstract to keep the focus entirely on the characters' emotions and actions.
+3. USE TAGS, NOT SENTENCES: Write the prompt using comma-separated descriptive tags. Do NOT use long literary sentences.
+4. EXACT VISUALS: Always specify the Character's FULL NAME, followed by their exact physical traits.
+5. IMAGE PROMPT FORMULA: Follow this exact template inside the "prompt" string:
+"[MOOD_STYLE_TAGS], [1girl/1boy], [Character 1 Name], [Hair style and color], [Eye color], [Outfit], [Pose and Expression], (Optional: [1girl/1boy], [Character 2 Name], [Hair...], [Outfit], [Pose...]), masterpiece, best quality, high-quality anime art"
+6. Select EXACTLY ONE module (COMEDY, DRAMA, HORROR, or ROMANCE) that fits the current scene best.
+</critical_rules>
 
-**MODULE 1: COMEDY**
+**MODULE 1: COMEDY (Demon Slayer gag faces, absurd, chaotic)**
 ::IMG_COMEDY_START::
-Image: [Insert <img> tag. MOOD_STYLE_TAGS: super deformed, chibi style, exaggerated facial expressions, dotted eyes, comedic anime style]
+Image: <img data-iig-instruction='{"style":"anime","prompt":"simple background, white background, comic relief, super deformed, chibi, dot eyes, blank stare, exaggerated funny expression, comedic anime style, [INSERT IMAGE PROMPT FORMULA HERE]","aspect_ratio":"16:9","image_size":"1K"}' src="/user/images/[CONTEXT_PATH]/iig_[TIMESTAMP].png">
 Caption: [Funny or sarcastic caption in Russian]
 ::IMG_COMEDY_END::
 
-**MODULE 2: DRAMA**
+**MODULE 2: DRAMA (Sad, tragic, emotional focus)**
 ::IMG_DRAMA_START::
-Image: [Insert <img> tag. MOOD_STYLE_TAGS: melancholic atmosphere, desaturated colors, cinematic lighting, heavy shadows, dramatic angle, muted palette]
+Image: <img data-iig-instruction='{"style":"anime","prompt":"simple background, abstract background, close-up, melancholic atmosphere, cinematic lighting, heavy shadows, muted palette, dramatic angle, emotional focus, [INSERT IMAGE PROMPT FORMULA HERE]","aspect_ratio":"16:9","image_size":"1K"}' src="/user/images/[CONTEXT_PATH]/iig_[TIMESTAMP].png">
 Caption: [Deep, emotional caption in Russian]
 ::IMG_DRAMA_END::
 
-**MODULE 3: HORROR**
+**MODULE 3: HORROR (Scary, tense, claustrophobic)**
 ::IMG_HORROR_START::
-Image: [Insert <img> tag. MOOD_STYLE_TAGS: dark and eerie atmosphere, psychological horror, disturbing, deep black shadows, high contrast, glowing eyes]
+Image: <img data-iig-instruction='{"style":"anime","prompt":"simple black background, close-up, dark and eerie atmosphere, psychological horror, deep black shadows, high contrast, glowing eyes, terrified expression, [INSERT IMAGE PROMPT FORMULA HERE]","aspect_ratio":"16:9","image_size":"1K"}' src="/user/images/[CONTEXT_PATH]/iig_[TIMESTAMP].png">
 Caption: [Ominous or cryptic caption in Russian]
 ::IMG_HORROR_END::
 
-**MODULE 4: ROMANCE**
+**MODULE 4: ROMANCE (Intimate, soft, dreamy)**
 ::IMG_ROMANCE_START::
-Image: [Insert <img> tag. MOOD_STYLE_TAGS: warm ambient lighting, soft focus, glowing particles, beautiful scenery, intimate shoujo manga style]
+Image: <img data-iig-instruction='{"style":"anime","prompt":"simple background, bokeh, abstract glowing background, close-up, warm ambient lighting, soft focus, glowing particles, blushing, intimate shoujo manga style, [INSERT IMAGE PROMPT FORMULA HERE]","aspect_ratio":"16:9","image_size":"1K"}' src="/user/images/[CONTEXT_PATH]/iig_[TIMESTAMP].png">
 Caption: [Tender or poetic caption in Russian]
 ::IMG_ROMANCE_END::`
 

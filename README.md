@@ -16,6 +16,18 @@
 
 ---
 
+<img width="452" height="421" alt="Screenshot_8" src="https://github.com/user-attachments/assets/a2b7d56c-baf1-4a1b-9262-a68129e30988" />
+
+---
+
+<img width="1131" height="643" alt="приколы" src="https://github.com/user-attachments/assets/74469c82-914c-421d-971c-14ccc39a6af9" />
+
+---
+
+<img width="1498" height="742" alt="переходы" src="https://github.com/user-attachments/assets/43ef2366-d486-45ae-8db4-a4f65c16d4a3" />
+
+---
+
 ⚙️Установка самого расширения:
 
 1. Открой SillyTavern.

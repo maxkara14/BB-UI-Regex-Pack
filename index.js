@@ -370,12 +370,21 @@ function getPromptInjectionKey(modId) {
 function migrateAutoPromptSettings() {
     const settings = extension_settings[extensionName];
     const current = settings.autoPrompts;
+    const enabledList = Array.isArray(settings.enabled) ? settings.enabled : [];
 
-    if (typeof current === "boolean") {
+    if (settings.autoPromptsVersion !== 2) {
+        const previousGlobalValue = typeof current === "boolean" ? current : null;
+        const previousMap = current && typeof current === "object" && !Array.isArray(current) ? current : {};
+
         settings.autoPrompts = {};
         getPromptModuleIds().forEach(id => {
-            settings.autoPrompts[id] = current;
+            const wasPromptEnabled = previousGlobalValue !== null
+                ? previousGlobalValue
+                : previousMap[id] !== false;
+
+            settings.autoPrompts[id] = Boolean(wasPromptEnabled && enabledList.includes(id));
         });
+        settings.autoPromptsVersion = 2;
         return;
     }
 
@@ -385,7 +394,7 @@ function migrateAutoPromptSettings() {
 
     getPromptModuleIds().forEach(id => {
         if (typeof settings.autoPrompts[id] !== "boolean") {
-            settings.autoPrompts[id] = true;
+            settings.autoPrompts[id] = false;
         }
     });
 }
@@ -408,7 +417,7 @@ jQuery(async () => {
         }
 
         if (!extension_settings[extensionName]) {
-            extension_settings[extensionName] = { enabled: [], autoPrompts: {} };
+            extension_settings[extensionName] = { enabled: [], autoPrompts: {}, autoPromptsVersion: 2 };
         }
         if (!Array.isArray(extension_settings[extensionName].enabled)) {
             extension_settings[extensionName].enabled = [];
@@ -463,7 +472,7 @@ function renderManagerUI() {
         const hasPrompt = Boolean(mod.prompt);
         const isPromptEnabled = hasPrompt && isModulePromptEnabled(mod.id);
         const promptTitle = isPromptEnabled
-            ? (isEnabled ? "Автопромпт активен" : "Автопромпт включится вместе с модулем")
+            ? "Автопромпт включен"
             : "Автопромпт выключен";
 
         const promptBtnHtml = hasPrompt ? `
@@ -508,7 +517,7 @@ function renderManagerUI() {
         const nextValue = !isModulePromptEnabled(modId);
 
         setModulePromptEnabled(modId, nextValue);
-        setModulePromptInjection(modId, extension_settings[extensionName].enabled.includes(modId));
+        setModulePromptInjection(modId);
         saveSettingsDebounced();
         renderManagerUI();
 
@@ -564,9 +573,9 @@ function renderManagerUI() {
     });
 }
 
-function setModulePromptInjection(modId, isEnabled) {
+function setModulePromptInjection(modId) {
     const mod = bbModules.find(m => m.id === modId);
-    const value = isEnabled && isModulePromptEnabled(modId) && mod?.prompt
+    const value = isModulePromptEnabled(modId) && mod?.prompt
         ? mod.prompt
         : "";
 
@@ -581,16 +590,13 @@ function setModulePromptInjection(modId, isEnabled) {
 }
 
 function syncPromptInjections() {
-    const enabledList = extension_settings[extensionName].enabled || [];
-
     bbModules.forEach(mod => {
-        setModulePromptInjection(mod.id, enabledList.includes(mod.id));
+        setModulePromptInjection(mod.id);
     });
 }
 
 function getEnabledPromptModules() {
-    const enabledList = extension_settings[extensionName].enabled || [];
-    return bbModules.filter(mod => enabledList.includes(mod.id) && mod.prompt && isModulePromptEnabled(mod.id));
+    return bbModules.filter(mod => mod.prompt && isModulePromptEnabled(mod.id));
 }
 
 function isPromptAlreadyInChat(chat, prompt) {
@@ -700,7 +706,6 @@ async function toggleRegex(modId, isChecked) {
         toastr.info(`Выключено:\n${bbModules.find(m => m.id === modId).name}`);
     }
 
-    setModulePromptInjection(modId, isChecked);
     saveSettingsDebounced();
     
     // @ts-ignore

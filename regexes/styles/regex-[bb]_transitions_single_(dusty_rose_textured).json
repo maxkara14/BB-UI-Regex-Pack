@@ -1,0 +1,19 @@
+{
+    "id": "a483c0fa-0c86-4009-b8b7-5365e31cd139",
+    "scriptName": "[BB] transitions single (Dusty Rose Textured)",
+    "findRegex": "/※([A-Za-zА-Яа-яЁё\\s]+?)\\s*:\\s*(.*?)※([\\s\\S]*?)※\\/\\s*\\1\\s*※/g",
+    "replaceString": "<style>\n@keyframes solFadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }\n.sol-wrap { margin: 32px 0 24px 0; width: 100%; position: relative; animation: solFadeIn 0.8s ease-out forwards; }\n.sol-head { display: flex; align-items: center; justify-content: center; position: relative; z-index: 2; margin-bottom: -14px; }\n.sol-type { background: #F5E8E8; color: #8C5968; padding: 6px 20px; border-radius: 8px; font-weight: 700; font-size: 0.85em; border: 1px solid #D5B4BA; box-shadow: 0 4px 10px rgba(110, 80, 85, 0.15); transform: rotate(-2deg); display: flex; align-items: center; }\n.sol-type, .sol-type span, .sol-type div { font-family: Comfortaa, Comic Sans MS, cursive !important; text-transform: uppercase; letter-spacing: 1px; }\n.sol-theme { color: #A07380; opacity: 0.9; font-style: italic; text-transform: none; letter-spacing: normal; }\n.sol-theme, .sol-theme span { font-family: Nunito, Comic Sans MS, sans-serif !important; }\n.sol-body { padding: 26px 24px 18px 24px; color: #4A343A; font-size: 1.05em; line-height: 1.65; background-color: #e6d0d0; background-image: url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.06'/%3E%3C/svg%3E\"), linear-gradient(135deg, #F3E6E6 0%, #DBC6C6 100%); border: 1px solid #CBA9A9; border-radius: 12px; box-shadow: inset 0 2px 3px rgba(255,255,255,0.6), 0 10px 25px rgba(110, 80, 85, 0.15), 0 2px 8px rgba(110, 80, 85, 0.1); white-space: pre-wrap; word-wrap: break-word; position: relative; z-index: 1; }\n.sol-body, .sol-body p, .sol-body span, .sol-body div, .sol-body font, .sol-body em, .sol-body strong, .sol-body i, .sol-body b, .sol-body blockquote { font-family: Nunito, Comic Sans MS, sans-serif !important; }\n.sol-body p { margin-top: 0 !important; margin-bottom: 0.7em !important; }\n.sol-body p:last-child { margin-bottom: 0 !important; }\n</style>\n<div class=\"sol-wrap\">\n  <div class=\"sol-head\">\n    <div class=\"sol-type\"><span>$1</span> <span style=\"margin: 0 8px; color: #D18B9D;\">✿</span> <span class=\"sol-theme\">$2</span></div>\n  </div>\n  <div class=\"sol-body\">$3</div>\n</div>",
+    "trimStrings": [],
+    "placement": [
+        1,
+        2,
+        6
+    ],
+    "disabled": false,
+    "markdownOnly": true,
+    "promptOnly": false,
+    "runOnEdit": true,
+    "substituteRegex": 0,
+    "minDepth": null,
+    "maxDepth": null
+}

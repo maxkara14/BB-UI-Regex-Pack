@@ -1,0 +1,17 @@
+{
+    "id": "8919a056-337a-4b16-97cb-b8d8a2ad734c",
+    "scriptName": "[Fix] Opus HTML - Quotes",
+    "findRegex": "/&quot;/g",
+    "replaceString": "\"",
+    "trimStrings": [],
+    "placement": [
+        2
+    ],
+    "disabled": false,
+    "markdownOnly": false,
+    "promptOnly": false,
+    "runOnEdit": true,
+    "substituteRegex": 0,
+    "minDepth": null,
+    "maxDepth": null
+}

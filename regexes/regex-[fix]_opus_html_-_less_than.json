@@ -1,0 +1,17 @@
+{
+    "id": "62c1b928-af3f-4032-9cc0-aad3fd31099b",
+    "scriptName": "[Fix] Opus HTML - Less Than",
+    "findRegex": "/&lt;/g",
+    "replaceString": "<",
+    "trimStrings": [],
+    "placement": [
+        2
+    ],
+    "disabled": false,
+    "markdownOnly": false,
+    "promptOnly": false,
+    "runOnEdit": true,
+    "substituteRegex": 0,
+    "minDepth": null,
+    "maxDepth": null
+}

@@ -1,0 +1,19 @@
+{
+    "id": "107682f5-f72e-4c58-a446-66141ab76db4",
+    "scriptName": "[BB] transitions paired (Dusty Rose Textured)",
+    "findRegex": "/⟦([A-Za-zА-Яа-яЁё\\s]+?)\\s*:\\s*(.*?)⟧(?:<br[^>]*>|<\\/?p[^>]*>|\\s)*([\\s\\S]*?)(?:<br[^>]*>|<\\/?p[^>]*>|\\s)*⟦\\/\\s*\\1\\s*⟧/g",
+    "replaceString": "<style>\n@keyframes solPairedIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }\n@keyframes floatHeart { 0% { transform: translate3d(0,0,0) scale(0.8) rotate(-10deg); opacity: 0; } 20% { opacity: 0.6; } 80% { opacity: 0.4; } 100% { transform: translate3d(-10px,-40px,0) scale(1.1) rotate(15deg); opacity: 0; } }\n.solp-wrap { margin: 16px 0 16px 8px; width: calc(100% - 8px); box-sizing: border-box; background-color: #f5ecec; background-image: url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E\"), linear-gradient(135deg, #FCF7F7 0%, #F0E4E4 100%); border: 1px dashed #CFAEB5; border-left: 3px solid #D18B9D; border-radius: 4px 16px 16px 16px; padding: 16px 20px; position: relative; overflow: hidden; animation: solPairedIn 0.5s ease-out forwards; box-shadow: inset 0 2px 3px rgba(255,255,255,0.7), -2px 8px 20px rgba(110, 80, 85, 0.12); }\n.solp-head { display: flex; align-items: center; gap: 8px; position: relative; z-index: 2; border-bottom: 2px solid #D5B4BA; padding-bottom: 8px; margin-bottom: 12px; }\n.solp-type, .solp-type span { font-family: Comfortaa, Comic Sans MS, cursive !important; color: #8C5968; font-weight: 700; font-size: 0.75em; text-transform: uppercase; letter-spacing: 1px; }\n.solp-theme, .solp-theme span { font-family: Nunito, Comic Sans MS, sans-serif !important; color: #A07380; font-style: italic; font-size: 0.9em; opacity: 0.9; }\n.solp-body { color: #563E45; font-size: 1.05em; line-height: 1.6; font-style: italic; position: relative; z-index: 1; white-space: pre-wrap; word-wrap: break-word; }\n.solp-body, .solp-body p, .solp-body span, .solp-body div, .solp-body font, .solp-body em, .solp-body strong, .solp-body i, .solp-body b, .solp-body blockquote { font-family: Nunito, Comic Sans MS, sans-serif !important; }\n.solp-body p { margin-top: 0 !important; margin-bottom: 0.5em !important; } .solp-body p:last-child { margin-bottom: 0 !important; } .solp-body p:empty { display: none !important; } .solp-body > br:first-child { display: none !important; }\n.sol-heart { position: absolute; color: #E0B4BE; opacity: 0; pointer-events: none; user-select: none; animation: floatHeart 6s infinite ease-out; will-change: transform, opacity; font-family: sans-serif !important; }\n.sh-1 { top: 20%; right: 10%; font-size: 16px; animation-duration: 7s; }\n.sh-2 { top: 60%; left: 20%; font-size: 12px; animation-duration: 5s; animation-delay: 2s; color: #DCA6B2; }\n.sh-3 { bottom: 15%; right: 30%; font-size: 14px; animation-duration: 6s; animation-delay: 1s; }\n</style>\n<div class=\"solp-wrap\"><div class=\"solp-head\"><span class=\"solp-type\">$1</span> <span style=\"color: #D18B9D; font-family: Comfortaa, cursive !important;\">✿</span> <span class=\"solp-theme\">$2</span></div><div class=\"solp-body\"><div class=\"sol-heart sh-1\">♡</div><div class=\"sol-heart sh-2\">♡</div><div class=\"sol-heart sh-3\">♡</div>$3</div></div>",
+    "trimStrings": [],
+    "placement": [
+        1,
+        2,
+        6
+    ],
+    "disabled": false,
+    "markdownOnly": true,
+    "promptOnly": false,
+    "runOnEdit": true,
+    "substituteRegex": 0,
+    "minDepth": null,
+    "maxDepth": null
+}

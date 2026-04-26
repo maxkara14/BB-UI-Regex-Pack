@@ -1,0 +1,19 @@
+{
+    "id": "0e39151b-5fb9-40fa-8cf0-be318f80a80e",
+    "scriptName": "[BB] transitions paired (red - gold)",
+    "findRegex": "/⟦([A-Za-zА-Яа-яЁё\\s]+?)\\s*:\\s*(.*?)⟧(?:<br[^>]*>|<\\/?p[^>]*>|\\s)*([\\s\\S]*?)(?:<br[^>]*>|<\\/?p[^>]*>|\\s)*⟦\\/\\s*\\1\\s*⟧/g",
+    "replaceString": "<style>\n@keyframes pairedFadeIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }\n@keyframes floatPetal {\n  0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }\n  20% { opacity: 0.7; }\n  80% { opacity: 0.5; }\n  100% { transform: translate(-20px, 40px) rotate(180deg); opacity: 0; }\n}\n.k-paired-slim {\n  margin: 16px 0;\n  width: 100%;\n  box-sizing: border-box;\n  border-left: 3px solid rgba(244, 114, 182, 0.7);\n  background: linear-gradient(90deg, rgba(30, 15, 20, 0.8) 0%, rgba(30, 15, 20, 0.1) 80%, transparent 100%);\n  border-radius: 0 8px 8px 0;\n  padding: 16px 20px;\n  position: relative;\n  overflow: hidden;\n  animation: pairedFadeIn 0.5s ease-out forwards;\n}\n.k-ps-head {\n  font-family: 'Georgia', serif; font-size: 0.75em; text-transform: uppercase; letter-spacing: 2px;\n  margin-bottom: 6px; display: flex; align-items: center; gap: 8px;\n  position: relative; z-index: 2;\n}\n.k-ps-type { color: #fbcfe8; font-weight: bold; text-shadow: 0 0 5px rgba(244,114,182,0.4); }\n.k-ps-theme { color: #d1d5db; opacity: 0.7; }\n.k-ps-body {\n  color: #e5e7eb; font-size: 0.95em; line-height: 1.6; font-family: 'Georgia', serif;\n  font-style: italic; position: relative; z-index: 1;\n  white-space: pre-wrap; word-wrap: break-word;\n}\n.k-ps-body p { margin-top: 0 !important; margin-bottom: 0.5em !important; }\n.k-ps-body p:last-child { margin-bottom: 0 !important; }\n.k-ps-body p:empty { display: none !important; }\n.k-ps-body > br:first-child { display: none !important; }\n.petal {\n  position: absolute; width: 5px; height: 5px; background: #fbcfe8; \n  border-radius: 50% 0 50% 50%; box-shadow: 0 0 6px rgba(244,114,182,0.5);\n  pointer-events: none; opacity: 0;\n}\n.pt-1 { top: 10%; right: 15%; animation: floatPetal 5s infinite linear; }\n.pt-2 { top: 40%; left: 30%; animation: floatPetal 7s infinite linear 2s; width: 4px; height: 4px; }\n.pt-3 { bottom: 20%; right: 40%; animation: floatPetal 6s infinite linear 1s; background: #fef08a; box-shadow: 0 0 5px #f59e0b; border-radius: 50%; }\n</style>\n<div class=\"k-paired-slim\"><div class=\"k-ps-head\"><span class=\"k-ps-type\">$1</span> <span style=\"color: #6b7280;\">|</span> <span class=\"k-ps-theme\">$2</span></div><div class=\"k-ps-body\"><div class=\"petal pt-1\"></div><div class=\"petal pt-2\"></div><div class=\"petal pt-3\"></div>$3</div></div>",
+    "trimStrings": [],
+    "placement": [
+        1,
+        2,
+        6
+    ],
+    "disabled": false,
+    "markdownOnly": true,
+    "promptOnly": false,
+    "runOnEdit": true,
+    "substituteRegex": 0,
+    "minDepth": null,
+    "maxDepth": null
+}

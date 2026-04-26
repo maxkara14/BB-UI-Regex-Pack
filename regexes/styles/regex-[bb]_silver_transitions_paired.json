@@ -1,0 +1,19 @@
+{
+    "id": "27dddaa3-8569-4613-b702-847f46ed1f8e",
+    "scriptName": "[BB] silver transitions paired",
+    "findRegex": "/⟦([A-Za-zА-Яа-яЁё\\s]+?)\\s*:\\s*(.*?)⟧(?:<br[^>]*>|<\\\\/?p[^>]*>|\\s)*([\\s\\S]*?)(?:<br[^>]*>|<\\\\/?p[^>]*>|\\s)*⟦\\/\\s*\\1\\s*⟧/g",
+    "replaceString": "<style>\n@keyframes silPairedIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }\n@keyframes psionicSpark { 0% { transform: translate(0,0) scale(0.5); opacity: 0; } 30% { opacity: 0.8; box-shadow: 0 0 8px #d8b4fe; } 70% { opacity: 0.5; } 100% { transform: translate(-15px,-25px) scale(1.5); opacity: 0; } }\n\n.silp-wrap { \n    margin: 16px 0; /* Вернули отступ снаружи */\n    width: 100%; \n    box-sizing: border-box; \n    background: rgba(10, 10, 15, 0.6); \n    backdrop-filter: blur(8px); \n    -webkit-backdrop-filter: blur(8px); \n    border: 1px solid rgba(148,163,184,0.1); \n    border-right: 3px solid #c084fc; \n    border-radius: 2px 12px 12px 2px; \n    padding: 16px 22px; /* Вернули комфортный воздух внутри блока */\n    animation: silPairedIn 0.6s ease-out forwards; \n    position: relative; \n    overflow: hidden;\n    display: flex;\n    flex-direction: column;\n}\n\n.silp-head { \n    display: inline-flex; \n    align-items: center; \n    gap: 8px; \n    margin-bottom: 10px; /* Отодвинули текст от заголовка */\n    border-bottom: 1px solid rgba(192,132,252,0.2); \n    padding-bottom: 6px;\n    width: fit-content;\n}\n\n.silp-icon { font-size: 1.1em; color: #e9d5ff; opacity: 0.8; }\n.silp-type { font-family: 'Georgia', serif; font-size: 0.75em; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; color: #d8b4fe; }\n.silp-theme { font-family: 'Georgia', serif; font-size: 0.85em; color: #cbd5e1; opacity: 0.9; }\n\n.silp-body { \n    color: #cbd5e1; \n    font-size: 0.95em; \n    line-height: 1.6; /* Вернули хорошую читаемость тексту */\n    font-family: 'Georgia', serif; \n    font-style: italic; \n    position: relative; \n    z-index: 1; \n    white-space: normal; \n    word-wrap: break-word;\n}\n\n/* Расстояние между абзацами внутри текста (если их несколько) */\n.silp-body p { \n    margin: 0 0 0.8em 0 !important; \n    padding: 0 !important;\n}\n\n.silp-body p:last-child { \n    margin-bottom: 0 !important; \n}\n\n/* А вот это убивает баг Таверны с растягиванием */\n.silp-body p:empty, \n.silp-body br { \n    display: none !important; \n}\n\n.psionic { position: absolute; border-radius: 50%; background: #fff; opacity: 0; pointer-events: none; }\n.psi-1 { width: 4px; height: 4px; top: 20%; right: 5%; animation: psionicSpark 4s infinite ease-in-out; background: #e9d5ff; }\n.psi-2 { width: 6px; height: 6px; top: 60%; left: 10%; animation: psionicSpark 5s infinite ease-in-out 1.5s; background: #d8b4fe; }\n</style>\n\n<div class=\"silp-wrap\">\n    <div class=\"psionic psi-1\"></div><div class=\"psionic psi-2\"></div>\n    <div class=\"silp-head\">\n        <span class=\"silp-icon\">✧</span>\n        <span class=\"silp-type\">$1</span>\n        <span class=\"silp-theme\">$2</span>\n    </div>\n    <div class=\"silp-body\">$3</div>\n</div>",
+    "trimStrings": [],
+    "placement": [
+        1,
+        2,
+        6
+    ],
+    "disabled": false,
+    "markdownOnly": true,
+    "promptOnly": false,
+    "runOnEdit": true,
+    "substituteRegex": 0,
+    "minDepth": null,
+    "maxDepth": null
+}

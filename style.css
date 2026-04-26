@@ -15,7 +15,7 @@
 .bb-rm-card {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) minmax(106px, auto);
     align-items: center;
     gap: 10px;
     min-height: 48px;
@@ -54,6 +54,13 @@
     cursor: pointer;
     font-family: "Open Sans", sans-serif;
     font-weight: 700;
+}
+
+.bb-rm-module-block {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
 }
 
 .bb-rm-main-toggle input[type="checkbox"] {
@@ -102,6 +109,29 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: 0.96em;
+}
+
+.bb-rm-style-select {
+    box-sizing: border-box;
+    width: calc(100% - 40px);
+    max-width: 230px;
+    min-height: 26px;
+    margin-left: 40px;
+    padding: 2px 26px 2px 8px;
+    border: 1px solid rgba(148, 163, 184, 0.34);
+    border-radius: 7px;
+    background: rgba(255, 255, 255, 0.045);
+    color: color-mix(in srgb, var(--SmartThemeBodyColor, #e5e7eb) 86%, #94a3b8);
+    font-size: 0.78em;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.bb-rm-style-select:hover,
+.bb-rm-style-select:focus {
+    border-color: rgba(139, 211, 255, 0.62);
+    background: rgba(139, 211, 255, 0.1);
+    outline: none;
 }
 
 .bb-rm-actions {
@@ -169,5 +199,9 @@
     .bb-rm-actions {
         justify-content: flex-start;
         padding-left: 40px;
+    }
+
+    .bb-rm-style-select {
+        max-width: none;
     }
 }

@@ -1,0 +1,19 @@
+{
+    "id": "f0115fe1-ecc3-48aa-a93e-285ba54309b9",
+    "scriptName": "[BB] silver transitions single",
+    "findRegex": "/※([A-Za-zА-Яа-яЁё\\s]+?)\\s*:\\s*(.*?)※([\\s\\S]*?)※\\/\\s*\\1\\s*※/g",
+    "replaceString": "<style>\n@keyframes silFadeIn { from { opacity: 0; transform: translateY(10px); filter: blur(2px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }\n.sils-wrap { margin: 28px 0; width: 100%; animation: silFadeIn 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards; }\n.sils-head { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 12px; font-family: 'Georgia', serif; text-transform: uppercase; letter-spacing: 3px; }\n.sils-line { flex-grow: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(148,163,184,0.5), transparent); }\n.sils-diamond { width: 5px; height: 5px; transform: rotate(45deg); background: #bae6fd; box-shadow: 0 0 6px #bae6fd; }\n.sils-type { color: #f8fafc; font-weight: bold; text-shadow: 0 0 4px rgba(255,255,255,0.3); }\n.sils-theme { color: #94a3b8; font-size: 0.85em; letter-spacing: 1px; }\n.sils-body { padding: 18px 24px; color: #e2e8f0; font-size: 1.05em; line-height: 1.65; font-family: 'Georgia', serif; background: linear-gradient(180deg, rgba(15, 20, 25, 0.6), rgba(10, 12, 15, 0.8)); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-top: 1px solid rgba(148,163,184,0.2); border-bottom: 1px solid rgba(148,163,184,0.2); border-left: 2px solid #94a3b8; border-radius: 2px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); white-space: pre-wrap; word-wrap: break-word; }\n.sils-body p { margin-top: 0 !important; margin-bottom: 0.5em !important; } .sils-body p:last-child { margin-bottom: 0 !important; } .sils-body p:empty { display: none !important; } .sils-body > br:first-child { display: none !important; }\n</style>\n<div class=\"sils-wrap\">\n<div class=\"sils-head\">\n<div class=\"sils-line\"></div>\n<div class=\"sils-diamond\"></div>\n<div class=\"sils-type\">$1</div>\n<div class=\"sils-theme\">$2</div>\n<div class=\"sils-diamond\"></div>\n<div class=\"sils-line\"></div>\n</div>\n<div class=\"sils-body\">$3</div>\n</div>",
+    "trimStrings": [],
+    "placement": [
+        1,
+        2,
+        6
+    ],
+    "disabled": false,
+    "markdownOnly": true,
+    "promptOnly": false,
+    "runOnEdit": true,
+    "substituteRegex": 0,
+    "minDepth": null,
+    "maxDepth": null
+}

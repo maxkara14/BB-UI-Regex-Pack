@@ -1,0 +1,19 @@
+{
+    "id": "4631ebe0-ac85-4525-a6ca-34a7a37243c7",
+    "scriptName": "[BB] clocks (Dusty Rose Textured)",
+    "findRegex": "/<info>\\s*(.*?)\\s*\\|\\s*(.*?)\\s*\\|\\s*(.*?)\\s*\\|\\s*(.*?)\\s*\\|\\s*(.*?)\\s*<\\/info>/g",
+    "replaceString": "<style>\n.solc-wrap { display: flex; align-items: center; gap: 16px; background-color: #dfc8c8; background-image: url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E\"), linear-gradient(135deg, #EAD7D7 0%, #D4BEBE 100%); border: 1px solid #CFAEB5; border-radius: 12px; padding: 10px 20px; margin: 24px auto; box-shadow: inset 0 2px 3px rgba(255,255,255,0.5), 0 8px 20px rgba(110, 80, 85, 0.15); width: fit-content; max-width: 100%; flex-wrap: wrap; justify-content: center; }\n.solc-time { font-family: Comfortaa, Comic Sans MS, cursive !important; font-size: 1.6em; color: #855160; letter-spacing: 1px; font-weight: 700; }\n.solc-div { width: 2px; height: 32px; background: #CFAEB5; border-radius: 2px; }\n.solc-info { display: flex; flex-direction: column; gap: 4px; }\n.solc-info, .solc-info p, .solc-info span, .solc-info div, .solc-info font { font-family: Nunito, Comic Sans MS, sans-serif !important; }\n.solc-loc { font-size: 0.8em; font-weight: 700; color: #8C5968; letter-spacing: 1px; text-transform: uppercase; }\n.solc-sub { font-size: 0.7em; color: #7A5B64; opacity: 0.9; font-weight: 600; }\n.solc-dot { color: #CFAEB5; margin: 0 6px; font-size: 10px; }\n</style>\n<div class=\"solc-wrap\">\n  <div class=\"solc-time\">$5</div>\n  <div class=\"solc-div\"></div>\n  <div class=\"solc-info\">\n    <div class=\"solc-loc\">$3</div>\n    <div class=\"solc-sub\">\n      <span>$1 ($2)</span><span class=\"solc-dot\">✿</span><span>$4</span>\n    </div>\n  </div>\n</div>",
+    "trimStrings": [],
+    "placement": [
+        1,
+        2,
+        6
+    ],
+    "disabled": false,
+    "markdownOnly": true,
+    "promptOnly": false,
+    "runOnEdit": true,
+    "substituteRegex": 0,
+    "minDepth": null,
+    "maxDepth": null
+}

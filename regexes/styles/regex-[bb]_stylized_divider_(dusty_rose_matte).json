@@ -1,0 +1,19 @@
+{
+    "id": "b63d948d-09ec-4623-a98f-e3643bddc4f5",
+    "scriptName": "[BB] stylized divider (Dusty Rose Matte)",
+    "findRegex": "/(?:\\r?\\n)?\\s*\\*{3,}\\s*(?:\\r?\\n)?/g",
+    "replaceString": "<style>\n@keyframes solDivPulse { 0%, 100% { transform: scale(0.9); opacity: 0.7; } 50% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 4px rgba(209, 139, 157, 0.6)); } }\n.sold-wrap { display: flex; align-items: center; justify-content: center; margin: 32px 0; width: 100%; user-select: none; opacity: 0; animation: solFadeIn 1s ease-out forwards; }\n.sold-line { flex-grow: 1; height: 2px; background: repeating-linear-gradient(90deg, #D5B4BA 0, #D5B4BA 8px, transparent 8px, transparent 16px); }\n.sold-spark { font-size: 16px; color: #D18B9D; margin: 0 20px; animation: solDivPulse 3s infinite ease-in-out; line-height: 1; will-change: transform, opacity; font-family: sans-serif !important; }\n</style>\n<div class=\"sold-wrap\">\n  <div class=\"sold-line\"></div>\n  <div class=\"sold-spark\">✿</div>\n  <div class=\"sold-line\"></div>\n</div>",
+    "trimStrings": [],
+    "placement": [
+        1,
+        2,
+        6
+    ],
+    "disabled": false,
+    "markdownOnly": true,
+    "promptOnly": false,
+    "runOnEdit": true,
+    "substituteRegex": 0,
+    "minDepth": null,
+    "maxDepth": null
+}

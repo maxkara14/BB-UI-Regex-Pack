@@ -3,14 +3,23 @@ import {
     event_types,
     extension_prompt_roles,
     extension_prompt_types,
+    getCurrentChatId,
+    reloadCurrentChat,
     saveSettingsDebounced,
     setExtensionPrompt,
     substituteParams,
 } from "../../../../script.js";
 import { extension_settings } from "../../../extensions.js";
+import {
+    RegexProvider,
+    SCRIPT_TYPES,
+    getScriptsByType,
+    saveScriptsByType,
+} from "../../regex/engine.js";
 
 const extensionName = "BB-UI-Regex-Pack";
 const extensionFolderPath = `/scripts/extensions/third-party/${extensionName}`;
+const defaultStyleId = "default";
 
 // РЕЕСТР ДЕТАЛЕЙ С ЗАШИТЫМИ ПРОМПТАМИ
 const bbModules = [
@@ -351,20 +360,226 @@ Caption: [Tender or poetic caption in Russian]
     },
     { 
         id: "cleaners", 
-        files: ["regex-[bb]_hide_reasoning.json", "regex-[bb]_asterisk_fixer_(to_italics).json"],
+        files: [
+            "regex-[bb]_hide_reasoning.json",
+            "regex-[bb]_asterisk_fixer_(to_italics).json",
+            "regex-[fix]_opus_html_-_less_than.json",
+            "regex-[fix]_opus_html_-_greater_than.json",
+            "regex-[fix]_opus_html_-_quotes.json",
+        ],
         name: "🧹 cleaners"
     }
 ];
 
 let loadedRegexes = {};
+let allLoadedRegexes = {};
 let promptHooksRegistered = false;
 
+const bbModuleStyles = {
+    phone: [
+        { id: defaultStyleId, name: "Классический смартфон" },
+        {
+            id: "kimetsu",
+            name: "KimetsuPhone",
+            files: [
+                "styles/regex-[bb]_kimetsuphone_-_feed.json",
+                "styles/regex-[bb]_kimetsuphone_-_post.json",
+                "styles/regex-[bb]_kimetsuphone_-_story.json",
+                "styles/regex-[bb]_kimetsuphone_-_dm.json",
+            ],
+        },
+    ],
+    radio: [
+        { id: defaultStyleId, name: "Радио Каири" },
+        {
+            id: "akiko",
+            name: "Радио Акико",
+            files: ["styles/regex-[bb]_radio_(ня).json"],
+            promptFile: "styles/akiko.txt",
+        },
+        {
+            id: "lona",
+            name: "Радио Лона",
+            files: ["styles/regex-[bb]_lofi_podcast_(lona).json"],
+            promptFile: "styles/lona.txt",
+        },
+    ],
+    clocks: [
+        { id: defaultStyleId, name: "Классическое стекло" },
+        { id: "red_gold", name: "Красно-золотой", files: ["styles/regex-[bb]_clocks_(red_-_gold).json"] },
+        { id: "dusty_rose", name: "Пыльная роза", files: ["styles/regex-[bb]_clocks_(dusty_rose_textured).json"] },
+        { id: "silver", name: "Хроники Сильвера", files: ["styles/regex-[bb]_silver_clocks.json"] },
+    ],
+    transitions: [
+        { id: defaultStyleId, name: "Классическое стекло" },
+        {
+            id: "red_gold",
+            name: "Красно-золотой",
+            files: [
+                "styles/regex-[bb]_stylized_divider_(red_-_gold).json",
+                "styles/regex-[bb]_transitions_single_(red_-_gold).json",
+                "styles/regex-[bb]_transitions_paired_(red_-_gold).json",
+            ],
+        },
+        {
+            id: "dusty_rose",
+            name: "Пыльная роза",
+            files: [
+                "styles/regex-[bb]_stylized_divider_(dusty_rose_matte).json",
+                "styles/regex-[bb]_transitions_single_(dusty_rose_textured).json",
+                "styles/regex-[bb]_transitions_paired_(dusty_rose_textured).json",
+            ],
+        },
+        {
+            id: "silver",
+            name: "Хроники Сильвера",
+            files: [
+                "styles/regex-[bb]_silver_divider.json",
+                "styles/regex-[bb]_silver_transitions_single.json",
+                "styles/regex-[bb]_silver_transitions_paired.json",
+            ],
+        },
+    ],
+};
+
+for (const mod of bbModules) {
+    if (bbModuleStyles[mod.id]) {
+        mod.styles = bbModuleStyles[mod.id].map(style => ({
+            files: mod.files,
+            ...style,
+        }));
+    }
+}
+
 function getPromptModuleIds() {
-    return bbModules.filter(mod => mod.prompt).map(mod => mod.id);
+    return bbModules
+        .filter(mod => mod.prompt || getModuleStyles(mod).some(style => style.prompt || style.promptFile))
+        .map(mod => mod.id);
 }
 
 function getPromptInjectionKey(modId) {
     return `${extensionName}_${modId}`;
+}
+
+function getModuleStyles(mod) {
+    return Array.isArray(mod.styles) && mod.styles.length
+        ? mod.styles
+        : [{ id: defaultStyleId, name: "По умолчанию", files: mod.files, prompt: mod.prompt }];
+}
+
+function getSelectedStyleId(modId) {
+    return extension_settings[extensionName].styles?.[modId] || defaultStyleId;
+}
+
+function getSelectedStyle(mod) {
+    const selectedStyleId = getSelectedStyleId(mod.id);
+    return getModuleStyles(mod).find(style => style.id === selectedStyleId) || getModuleStyles(mod)[0];
+}
+
+function getStyleFiles(mod, style) {
+    return style.files || mod.files || [];
+}
+
+function getModulePrompt(mod) {
+    const style = getSelectedStyle(mod);
+    return style?.prompt ?? mod.prompt ?? "";
+}
+
+function isModuleStyleable(mod) {
+    return getModuleStyles(mod).length > 1;
+}
+
+function getAllModuleRegexes(modId) {
+    return Object.values(allLoadedRegexes[modId] || {}).flat();
+}
+
+function getAllModuleRegexIds(modId) {
+    return new Set(getAllModuleRegexes(modId).map(regexObj => regexObj.id));
+}
+
+function isManagedModuleRegex(modId, regexObj) {
+    const regexIds = getAllModuleRegexIds(modId);
+    if (regexIds.has(regexObj.id)) {
+        return true;
+    }
+
+    const scriptName = String(regexObj.scriptName || "").toLowerCase();
+    if (!scriptName.startsWith("[bb]")) {
+        return false;
+    }
+
+    switch (modId) {
+        case "phone":
+            return scriptName.startsWith("[bb] phone") || scriptName.startsWith("[bb] kimetsuphone");
+        case "radio":
+            return scriptName.startsWith("[bb] radio") || scriptName.startsWith("[bb] lofi podcast");
+        case "clocks":
+            return scriptName.includes("clocks");
+        case "transitions":
+            return scriptName.includes("divider") || scriptName.includes("transitions");
+        case "scene_cards":
+            return scriptName.startsWith("[bb] scene") || scriptName.startsWith("img ");
+        default:
+            return regexIds.has(regexObj.id);
+    }
+}
+
+function getEnabledRegexCopy(regexObj) {
+    return {
+        ...regexObj,
+        disabled: false,
+    };
+}
+
+function getRegexAssetUrls(file) {
+    const rawUrl = `${extensionFolderPath}/regexes/${file}`;
+    const encodedUrl = `${extensionFolderPath}/regexes/${file.split('/').map(part => encodeURIComponent(part)).join('/')}`;
+    return [...new Set([rawUrl, encodedUrl])];
+}
+
+async function fetchRegexAsset(file, type = "json") {
+    for (const url of getRegexAssetUrls(file)) {
+        try {
+            const response = await fetch(url);
+            if (response.ok) {
+                return type === "text" ? response.text() : response.json();
+            }
+        } catch (e) {
+            console.warn(`[BB RM] Не удалось загрузить файл: ${file}`);
+        }
+    }
+
+    throw new Error(`Regex asset not found: ${file}`);
+}
+
+async function loadStyleAssets(mod, style, force = false) {
+    if (!allLoadedRegexes[mod.id]) {
+        allLoadedRegexes[mod.id] = {};
+    }
+
+    if (!force && Array.isArray(allLoadedRegexes[mod.id][style.id])) {
+        return allLoadedRegexes[mod.id][style.id];
+    }
+
+    if (style.promptFile && !style.prompt) {
+        try {
+            style.prompt = await fetchRegexAsset(style.promptFile, "text");
+        } catch (e) {
+            console.warn(`[BB RM] Не удалось загрузить промпт стиля: ${style.promptFile}`);
+        }
+    }
+
+    const styleRegexes = [];
+    for (const file of getStyleFiles(mod, style)) {
+        try {
+            styleRegexes.push(await fetchRegexAsset(file));
+        } catch (e) {
+            console.warn(`[BB RM] Не удалось загрузить деталь: ${file}`);
+        }
+    }
+
+    allLoadedRegexes[mod.id][style.id] = styleRegexes;
+    return styleRegexes;
 }
 
 function migrateAutoPromptSettings() {
@@ -417,22 +632,25 @@ jQuery(async () => {
         }
 
         if (!extension_settings[extensionName]) {
-            extension_settings[extensionName] = { enabled: [], autoPrompts: {}, autoPromptsVersion: 2 };
+            extension_settings[extensionName] = { enabled: [], autoPrompts: {}, autoPromptsVersion: 2, styles: {} };
         }
         if (!Array.isArray(extension_settings[extensionName].enabled)) {
             extension_settings[extensionName].enabled = [];
         }
+        if (!extension_settings[extensionName].styles || typeof extension_settings[extensionName].styles !== "object" || Array.isArray(extension_settings[extensionName].styles)) {
+            extension_settings[extensionName].styles = {};
+        }
+        bbModules.forEach(mod => {
+            if (!extension_settings[extensionName].styles[mod.id]) {
+                extension_settings[extensionName].styles[mod.id] = defaultStyleId;
+            }
+        });
         migrateAutoPromptSettings();
         if (!Array.isArray(extension_settings.regex)) {
             extension_settings.regex = [];
         }
-        // @ts-ignore
-        if (!Array.isArray(window.regex_data)) {
-            // @ts-ignore
-            window.regex_data = [];
-        }
-
         await loadRegexFiles();
+        await syncEnabledModuleRegexes();
         syncPromptInjections();
         registerPromptInjectionHooks();
         renderManagerUI();
@@ -444,17 +662,20 @@ jQuery(async () => {
 
 async function loadRegexFiles() {
     for (const mod of bbModules) {
-        loadedRegexes[mod.id] = [];
-        for (const file of mod.files) {
-            try {
-                const response = await fetch(`${extensionFolderPath}/regexes/${file}`);
-                if (response.ok) {
-                    const parsed = await response.json();
-                    loadedRegexes[mod.id].push(parsed);
-                }
-            } catch (e) {
-                console.warn(`[BB RM] Не удалось загрузить деталь: ${file}`);
-            }
+        allLoadedRegexes[mod.id] = {};
+
+        for (const style of getModuleStyles(mod)) {
+            await loadStyleAssets(mod, style, true);
+        }
+
+        const selectedStyle = getSelectedStyle(mod);
+        loadedRegexes[mod.id] = allLoadedRegexes[mod.id][selectedStyle.id] || [];
+
+        if (loadedRegexes[mod.id].length === 0 && selectedStyle.id !== defaultStyleId) {
+            const defaultStyle = getModuleStyles(mod).find(style => style.id === defaultStyleId) || getModuleStyles(mod)[0];
+            loadedRegexes[mod.id] = allLoadedRegexes[mod.id][defaultStyle.id] || [];
+            extension_settings[extensionName].styles[mod.id] = defaultStyle.id;
+            console.warn(`[BB RM] Стиль ${selectedStyle.name} не загрузился. Возвращаю ${defaultStyle.name}.`);
         }
     }
 }
@@ -469,11 +690,19 @@ function renderManagerUI() {
         if (!loadedRegexes[mod.id] || loadedRegexes[mod.id].length === 0) return;
 
         const isEnabled = extension_settings[extensionName].enabled.includes(mod.id);
-        const hasPrompt = Boolean(mod.prompt);
+        const modulePrompt = getModulePrompt(mod);
+        const hasPrompt = Boolean(modulePrompt);
         const isPromptEnabled = hasPrompt && isModulePromptEnabled(mod.id);
         const promptTitle = isPromptEnabled
             ? "Автопромпт включен"
             : "Автопромпт выключен";
+        const styles = getModuleStyles(mod);
+        const selectedStyle = getSelectedStyle(mod);
+        const styleSelectHtml = isModuleStyleable(mod) ? `
+            <select class="bb-rm-style-select" data-mod-id="${mod.id}" title="Стиль модуля">
+                ${styles.map(style => `<option value="${style.id}" ${style.id === selectedStyle.id ? "selected" : ""}>${style.name}</option>`).join("")}
+            </select>
+        ` : "";
 
         const promptBtnHtml = hasPrompt ? `
             <button class="bb-rm-prompt-toggle ${isPromptEnabled ? "is-on" : ""}" type="button" data-mod-id="${mod.id}" title="${promptTitle}">
@@ -490,11 +719,14 @@ function renderManagerUI() {
 
         const cardHtml = `
             <div class="bb-rm-card ${isEnabled ? "is-enabled" : ""}">
-                <label class="bb-rm-main-toggle">
-                    <input type="checkbox" data-mod-id="${mod.id}" ${isEnabled ? "checked" : ""}>
-                    <span class="bb-rm-switch" aria-hidden="true"></span>
-                    <span class="bb-rm-module-name">${mod.name}</span>
-                </label>
+                <div class="bb-rm-module-block">
+                    <label class="bb-rm-main-toggle">
+                        <input type="checkbox" data-mod-id="${mod.id}" ${isEnabled ? "checked" : ""}>
+                        <span class="bb-rm-switch" aria-hidden="true"></span>
+                        <span class="bb-rm-module-name">${mod.name}</span>
+                    </label>
+                    ${styleSelectHtml}
+                </div>
                 <div class="bb-rm-actions">
                     ${promptBtnHtml}
                     ${copyBtnHtml}
@@ -508,6 +740,13 @@ function renderManagerUI() {
         const modId = $(this).data("mod-id");
         const isChecked = $(this).is(":checked");
         toggleRegex(modId, isChecked);
+    });
+
+    listContainer.find(".bb-rm-style-select").on("change", async function() {
+        const modId = $(this).data("mod-id");
+        const styleId = String($(this).val());
+        $(this).prop("disabled", true);
+        await changeModuleStyle(modId, styleId);
     });
 
     listContainer.off("click", ".bb-rm-prompt-toggle").on("click", ".bb-rm-prompt-toggle", function(e) {
@@ -531,10 +770,10 @@ function renderManagerUI() {
         const modId = $(this).data("mod-id");
         const mod = bbModules.find(m => m.id === modId);
         
-        if (mod && mod.prompt) {
+        if (mod && getModulePrompt(mod)) {
             // Пытаемся использовать современный API (если есть HTTPS или localhost)
             if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(mod.prompt).then(() => {
+                navigator.clipboard.writeText(getModulePrompt(mod)).then(() => {
                     // @ts-ignore
                     toastr.success(`Промпт скопирован:\n${mod.name}`);
                 }).catch(err => {
@@ -545,7 +784,7 @@ function renderManagerUI() {
             } else {
                 // 🔧 Гидравлический фоллбек для HTTP (локальные сети)
                 let textArea = document.createElement("textarea");
-                textArea.value = mod.prompt;
+                textArea.value = getModulePrompt(mod);
                 
                 // Прячем поле далеко за пределы экрана
                 textArea.style.position = "fixed";
@@ -575,8 +814,9 @@ function renderManagerUI() {
 
 function setModulePromptInjection(modId) {
     const mod = bbModules.find(m => m.id === modId);
-    const value = isModulePromptEnabled(modId) && mod?.prompt
-        ? mod.prompt
+    const prompt = mod ? getModulePrompt(mod) : "";
+    const value = isModulePromptEnabled(modId) && prompt
+        ? prompt
         : "";
 
     setExtensionPrompt(
@@ -596,7 +836,7 @@ function syncPromptInjections() {
 }
 
 function getEnabledPromptModules() {
-    return bbModules.filter(mod => mod.prompt && isModulePromptEnabled(mod.id));
+    return bbModules.filter(mod => getModulePrompt(mod) && isModulePromptEnabled(mod.id));
 }
 
 function isPromptAlreadyInChat(chat, prompt) {
@@ -615,10 +855,10 @@ function injectMissingChatCompletionPrompts(eventData) {
     }
 
     const missingPrompts = getEnabledPromptModules()
-        .filter(mod => !isPromptAlreadyInChat(eventData.chat, mod.prompt))
+        .filter(mod => !isPromptAlreadyInChat(eventData.chat, getModulePrompt(mod)))
         .map(mod => ({
             role: "system",
-            content: substituteParams(mod.prompt),
+            content: substituteParams(getModulePrompt(mod)),
         }));
 
     if (!missingPrompts.length) {
@@ -636,7 +876,7 @@ function injectMissingTextCompletionPrompts(eventData) {
     }
 
     const missingPrompts = getEnabledPromptModules()
-        .map(mod => substituteParams(mod.prompt).trim())
+        .map(mod => substituteParams(getModulePrompt(mod)).trim())
         .filter(prompt => prompt && !eventData.prompt.includes(prompt));
 
     if (!missingPrompts.length) {
@@ -662,57 +902,95 @@ function registerPromptInjectionHooks() {
     eventSource.on(event_types.CHAT_COMPLETION_PROMPT_READY, injectMissingChatCompletionPrompts);
 }
 
+async function setModuleRegexes(modId, regexList = []) {
+    const nextGlobalRegexes = getScriptsByType(SCRIPT_TYPES.GLOBAL)
+        .filter(regexObj => !isManagedModuleRegex(modId, regexObj));
+
+    regexList.map(getEnabledRegexCopy).forEach(regexObj => {
+        const existingIndex = nextGlobalRegexes.findIndex(item => item.id === regexObj.id);
+        if (existingIndex === -1) {
+            nextGlobalRegexes.push(regexObj);
+        } else {
+            nextGlobalRegexes[existingIndex] = regexObj;
+        }
+    });
+
+    await saveScriptsByType(nextGlobalRegexes, SCRIPT_TYPES.GLOBAL);
+    RegexProvider.instance.clear();
+}
+
+async function reloadCurrentChatForRegex() {
+    if (getCurrentChatId()) {
+        await reloadCurrentChat();
+    }
+}
+
+async function syncEnabledModuleRegexes() {
+    const enabledModuleIds = extension_settings[extensionName].enabled || [];
+
+    for (const modId of enabledModuleIds) {
+        if (loadedRegexes[modId]?.length) {
+            await setModuleRegexes(modId, loadedRegexes[modId]);
+        }
+    }
+}
+
+async function changeModuleStyle(modId, styleId) {
+    const mod = bbModules.find(m => m.id === modId);
+    if (!mod) return;
+
+    const style = getModuleStyles(mod).find(item => item.id === styleId) || getModuleStyles(mod)[0];
+    const nextRegexes = await loadStyleAssets(mod, style, true);
+    const hasRegexFiles = getStyleFiles(mod, style).length > 0;
+    const isEnabled = extension_settings[extensionName].enabled.includes(modId);
+
+    if (hasRegexFiles && nextRegexes.length === 0) {
+        renderManagerUI();
+        // @ts-ignore
+        toastr.error(`Стиль не загрузился:\n${mod.name} · ${style.name}`);
+        return;
+    }
+
+    extension_settings[extensionName].styles[modId] = style.id;
+    loadedRegexes[modId] = nextRegexes;
+
+    if (isEnabled) {
+        await setModuleRegexes(modId, nextRegexes);
+    }
+
+    setModulePromptInjection(modId);
+    saveSettingsDebounced();
+    renderManagerUI();
+    if (isEnabled) {
+        await reloadCurrentChatForRegex();
+    }
+
+    // @ts-ignore
+    toastr.info(`Стиль выбран:\n${mod.name} · ${style.name}`);
+}
+
 async function toggleRegex(modId, isChecked) {
     const regexList = loadedRegexes[modId];
     if (!regexList || regexList.length === 0) return;
 
     let enabledList = extension_settings[extensionName].enabled;
-
-    // @ts-ignore
-    if (!Array.isArray(window.regex_data)) window.regex_data = [];
     if (!Array.isArray(extension_settings.regex)) extension_settings.regex = [];
 
     if (isChecked) {
         if (!enabledList.includes(modId)) enabledList.push(modId);
-        
-        regexList.forEach(regexObj => {
-            const exists = extension_settings.regex.findIndex(r => r.id === regexObj.id);
-            if (exists === -1) extension_settings.regex.push(regexObj);
-            else extension_settings.regex[exists] = regexObj; 
-
-            // @ts-ignore
-            const existsLive = window.regex_data.findIndex(r => r.id === regexObj.id);
-            if (existsLive === -1) {
-                // @ts-ignore
-                window.regex_data.push(regexObj);
-            } else {
-                // @ts-ignore
-                window.regex_data[existsLive] = regexObj;
-            }
-        });
+        await setModuleRegexes(modId, regexList);
 
         // @ts-ignore
         toastr.success(`Включено:\n${bbModules.find(m => m.id === modId).name}`);
     } else {
         extension_settings[extensionName].enabled = enabledList.filter(id => id !== modId);
-        
-        regexList.forEach(regexObj => {
-            extension_settings.regex = extension_settings.regex.filter(r => r.id !== regexObj.id);
-            // @ts-ignore
-            window.regex_data = window.regex_data.filter(r => r.id !== regexObj.id);
-        });
+        await setModuleRegexes(modId, []);
         
         // @ts-ignore
         toastr.info(`Выключено:\n${bbModules.find(m => m.id === modId).name}`);
     }
 
     saveSettingsDebounced();
-    
-    // @ts-ignore
-    if (typeof window.populateRegex === 'function') {
-        // @ts-ignore
-        window.populateRegex();
-    }
-
     renderManagerUI();
+    await reloadCurrentChatForRegex();
 }

@@ -1,4 +1,12 @@
-import { saveSettingsDebounced } from "../../../../script.js";
+import {
+    eventSource,
+    event_types,
+    extension_prompt_roles,
+    extension_prompt_types,
+    saveSettingsDebounced,
+    setExtensionPrompt,
+    substituteParams,
+} from "../../../../script.js";
 import { extension_settings } from "../../../extensions.js";
 
 const extensionName = "BB-UI-Regex-Pack";
@@ -116,7 +124,101 @@ Comm_3: [Emoji] | [@username] | [Random internet comment / Shitpost]
 Battery: [0-100]
 ::OS_END::`
     },
-    { 
+    {
+        id: "orbs",
+        files: ["regex-[bb]_lore_orb.json"],
+        name: "🔮 lore orbs",
+        prompt: `[SYSTEM INSTRUCTION: LORE ORBS]
+You are the hidden generator of beautiful lore orbs for the current roleplay world.
+
+At the very end of EVERY assistant response, after the roleplay text, generate EXACTLY ONE hidden orb data block.
+Do not explain the block. Do not wrap it in markdown. Do not generate more than one orb.
+
+The orb is not a HUD, journal, status tracker, phone, assistant, or quest log.
+It is a small magical-lore artifact: when opened, it reveals a fragment of lore, memory, rumor, observation, dream, record, omen, sensory trace, or human detail connected to the current setting.
+
+Language: Russian, unless the roleplay explicitly uses another language.
+Fragment style: atmospheric, useful, canon-friendly, and concise unless the selected type allows a longer text.
+Text must enrich the world without forcing {{user}} to follow it.
+Do not spoil major hidden truths too directly. Prefer suggestive fragments, small human details, partial records, unreliable recollections, and playable implications.
+
+<orb_rules>
+1. Generate exactly one block using this exact marker pair:
+::LORE_ORB_START::
+...
+::LORE_ORB_END::
+
+2. Text is always the last field before ::LORE_ORB_END::. Text may contain multiple lines or short paragraphs.
+3. Do not use markdown formatting inside the block.
+4. Orb_ID must be random digits, 5-7 characters, unique-looking.
+5. Aura_Source is visible after the orb opens. It may be a character, place, faction, creature, artifact, anomaly, family, rumor-source, profession, event, deity, law, dream-symbol, or other lore anchor.
+6. If the current scene strongly features an existing character or lore anchor, choose that as Aura_Source. If not, choose a fitting source from the setting's mood. You may invent a minor source only when it feels like natural world texture, not a major new truth.
+7. The orb itself should feel like an optional reward, not a command. The fragment may hint, deepen, contrast, foreshadow, humanize, or make the world feel lived-in.
+8. Fragment_Type controls length:
+   - След: 1 sentence, sharp and sensory.
+   - Факт: 1-2 sentences, clean and useful.
+   - Деталь: 2-3 sentences, grounded and atmospheric.
+   - Слух: 2-3 sentences, local, uncertain, socially colored.
+   - Чужие слова: 2-4 sentences, a remembered quote or overheard line.
+   - Пометка: 2-4 sentences, practical, official, clinical, arcane, or craft-like.
+   - Запись: 3-5 sentences, like a diary, file, note, chronicle, message, or archive fragment.
+   - Воспоминание: 1-3 short paragraphs, emotional or character-revealing.
+   - Сон: 1-3 short paragraphs, symbolic, strange, but still tied to the setting.
+   - Предание: 1-3 short paragraphs, mythic, folkloric, or half-true.
+9. Fragment_Length must match the chosen type:
+   Tiny for След.
+   Short for Факт, Деталь, Слух, Чужие слова.
+   Medium for Пометка, Запись.
+   Long for Воспоминание, Сон, Предание.
+10. Rarity:
+   Common: ordinary world texture.
+   Uncommon: character detail, useful lore, subtle foreshadowing.
+   Rare: emotionally sharp, politically sensitive, magical, forbidden, or unusually revealing.
+   Anomaly: strange, unstable, dreamlike, biologically uncanny, divine, cursed, glitched, or reality-bent.
+11. Do not repeat the same Fragment_Type too often. Vary between sensory traces, rumors, memories, records, dreams, and small facts.
+</orb_rules>
+
+<palette_rules>
+Choose Palette_A, Palette_B, and Palette_Glow yourself from the current lore.
+
+Palette_A: the dominant emotional or symbolic color of Aura_Source.
+Palette_B: the contrasting shadow, danger, element, allegiance, wound, memory, or secondary motif.
+Palette_Glow: the bright inner light of the orb, readable against a dark blurred background.
+
+Use valid hex colors.
+If Aura_Source has established colors, honor them.
+If Aura_Source has no established colors, infer them from imagery, temperament, element, faction, magic, environment, clothing, history, or scene mood.
+Avoid three colors that are all too dark, all too pale, or too similar.
+Avoid random neon unless the source truly calls for it.
+The palette should make the orb identifiable before opening and meaningful after opening.
+</palette_rules>
+
+<source_guidance>
+Character source: reveal a memory, habit, fear, line of speech, private contradiction, or relationship texture.
+Place source: reveal local rumor, sensory detail, history, social rule, danger, or ordinary life.
+Faction source: reveal doctrine, propaganda, internal tension, practical routine, or public misconception.
+Artifact source: reveal use, origin, handling taboo, old owner, hidden cost, or sensory trace.
+Creature source: reveal behavior, folklore, ecological detail, threat pattern, or misunderstood tenderness.
+Anomaly or magic source: reveal symptom, unstable law, impossible trace, dream logic, or dangerous beauty.
+Unknown minor source: keep it small, plausible, and useful as texture.
+</source_guidance>
+
+Output template:
+
+::LORE_ORB_START::
+Orb_ID: [random 5-7 digits]
+Aura_Source: [visible source of the orb, 1-5 words]
+Palette_A: [hex color]
+Palette_B: [hex color]
+Palette_Glow: [hex color]
+Rarity: [Common / Uncommon / Rare / Anomaly]
+Fragment_Type: [След / Факт / Деталь / Слух / Чужие слова / Пометка / Запись / Воспоминание / Сон / Предание]
+Fragment_Length: [Tiny / Short / Medium / Long]
+Title: [short poetic title, 2-7 words]
+Text: [fragment text; may be one sentence or several short paragraphs depending on Fragment_Length]
+::LORE_ORB_END::`
+    },
+    {
         id: "radio", 
         files: ["regex-[bb]_radio.json"], 
         name: "🎙️ radio",
@@ -255,6 +357,46 @@ Caption: [Tender or poetic caption in Russian]
 ];
 
 let loadedRegexes = {};
+let promptHooksRegistered = false;
+
+function getPromptModuleIds() {
+    return bbModules.filter(mod => mod.prompt).map(mod => mod.id);
+}
+
+function getPromptInjectionKey(modId) {
+    return `${extensionName}_${modId}`;
+}
+
+function migrateAutoPromptSettings() {
+    const settings = extension_settings[extensionName];
+    const current = settings.autoPrompts;
+
+    if (typeof current === "boolean") {
+        settings.autoPrompts = {};
+        getPromptModuleIds().forEach(id => {
+            settings.autoPrompts[id] = current;
+        });
+        return;
+    }
+
+    if (!current || typeof current !== "object" || Array.isArray(current)) {
+        settings.autoPrompts = {};
+    }
+
+    getPromptModuleIds().forEach(id => {
+        if (typeof settings.autoPrompts[id] !== "boolean") {
+            settings.autoPrompts[id] = true;
+        }
+    });
+}
+
+function isModulePromptEnabled(modId) {
+    return extension_settings[extensionName].autoPrompts?.[modId] === true;
+}
+
+function setModulePromptEnabled(modId, isEnabled) {
+    extension_settings[extensionName].autoPrompts[modId] = Boolean(isEnabled);
+}
 
 jQuery(async () => {
     try {
@@ -266,11 +408,12 @@ jQuery(async () => {
         }
 
         if (!extension_settings[extensionName]) {
-            extension_settings[extensionName] = { enabled: [] };
+            extension_settings[extensionName] = { enabled: [], autoPrompts: {} };
         }
         if (!Array.isArray(extension_settings[extensionName].enabled)) {
             extension_settings[extensionName].enabled = [];
         }
+        migrateAutoPromptSettings();
         if (!Array.isArray(extension_settings.regex)) {
             extension_settings.regex = [];
         }
@@ -281,6 +424,8 @@ jQuery(async () => {
         }
 
         await loadRegexFiles();
+        syncPromptInjections();
+        registerPromptInjectionHooks();
         renderManagerUI();
 
     } catch (e) {
@@ -307,37 +452,68 @@ async function loadRegexFiles() {
 
 function renderManagerUI() {
     const listContainer = $("#bb-rm-list");
-    if (!listContainer.length) return; 
+    if (!listContainer.length) return;
     
     listContainer.empty();
 
     bbModules.forEach(mod => {
-        if (!loadedRegexes[mod.id] || loadedRegexes[mod.id].length === 0) return; 
+        if (!loadedRegexes[mod.id] || loadedRegexes[mod.id].length === 0) return;
 
         const isEnabled = extension_settings[extensionName].enabled.includes(mod.id);
+        const hasPrompt = Boolean(mod.prompt);
+        const isPromptEnabled = hasPrompt && isModulePromptEnabled(mod.id);
+        const promptTitle = isPromptEnabled
+            ? (isEnabled ? "Автопромпт активен" : "Автопромпт включится вместе с модулем")
+            : "Автопромпт выключен";
 
-        const copyBtnHtml = mod.prompt ? `
-            <div class="bb-rm-copy" data-mod-id="${mod.id}" title="Скопировать системный промпт">
+        const promptBtnHtml = hasPrompt ? `
+            <button class="bb-rm-prompt-toggle ${isPromptEnabled ? "is-on" : ""}" type="button" data-mod-id="${mod.id}" title="${promptTitle}">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>Промпт</span>
+            </button>
+        ` : '';
+
+        const copyBtnHtml = hasPrompt ? `
+            <button class="bb-rm-copy" type="button" data-mod-id="${mod.id}" title="Скопировать системный промпт">
                 <i class="fa-solid fa-copy"></i>
-            </div>
+            </button>
         ` : '';
 
         const cardHtml = `
-            <div class="bb-rm-card" style="display: flex; justify-content: space-between; align-items: center;">
-                <label style="flex-grow: 1; display: flex; align-items: center; gap: 12px; margin: 0; cursor: pointer;">
+            <div class="bb-rm-card ${isEnabled ? "is-enabled" : ""}">
+                <label class="bb-rm-main-toggle">
                     <input type="checkbox" data-mod-id="${mod.id}" ${isEnabled ? "checked" : ""}>
-                    ${mod.name}
+                    <span class="bb-rm-switch" aria-hidden="true"></span>
+                    <span class="bb-rm-module-name">${mod.name}</span>
                 </label>
-                ${copyBtnHtml}
+                <div class="bb-rm-actions">
+                    ${promptBtnHtml}
+                    ${copyBtnHtml}
+                </div>
             </div>
         `;
         listContainer.append(cardHtml);
     });
 
-    listContainer.find("input[type=checkbox]").on("change", function() {
+    listContainer.find(".bb-rm-main-toggle input[type=checkbox]").on("change", function() {
         const modId = $(this).data("mod-id");
         const isChecked = $(this).is(":checked");
         toggleRegex(modId, isChecked);
+    });
+
+    listContainer.off("click", ".bb-rm-prompt-toggle").on("click", ".bb-rm-prompt-toggle", function(e) {
+        e.preventDefault();
+        const modId = $(this).data("mod-id");
+        const mod = bbModules.find(m => m.id === modId);
+        const nextValue = !isModulePromptEnabled(modId);
+
+        setModulePromptEnabled(modId, nextValue);
+        setModulePromptInjection(modId, extension_settings[extensionName].enabled.includes(modId));
+        saveSettingsDebounced();
+        renderManagerUI();
+
+        // @ts-ignore
+        toastr.info(`${nextValue ? "Автопромпт включен" : "Автопромпт выключен"}:\n${mod?.name || modId}`);
     });
 
     // Делегирование событий (надежнее, если элементы перерисовываются)
@@ -388,6 +564,98 @@ function renderManagerUI() {
     });
 }
 
+function setModulePromptInjection(modId, isEnabled) {
+    const mod = bbModules.find(m => m.id === modId);
+    const value = isEnabled && isModulePromptEnabled(modId) && mod?.prompt
+        ? mod.prompt
+        : "";
+
+    setExtensionPrompt(
+        getPromptInjectionKey(modId),
+        value,
+        extension_prompt_types.IN_PROMPT,
+        0,
+        false,
+        extension_prompt_roles.SYSTEM,
+    );
+}
+
+function syncPromptInjections() {
+    const enabledList = extension_settings[extensionName].enabled || [];
+
+    bbModules.forEach(mod => {
+        setModulePromptInjection(mod.id, enabledList.includes(mod.id));
+    });
+}
+
+function getEnabledPromptModules() {
+    const enabledList = extension_settings[extensionName].enabled || [];
+    return bbModules.filter(mod => enabledList.includes(mod.id) && mod.prompt && isModulePromptEnabled(mod.id));
+}
+
+function isPromptAlreadyInChat(chat, prompt) {
+    const rawPrompt = prompt.trim();
+    const substitutedPrompt = substituteParams(rawPrompt);
+
+    return chat.some(message => {
+        const content = String(message?.content || "");
+        return content.includes(rawPrompt) || content.includes(substitutedPrompt);
+    });
+}
+
+function injectMissingChatCompletionPrompts(eventData) {
+    if (!eventData || !Array.isArray(eventData.chat)) {
+        return;
+    }
+
+    const missingPrompts = getEnabledPromptModules()
+        .filter(mod => !isPromptAlreadyInChat(eventData.chat, mod.prompt))
+        .map(mod => ({
+            role: "system",
+            content: substituteParams(mod.prompt),
+        }));
+
+    if (!missingPrompts.length) {
+        return;
+    }
+
+    const firstNonSystemIndex = eventData.chat.findIndex(message => message?.role !== "system");
+    const insertIndex = firstNonSystemIndex === -1 ? eventData.chat.length : firstNonSystemIndex;
+    eventData.chat.splice(insertIndex, 0, ...missingPrompts);
+}
+
+function injectMissingTextCompletionPrompts(eventData) {
+    if (!eventData || typeof eventData.prompt !== "string") {
+        return;
+    }
+
+    const missingPrompts = getEnabledPromptModules()
+        .map(mod => substituteParams(mod.prompt).trim())
+        .filter(prompt => prompt && !eventData.prompt.includes(prompt));
+
+    if (!missingPrompts.length) {
+        return;
+    }
+
+    eventData.prompt = `${eventData.prompt}\n\n${missingPrompts.join("\n\n")}`;
+}
+
+function registerPromptInjectionHooks() {
+    if (promptHooksRegistered) {
+        return;
+    }
+
+    promptHooksRegistered = true;
+
+    const resync = () => syncPromptInjections();
+    eventSource.on(event_types.GENERATION_STARTED, resync);
+    eventSource.on(event_types.GENERATION_AFTER_COMMANDS, resync);
+    eventSource.on(event_types.GENERATE_BEFORE_COMBINE_PROMPTS, resync);
+    eventSource.on(event_types.GENERATE_AFTER_COMBINE_PROMPTS, injectMissingTextCompletionPrompts);
+    eventSource.on(event_types.CHAT_CHANGED, resync);
+    eventSource.on(event_types.CHAT_COMPLETION_PROMPT_READY, injectMissingChatCompletionPrompts);
+}
+
 async function toggleRegex(modId, isChecked) {
     const regexList = loadedRegexes[modId];
     if (!regexList || regexList.length === 0) return;
@@ -432,6 +700,7 @@ async function toggleRegex(modId, isChecked) {
         toastr.info(`Выключено:\n${bbModules.find(m => m.id === modId).name}`);
     }
 
+    setModulePromptInjection(modId, isChecked);
     saveSettingsDebounced();
     
     // @ts-ignore
@@ -439,4 +708,6 @@ async function toggleRegex(modId, isChecked) {
         // @ts-ignore
         window.populateRegex();
     }
+
+    renderManagerUI();
 }

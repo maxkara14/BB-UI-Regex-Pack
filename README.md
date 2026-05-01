@@ -39,10 +39,6 @@ https://github.com/0xl0cal/sillyimages
 
 <img width="1131" height="643" alt="BB UI Regex phone" src="https://github.com/user-attachments/assets/74469c82-914c-421d-971c-14ccc39a6af9" />
 
-<img width="432" height="489" alt="BB UI Regex lore orb" src="https://github.com/user-attachments/assets/20a4d361-3bd9-4f3b-bd8a-5535f267fb5a" />
-
-<img width="458" height="594" alt="BB UI Regex Manager" src="https://github.com/user-attachments/assets/d5cc7195-d6af-4f6e-ab46-22f40ee56c11" />
-
 ## Установка
 
 1. Откройте SillyTavern.

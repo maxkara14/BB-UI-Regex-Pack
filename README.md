@@ -37,9 +37,9 @@ https://github.com/0xl0cal/sillyimages
 
 ## Скриншоты
 
-<img width="1498" height="742" alt="BB UI Regex transitions" src="https://github.com/user-attachments/assets/43ef2366-d486-45ae-8db4-a4f65c16d4a3" />
-
 <img width="1131" height="643" alt="BB UI Regex phone" src="https://github.com/user-attachments/assets/74469c82-914c-421d-971c-14ccc39a6af9" />
+
+<img width="1498" height="742" alt="BB UI Regex transitions" src="https://github.com/user-attachments/assets/43ef2366-d486-45ae-8db4-a4f65c16d4a3" />
 
 <img width="432" height="489" alt="BB UI Regex lore orb" src="https://github.com/user-attachments/assets/20a4d361-3bd9-4f3b-bd8a-5535f267fb5a" />
 

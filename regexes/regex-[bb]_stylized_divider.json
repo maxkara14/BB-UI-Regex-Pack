@@ -1,13 +1,11 @@
 {
     "id": "5148a862-733a-47dd-b598-318be3743873",
     "scriptName": "[BB] stylized divider",
-    "findRegex": "/(?:\\r?\\n)?\\s*\\*{3,}\\s*(?:\\r?\\n)?/g",
-    "replaceString": "<style>\n@keyframes vnDivPulse { 0%, 100% { opacity: 0.3; transform: scaleX(0.8); } 50% { opacity: 0.8; transform: scaleX(1); } }\n@keyframes vnStarSpin { 0% { transform: rotate(0deg) scale(0.8); filter: drop-shadow(0 0 2px rgba(255,255,255,0.4)); } 50% { transform: rotate(180deg) scale(1.2); filter: drop-shadow(0 0 10px rgba(253,224,71,0.8)); } 100% { transform: rotate(360deg) scale(0.8); filter: drop-shadow(0 0 2px rgba(255,255,255,0.4)); } }\n.vnd-wrap { display: flex; align-items: center; justify-content: center; margin: 36px 0; width: 100%; user-select: none; opacity: 0; animation: vnFadeIn 1s ease-out forwards; }\n.vnd-line { flex-grow: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); animation: vnDivPulse 4s infinite ease-in-out; }\n.vnd-star { font-size: 16px; color: rgba(255,255,255,0.9); margin: 0 24px; animation: vnStarSpin 8s infinite linear; line-height: 1; text-shadow: 0 0 5px rgba(253,224,71,0.5); }\n</style>\n<div class=\"vnd-wrap\">\n  <div class=\"vnd-line\"></div>\n  <div class=\"vnd-star\">✦</div>\n  <div class=\"vnd-line\"></div>\n</div>",
+    "findRegex": "/(^|\\r?\\n)[\\t ]*\\*{3,}[\\t ]*(?=\\r?\\n|$)/g",
+    "replaceString": "$1<div class=\"vnd-wrap\">\n  <div class=\"vnd-line\"></div>\n  <div class=\"vnd-star\">&#10022;</div>\n  <div class=\"vnd-line\"></div>\n</div>",
     "trimStrings": [],
     "placement": [
-        1,
-        2,
-        6
+        2
     ],
     "disabled": false,
     "markdownOnly": true,

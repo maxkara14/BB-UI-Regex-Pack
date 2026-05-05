@@ -205,3 +205,162 @@
         max-width: none;
     }
 }
+
+@keyframes bbDividerFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bbVndLinePulse {
+    0%, 100% { opacity: 0.3; transform: scaleX(0.8); }
+    50% { opacity: 0.8; transform: scaleX(1); }
+}
+
+@keyframes bbVndStarSpin {
+    0% { transform: rotate(0deg) scale(0.8); filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.4)); }
+    50% { transform: rotate(180deg) scale(1.2); filter: drop-shadow(0 0 10px rgba(253, 224, 71, 0.8)); }
+    100% { transform: rotate(360deg) scale(0.8); filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.4)); }
+}
+
+.mes_text .custom-vnd-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 36px 0;
+    width: 100%;
+    user-select: none;
+    opacity: 0;
+    animation: bbDividerFadeIn 1s ease-out forwards;
+}
+
+.mes_text .custom-vnd-line {
+    flex-grow: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: bbVndLinePulse 4s infinite ease-in-out;
+}
+
+.mes_text .custom-vnd-star {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 24px;
+    animation: bbVndStarSpin 8s infinite linear;
+    line-height: 1;
+    text-shadow: 0 0 5px rgba(253, 224, 71, 0.5);
+}
+
+@keyframes bbKDividerBreath {
+    0%, 100% { opacity: 0.5; transform: scaleX(0.95); }
+    50% { opacity: 1; transform: scaleX(1); }
+}
+
+@keyframes bbKDividerCoreSpin {
+    0% { transform: rotate(45deg) scale(0.8); box-shadow: 0 0 4px rgba(212, 175, 55, 0.4); }
+    50% { transform: rotate(225deg) scale(1.1); box-shadow: 0 0 10px rgba(212, 175, 55, 0.9); }
+    100% { transform: rotate(405deg) scale(0.8); box-shadow: 0 0 4px rgba(212, 175, 55, 0.4); }
+}
+
+.mes_text .custom-k-divider-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 32px 0;
+    width: 100%;
+    user-select: none;
+    opacity: 0;
+    animation: bbDividerFadeIn 0.8s ease-out forwards;
+}
+
+.mes_text .custom-k-div-line {
+    flex-grow: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.5), transparent);
+    animation: bbKDividerBreath 4s infinite ease-in-out;
+}
+
+.mes_text .custom-k-div-core {
+    width: 5px;
+    height: 5px;
+    background: #d4af37;
+    margin: 0 20px;
+    animation: bbKDividerCoreSpin 6s infinite linear;
+}
+
+@keyframes bbSolDividerPulse {
+    0%, 100% { transform: scale(0.9); opacity: 0.7; }
+    50% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 4px rgba(209, 139, 157, 0.6)); }
+}
+
+.mes_text .custom-sold-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 32px 0;
+    width: 100%;
+    user-select: none;
+    opacity: 0;
+    animation: bbDividerFadeIn 1s ease-out forwards;
+}
+
+.mes_text .custom-sold-line {
+    flex-grow: 1;
+    height: 2px;
+    background: repeating-linear-gradient(90deg, #d5b4ba 0, #d5b4ba 8px, transparent 8px, transparent 16px);
+}
+
+.mes_text .custom-sold-spark {
+    font-size: 16px;
+    color: #d18b9d;
+    margin: 0 20px;
+    animation: bbSolDividerPulse 3s infinite ease-in-out;
+    line-height: 1;
+    will-change: transform, opacity;
+    font-family: sans-serif !important;
+}
+
+@keyframes bbSilDividerPulse {
+    0%, 100% { opacity: 0.4; transform: scaleX(0.8); }
+    50% { opacity: 1; transform: scaleX(1); }
+}
+
+@keyframes bbSilCrystalSpin {
+    0% { transform: rotate(45deg) scale(0.8); filter: drop-shadow(0 0 2px rgba(186, 230, 253, 0.4)); }
+    50% { transform: rotate(225deg) scale(1.1); filter: drop-shadow(0 0 8px rgba(186, 230, 253, 0.8)); }
+    100% { transform: rotate(405deg) scale(0.8); filter: drop-shadow(0 0 2px rgba(186, 230, 253, 0.4)); }
+}
+
+.mes_text .custom-sil-div-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 36px 0;
+    width: 100%;
+    user-select: none;
+    opacity: 0;
+    animation: bbDividerFadeIn 1s ease-out forwards;
+}
+
+.mes_text .custom-sil-div-line {
+    flex-grow: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.6), transparent);
+    animation: bbSilDividerPulse 4s infinite ease-in-out;
+}
+
+.mes_text .custom-sil-crystal {
+    margin: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.mes_text .custom-sil-crystal-inner {
+    width: 8px;
+    height: 8px;
+    background: rgba(248, 250, 252, 0.8);
+    border: 1px solid #bae6fd;
+    transform: rotate(45deg);
+    animation: bbSilCrystalSpin 6s linear infinite;
+    box-shadow: 0 0 10px rgba(186, 230, 253, 0.5);
+}

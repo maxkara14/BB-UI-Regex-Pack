@@ -1,13 +1,11 @@
 {
     "id": "32f3a7ea-a33b-4d7f-af3b-7e8b3c608000",
     "scriptName": "[BB] silver divider",
-    "findRegex": "/(?:\\r?\\n)?\\s*\\*{3,}\\s*(?:\\r?\\n)?/g",
-    "replaceString": "<style>\n@keyframes silFadeIn { from { opacity: 0; } to { opacity: 1; } }\n@keyframes silDivPulse { 0%, 100% { opacity: 0.4; transform: scaleX(0.8); } 50% { opacity: 1; transform: scaleX(1); } }\n@keyframes silCrystalSpin { 0% { transform: rotate(45deg) scale(0.8); filter: drop-shadow(0 0 2px rgba(186,230,253,0.4)); } 50% { transform: rotate(225deg) scale(1.1); filter: drop-shadow(0 0 8px rgba(186,230,253,0.8)); } 100% { transform: rotate(405deg) scale(0.8); filter: drop-shadow(0 0 2px rgba(186,230,253,0.4)); } }\n\n.sil-div-wrap { display: flex; align-items: center; justify-content: center; margin: 36px 0; width: 100%; user-select: none; opacity: 0; animation: silFadeIn 1s ease-out forwards; }\n.sil-div-line { flex-grow: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.6), transparent); animation: silDivPulse 4s infinite ease-in-out; }\n.sil-crystal { margin: 0 16px; display: flex; align-items: center; justify-content: center; position: relative; }\n.sil-crystal-inner { width: 8px; height: 8px; background: rgba(248, 250, 252, 0.8); border: 1px solid #bae6fd; transform: rotate(45deg); animation: silCrystalSpin 6s linear infinite; box-shadow: 0 0 10px rgba(186, 230, 253, 0.5); }\n</style>\n\n<div class=\"sil-div-wrap\">\n    <div class=\"sil-div-line\"></div>\n    <div class=\"sil-crystal\"><div class=\"sil-crystal-inner\"></div></div>\n    <div class=\"sil-div-line\"></div>\n</div>",
+    "findRegex": "/(^|\\r?\\n)[\\t ]*\\*{3,}[\\t ]*(?=\\r?\\n|$)/g",
+    "replaceString": "$1<div class=\"sil-div-wrap\">\n    <div class=\"sil-div-line\"></div>\n    <div class=\"sil-crystal\"><div class=\"sil-crystal-inner\"></div></div>\n    <div class=\"sil-div-line\"></div>\n</div>",
     "trimStrings": [],
     "placement": [
-        1,
-        2,
-        6
+        2
     ],
     "disabled": false,
     "markdownOnly": true,

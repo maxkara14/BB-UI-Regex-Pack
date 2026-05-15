@@ -1,18 +1,19 @@
 {
     "id": "rgxm-hide-reasoning-2565b999-3e06-457a-88b4-2fa1194717f2",
     "scriptName": "[BB] hide reasoning",
-    "findRegex": "/<think>[\\s\\S]*?<\\/think>/g",
+    "findRegex": "/<think\\b[^>]*>[\\s\\S]*?<\\/think\\s*>/gi",
     "replaceString": "",
     "trimStrings": [],
     "placement": [
         1,
-        2
+        2,
+        6
     ],
     "disabled": false,
     "markdownOnly": true,
     "promptOnly": true,
     "runOnEdit": true,
     "substituteRegex": 0,
-    "minDepth": 5,
+    "minDepth": null,
     "maxDepth": null
 }

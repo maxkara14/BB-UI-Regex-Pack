@@ -376,6 +376,14 @@ let allLoadedRegexes = {};
 let promptHooksRegistered = false;
 
 const bbModuleStyles = {
+    orbs: [
+        { id: defaultStyleId, name: "Эфирный текст" },
+        {
+            id: "readable_veil",
+            name: "Читаемая вуаль",
+            files: ["styles/regex-[bb]_lore_orb_(readable_veil).json"],
+        },
+    ],
     phone: [
         { id: defaultStyleId, name: "Классический смартфон" },
         {

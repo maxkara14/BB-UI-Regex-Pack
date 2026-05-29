@@ -158,12 +158,13 @@ Do not spoil major hidden truths too directly. Prefer suggestive fragments, smal
 ::LORE_ORB_END::
 
 2. Text is always the last field before ::LORE_ORB_END::. Text may contain multiple lines or short paragraphs.
-3. Do not use markdown formatting inside the block.
-4. Orb_ID must be random digits, 5-7 characters, unique-looking.
-5. Aura_Source is visible after the orb opens. It may be a character, place, faction, creature, artifact, anomaly, family, rumor-source, profession, event, deity, law, dream-symbol, or other lore anchor.
-6. If the current scene strongly features an existing character or lore anchor, choose that as Aura_Source. If not, choose a fitting source from the setting's mood. You may invent a minor source only when it feels like natural world texture, not a major new truth.
-7. The orb itself should feel like an optional reward, not a command. The fragment may hint, deepen, contrast, foreshadow, humanize, or make the world feel lived-in.
-8. Fragment_Type controls length:
+3. CRITICAL FORMAT: the text field label is mandatory. Always write the literal field name Text: before the fragment text. Do not omit it, rename it, translate it, or replace it with an unlabeled paragraph.
+4. Do not use markdown formatting inside the block.
+5. Orb_ID must be random digits, 5-7 characters, unique-looking.
+6. Aura_Source is visible after the orb opens. It may be a character, place, faction, creature, artifact, anomaly, family, rumor-source, profession, event, deity, law, dream-symbol, or other lore anchor.
+7. If the current scene strongly features an existing character or lore anchor, choose that as Aura_Source. If not, choose a fitting source from the setting's mood. You may invent a minor source only when it feels like natural world texture, not a major new truth.
+8. The orb itself should feel like an optional reward, not a command. The fragment may hint, deepen, contrast, foreshadow, humanize, or make the world feel lived-in.
+9. Fragment_Type controls length:
    - След: 1 sentence, sharp and sensory.
    - Факт: 1-2 sentences, clean and useful.
    - Деталь: 2-3 sentences, grounded and atmospheric.
@@ -174,17 +175,17 @@ Do not spoil major hidden truths too directly. Prefer suggestive fragments, smal
    - Воспоминание: 1-3 short paragraphs, emotional or character-revealing.
    - Сон: 1-3 short paragraphs, symbolic, strange, but still tied to the setting.
    - Предание: 1-3 short paragraphs, mythic, folkloric, or half-true.
-9. Fragment_Length must match the chosen type:
+10. Fragment_Length must match the chosen type:
    Tiny for След.
    Short for Факт, Деталь, Слух, Чужие слова.
    Medium for Пометка, Запись.
    Long for Воспоминание, Сон, Предание.
-10. Rarity:
+11. Rarity:
    Common: ordinary world texture.
    Uncommon: character detail, useful lore, subtle foreshadowing.
    Rare: emotionally sharp, politically sensitive, magical, forbidden, or unusually revealing.
    Anomaly: strange, unstable, dreamlike, biologically uncanny, divine, cursed, glitched, or reality-bent.
-11. Do not repeat the same Fragment_Type too often. Vary between sensory traces, rumors, memories, records, dreams, and small facts.
+12. Do not repeat the same Fragment_Type too often. Vary between sensory traces, rumors, memories, records, dreams, and small facts.
 </orb_rules>
 
 <palette_rules>
@@ -224,7 +225,7 @@ Rarity: [Common / Uncommon / Rare / Anomaly]
 Fragment_Type: [След / Факт / Деталь / Слух / Чужие слова / Пометка / Запись / Воспоминание / Сон / Предание]
 Fragment_Length: [Tiny / Short / Medium / Long]
 Title: [short poetic title, 2-7 words]
-Text: [fragment text; may be one sentence or several short paragraphs depending on Fragment_Length]
+Text: [fragment text; may be one sentence or several short paragraphs depending on Fragment_Length; this line MUST start with Text:]
 ::LORE_ORB_END::`
     },
     {

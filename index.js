@@ -267,43 +267,64 @@ Comment: [Kairi's terrible freestyle rap]
         prompt: `[SCENE & TRANSITIONS SYSTEM]
 Structure your ENTIRE response as a cinematic script using container blocks. Characters are unaware of these formatting blocks.
 
-[MASTER RULE: SCENE CONTAINERS]
-Enclose 100% of your narrative, dialogue, and actions inside a SCENE block. Open the scene at the absolute beginning of your message and close it at the very end.
+[#1 ABSOLUTE RULE — CLOSING TAGS]
+Every opening tag MUST have a matching closing tag with the SAME name. This rule has no exceptions.
+- ※SCENE: ...※  →  must end with  ※/SCENE※
+- ※EPISODE: ...※  →  must end with  ※/EPISODE※
+- ⟦THOUGHT: ...⟧  →  must end with  ⟦/THOUGHT⟧
+- ⟦WHISPER: ...⟧  →  must end with  ⟦/WHISPER⟧
+Before ending your message, mentally scan it: every ※TYPE:…※ and ⟦TYPE:…⟧ you opened must be closed. The closing tag is part of the block — without it the block does not exist.
+
+[SCENE CONTAINERS — outer wrapper]
+Wrap 100% of your narrative, dialogue, and actions inside a SCENE block. Open it at the very first line of your message, close it at the very last line.
 FORMAT:
 ※TYPE: Creative Scene Title※
-[All narrative goes here]
+[all narrative here]
 ※/TYPE※
 - Valid TYPEs: SCENE, EPISODE, CHAPTER, ACT.
-- Title must be a creative, atmospheric name (e.g., "Tension in the Air"). Avoid raw dates or locations.
+- Title: creative, atmospheric (e.g., "Tension in the Air"). Not a raw date or location.
+- Title must not contain the ※ character.
+- Default to ONE SCENE per message. Only split into multiple scenes for a real location or time jump (see SCENE SHIFTS).
 
-[NESTED PAIRED BLOCKS]
-For deep internal monologues, memories, or parallel events, use PAIRED BLOCKS inside the SCENE.
-CRITICAL: You MUST strictly separate the short Theme from the Content, and you MUST always include the closing tag! 
+[PAIRED BLOCKS — inner inserts]
+For inner monologues, memories, parallel events — nest paired blocks INSIDE the SCENE.
 FORMAT:
-⟦TYPE: Short Theme Name⟧
-Content text goes here...
+⟦TYPE: Short Theme⟧
+[content]
 ⟦/TYPE⟧
 - Valid TYPEs: MEANWHILE, MEMORY, DREAM, LORE, THOUGHT, FOCUS, WHISPER, ECHO.
-- TYPE names must remain in English. Theme and Content in the narrative language.
-- The "Theme" must be extremely short (1-3 words max).
-
-[NARRATIVE BREAKS & DIVIDERS]
-Use exactly *** on its own line to insert a stylized visual divider. 
-Use this to indicate a significant pause in the narrative, a shift in pacing, a change of focus within the same room, or the logical conclusion of a heavy moment. Do not overuse it (1-2 times per response max).
+- TYPE name: always English, uppercase, ONE word.
+- Theme: 1–3 words, in the narrative language. Theme must not contain the ⟧ character.
+- Content language: same as the narrative.
+- Do not nest paired blocks of the same TYPE inside each other.
 
 [SCENE SHIFTS & TIME JUMPS]
-When characters change location or time jumps forward, explicitly CLOSE the current scene and IMMEDIATELY OPEN a new one.
-EXAMPLE:
-...they left the room.
+When the location or time changes, CLOSE the current outer block, THEN open a new one. Both must be closed by the end of the message.
+✅ CORRECT:
+※EPISODE: Goodbye in the Kitchen※
+…they left the room.
 ※/EPISODE※
+
 ※SCENE: The Dark Alleyway※
-The rain was pouring...
+The rain was pouring…
+※/SCENE※
 
-[FORMATTING RULES]
-- Keep the text inside ⟦THOUGHT⟧ blocks as plain text without any wrapping symbols like asterisks or quotes.
-- Use safe HTML tags (like <font color="...">) exclusively to colorize specific dialogue.
+❌ WRONG (missing closing tag on the last scene):
+※EPISODE: Goodbye in the Kitchen※
+…they left the room.
+※/EPISODE※
 
-[PERFECT STRUCTURE EXAMPLE]
+※SCENE: The Dark Alleyway※
+The rain was pouring…
+
+[NARRATIVE DIVIDERS]
+Use exactly *** on its own line for a stylized visual divider — a beat, a pacing shift, or focus change WITHIN the same scene. Use 1–2 times per response, max. *** is not a substitute for a closing tag.
+
+[FORMATTING NOTES]
+- Text inside ⟦THOUGHT⟧ and similar paired blocks: plain, no wrapping asterisks or quotes.
+- For colored dialogue use safe HTML only: <font color="#hex">"…"</font>.
+
+[FULL CORRECT EXAMPLE — one scene with nested block]
 ※EPISODE: The Dark Alleyway※
 The rain was pouring down. <font color="#ef4444">"Leave me alone,"</font> he muttered.
 ⟦THOUGHT: Regret⟧
@@ -314,7 +335,25 @@ He turned away and walked into the shadows.
 ***
 
 Minutes passed in absolute silence. The only sound was the distant rumble of thunder.
-※/EPISODE※`
+※/EPISODE※
+
+[FULL CORRECT EXAMPLE — two scenes with a location jump]
+※SCENE: Tension in the Air※
+She slammed the door behind her.
+※/SCENE※
+
+※SCENE: The Dark Alleyway※
+The rain hadn't stopped for hours.
+⟦WHISPER: Quiet Doubt⟧
+Maybe this was a mistake.
+⟦/WHISPER⟧
+She pulled her coat tighter and walked on.
+※/SCENE※
+
+[FINAL CHECK BEFORE SENDING]
+1. Every ※TYPE:…※ has a matching ※/TYPE※ with the same name.
+2. Every ⟦TYPE:…⟧ has a matching ⟦/TYPE⟧ with the same name.
+3. The very last line of your message is a closing tag (※/…※).`
 
     },
     { 

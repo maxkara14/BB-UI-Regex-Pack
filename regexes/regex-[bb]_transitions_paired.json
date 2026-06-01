@@ -1,19 +1,21 @@
 {
-    "id": "da3bd918-956e-4de5-a8fd-6b6532341c23",
-    "scriptName": "[BB] transitions paired",
-    "findRegex": "/⟦([A-Za-zА-Яа-яЁё\\s]+?)\\s*:\\s*(.*?)⟧(?:<br[^>]*>|<\\/?p[^>]*>|\\s)*([\\s\\S]*?)(?:<br[^>]*>|<\\/?p[^>]*>|\\s)*⟦\\/\\s*\\1\\s*⟧/g",
-    "replaceString": "<style>\n@keyframes vnPairedIn { from { opacity: 0; transform: translateX(-15px); } to { opacity: 1; transform: translateX(0); } }\n@keyframes bokehFloat { 0% { transform: translate(0,0) scale(0.8); opacity: 0; } 20% { opacity: 0.5; } 80% { opacity: 0.3; } 100% { transform: translate(-20px,-30px) scale(1.2); opacity: 0; } }\n.vnp-wrap { margin: 16px 0; width: 100%; box-sizing: border-box; background: rgba(255, 255, 255, 0.04); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.08); border-left: 3px solid rgba(255, 255, 255, 0.6); border-radius: 4px 12px 12px 4px; padding: 16px 20px; position: relative; overflow: hidden; animation: vnPairedIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }\n.vnp-head { font-family: 'Georgia', serif; font-size: 0.75em; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; position: relative; z-index: 2; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 6px; }\n.vnp-type { color: #f3f4f6; font-weight: bold; text-shadow: 0 0 5px rgba(255,255,255,0.3); }\n.vnp-theme { color: #d1d5db; font-style: italic; text-transform: none; font-size: 1.1em; }\n.vnp-body { color: #e5e7eb; font-size: 0.95em; line-height: 1.6; font-family: 'Georgia', serif; font-style: italic; position: relative; z-index: 1; white-space: pre-wrap; word-wrap: break-word; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }\n.vnp-body p { margin-top: 0 !important; margin-bottom: 0.5em !important; } .vnp-body p:last-child { margin-bottom: 0 !important; } .vnp-body p:empty { display: none !important; } .vnp-body > br:first-child { display: none !important; }\n.bokeh { position: absolute; border-radius: 50%; background: #fff; filter: blur(2px); opacity: 0; pointer-events: none; }\n.bk-1 { width: 8px; height: 8px; top: 20%; right: 10%; animation: bokehFloat 6s infinite ease-in-out; }\n.bk-2 { width: 12px; height: 12px; top: 60%; left: 20%; animation: bokehFloat 8s infinite ease-in-out 2s; background: #fde047; }\n.bk-3 { width: 6px; height: 6px; bottom: 10%; right: 30%; animation: bokehFloat 7s infinite ease-in-out 4s; }\n</style>\n<div class=\"vnp-wrap\"><div class=\"vnp-head\"><span class=\"vnp-type\">$1</span> <span style=\"color: rgba(255,255,255,0.2);\">|</span> <span class=\"vnp-theme\">$2</span></div><div class=\"vnp-body\"><div class=\"bokeh bk-1\"></div><div class=\"bokeh bk-2\"></div><div class=\"bokeh bk-3\"></div>$3</div></div>",
-    "trimStrings": [],
-    "placement": [
-        1,
-        2,
-        6
-    ],
-    "disabled": false,
-    "markdownOnly": true,
-    "promptOnly": false,
-    "runOnEdit": true,
-    "substituteRegex": 0,
-    "minDepth": null,
-    "maxDepth": null
+    "id":  "da3bd918-956e-4de5-a8fd-6b6532341c23",
+    "scriptName":  "[BB] transitions paired",
+    "findRegex":  "/⟦([A-Za-zА-Яа-яЁё\\s]+?)\\s*:\\s*(.*?)⟧(?:\u003cbr[^\u003e]*\u003e|\u003c\\/?p[^\u003e]*\u003e|\\s)*([\\s\\S]*?)(?:\u003cbr[^\u003e]*\u003e|\u003c\\/?p[^\u003e]*\u003e|\\s)*⟦\\/\\s*\\1\\s*⟧/g",
+    "replaceString":  "\u003cstyle\u003e\n@keyframes vnPairedIn { from { opacity: 0; transform: translateX(-15px); } to { opacity: 1; transform: translateX(0); } }\n@keyframes bokehFloat { 0% { transform: translate(0,0) scale(0.8); opacity: 0; } 20% { opacity: 0.5; } 80% { opacity: 0.3; } 100% { transform: translate(-20px,-30px) scale(1.2); opacity: 0; } }\n.vnp-wrap { margin: 16px 0; width: 100%; box-sizing: border-box; background: rgba(20, 20, 25, 0.72); border: 1px solid rgba(255,255,255,0.08); border-left: 3px solid rgba(255, 255, 255, 0.6); border-radius: 4px 12px 12px 4px; padding: 16px 20px; position: relative; overflow: hidden; animation: vnPairedIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }\n.vnp-head { font-family: \u0027Georgia\u0027, serif; font-size: 0.75em; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; position: relative; z-index: 2; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 6px; }\n.vnp-type { color: #f3f4f6; font-weight: bold; text-shadow: 0 0 5px rgba(255,255,255,0.3); }\n.vnp-theme { color: #d1d5db; font-style: italic; text-transform: none; font-size: 1.1em; }\n.vnp-body { color: #e5e7eb; font-size: 0.95em; line-height: 1.6; font-family: \u0027Georgia\u0027, serif; font-style: italic; position: relative; z-index: 1; white-space: pre-wrap; word-wrap: break-word; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }\n.vnp-body p { margin-top: 0 !important; margin-bottom: 0.5em !important; } .vnp-body p:last-child { margin-bottom: 0 !important; } .vnp-body p:empty { display: none !important; } .vnp-body \u003e br:first-child { display: none !important; }\n.bokeh { position: absolute; border-radius: 50%; background: #fff; filter: blur(2px); opacity: 0; pointer-events: none; }\n.bk-1 { width: 8px; height: 8px; top: 20%; right: 10%; animation: bokehFloat 6s infinite ease-in-out; }\n.bk-2 { width: 12px; height: 12px; top: 60%; left: 20%; animation: bokehFloat 8s infinite ease-in-out 2s; background: #fde047; }\n.bk-3 { width: 6px; height: 6px; bottom: 10%; right: 30%; animation: bokehFloat 7s infinite ease-in-out 4s; }\n\u003c/style\u003e\n\u003cdiv class=\"vnp-wrap\"\u003e\u003cdiv class=\"vnp-head\"\u003e\u003cspan class=\"vnp-type\"\u003e$1\u003c/span\u003e \u003cspan style=\"color: rgba(255,255,255,0.2);\"\u003e|\u003c/span\u003e \u003cspan class=\"vnp-theme\"\u003e$2\u003c/span\u003e\u003c/div\u003e\u003cdiv class=\"vnp-body\"\u003e\u003cdiv class=\"bokeh bk-1\"\u003e\u003c/div\u003e\u003cdiv class=\"bokeh bk-2\"\u003e\u003c/div\u003e\u003cdiv class=\"bokeh bk-3\"\u003e\u003c/div\u003e$3\u003c/div\u003e\u003c/div\u003e",
+    "trimStrings":  [
+
+                    ],
+    "placement":  [
+                      1,
+                      2,
+                      6
+                  ],
+    "disabled":  false,
+    "markdownOnly":  true,
+    "promptOnly":  false,
+    "runOnEdit":  true,
+    "substituteRegex":  0,
+    "minDepth":  null,
+    "maxDepth":  null
 }

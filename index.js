@@ -406,6 +406,7 @@ Caption: [Tender or poetic caption in Russian]
             "regex-[fix]_opus_html_-_less_than.json",
             "regex-[fix]_opus_html_-_greater_than.json",
             "regex-[fix]_opus_html_-_quotes.json",
+            "regex-clean_bb_comics.json",
         ],
         name: "🧹 cleaners"
     }

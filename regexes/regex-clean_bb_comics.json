@@ -1,0 +1,18 @@
+{
+    "id": "6fb0c5e6-85a4-459c-9df6-d9f087caea4d",
+    "scriptName": "Clean BB Comics",
+    "findRegex": "/<comics>[\\s\\S]*?<\\/comics>/g",
+    "replaceString": "",
+    "trimStrings": [],
+    "placement": [
+        1,
+        2
+    ],
+    "disabled": false,
+    "markdownOnly": false,
+    "promptOnly": true,
+    "runOnEdit": true,
+    "substituteRegex": 0,
+    "minDepth": null,
+    "maxDepth": null
+}

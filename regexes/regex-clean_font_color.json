@@ -1,0 +1,18 @@
+{
+    "id": "27353771-fb06-4b7d-80e0-1bcc45b32c7f",
+    "scriptName": "Clean Font Color Tags",
+    "findRegex": "/<font\\s+color\\s*=\\s*(?:\"[^\"]*\"|'[^']*'|[^\\s>]+)\\s*>([\\s\\S]*?)<\\/font\\s*>/gi",
+    "replaceString": "$1",
+    "trimStrings": [],
+    "placement": [
+        1,
+        2
+    ],
+    "disabled": false,
+    "markdownOnly": false,
+    "promptOnly": true,
+    "runOnEdit": true,
+    "substituteRegex": 0,
+    "minDepth": null,
+    "maxDepth": null
+}

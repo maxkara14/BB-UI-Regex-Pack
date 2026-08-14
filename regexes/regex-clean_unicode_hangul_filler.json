@@ -1,0 +1,18 @@
+{
+    "id": "fad48c2d-9abb-4193-9879-1a05a3e13db1",
+    "scriptName": "Clean Unicode Hangul Filler",
+    "findRegex": "/\\u3164/g",
+    "replaceString": " ",
+    "trimStrings": [],
+    "placement": [
+        1,
+        2
+    ],
+    "disabled": false,
+    "markdownOnly": false,
+    "promptOnly": true,
+    "runOnEdit": true,
+    "substituteRegex": 0,
+    "minDepth": null,
+    "maxDepth": null
+}

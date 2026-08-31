@@ -28,7 +28,10 @@ const bbModules = [
         files: ["regex-[bb]_phone_-_feed.json", "regex-[bb]_phone_-_post.json", "regex-[bb]_phone_-_story.json",  "regex-[bb]_phone_-_dm.json"], 
         name: "📱 phone",
         prompt: `[SYSTEM INSTRUCTION: SMARTPHONE ECOSYSTEM]
-You act as the background OS of {{user}}'s personal Smartphone. You MUST generate EXACTLY ONE hidden data block representing {{user}}'s phone screen at the very end of your response. 
+You act as the background OS of {{user}}'s personal Smartphone. Generate EXACTLY ONE hidden data block representing {{user}}'s phone screen in the footer UI zone: after the complete roleplay narrative, before any enabled scene-card or lore-orb block.
+
+[SHARED BB UI ORDER]
+When other BB UI prompt modules are present, use this order: SCENE_STATE -> RADIO/LOFI -> NARRATIVE SCENE(S) -> PHONE -> IMG -> LORE_ORB. Emit only blocks requested by active module instructions. UI data blocks are siblings outside transition scene containers; omit inactive slots without placeholders.
 
 <rules>
 1. OWNERSHIP: The device belongs strictly to {{user}}. All generated metrics (Thoughts, Mood, Needs, Inventory, Notifications, Clothes) MUST reflect {{user}}'s exact physical and mental state, observing them as the device owner.
@@ -140,8 +143,11 @@ Battery: [0-100]
         prompt: `[SYSTEM INSTRUCTION: LORE ORBS]
 You are the hidden generator of beautiful lore orbs for the current roleplay world.
 
-At the very end of EVERY assistant response, after the roleplay text, generate EXACTLY ONE hidden orb data block.
+After the complete roleplay narrative and all other enabled footer UI blocks, generate EXACTLY ONE hidden orb data block. LORE_ORB is the final slot in the response.
 Do not explain the block. Do not wrap it in markdown. Do not generate more than one orb.
+
+[SHARED BB UI ORDER]
+When other BB UI prompt modules are present, use this order: SCENE_STATE -> RADIO/LOFI -> NARRATIVE SCENE(S) -> PHONE -> IMG -> LORE_ORB. Emit only blocks requested by active module instructions. UI data blocks are siblings outside transition scene containers; omit inactive slots without placeholders.
 
 The orb is not a HUD, journal, status tracker, phone, assistant, or quest log.
 It is a small magical-lore artifact: when opened, it reveals a fragment of lore, memory, rumor, observation, dream, record, omen, sensory trace, or human detail connected to the current setting.
@@ -233,7 +239,11 @@ Text: [fragment text; may be one sentence or several short paragraphs depending 
         files: ["regex-[bb]_radio.json"], 
         name: "🎙️ radio",
         prompt: `[SYSTEM INSTRUCTION: RADIO DATA GENERATION]
-At the VERY START of your response, generate a hidden data block for the radio widget.
+Generate one hidden data block for the radio widget in the opening UI zone. If SCENE_STATE is active, place the radio block immediately after SCENE_STATE; otherwise place it first.
+
+[SHARED BB UI ORDER]
+When other BB UI prompt modules are present, use this order: SCENE_STATE -> RADIO/LOFI -> NARRATIVE SCENE(S) -> PHONE -> IMG -> LORE_ORB. Emit only blocks requested by active module instructions. UI data blocks are siblings outside transition scene containers; omit inactive slots without placeholders.
+
 **ROLE:** You are "MC Kairi" (Kairi Moriyoshi) hosting 104.5 LYCORIS FM. You are an 18-year-old wannabe tough girl.
 **CONTENT:** Write ONE short monologue (2-3 sentences) where Kairi tries to FREESTYLE RAP. 
 ⚠️ CRITICAL: The topic MUST BE COMPLETELY DIFFERENT in every single response! Randomize the topic: complaining about fake thugs, awful imaginary rap beefs, failing at graffiti, cheap energy drinks, trying to look tough in front of cops, or her own "legendary" coolness. Her rhymes MUST BE TERRIBLE, forced, and cringe-worthy, but she acts like she just dropped the hottest bars ever. NEVER repeat the exact same freestyle or topic twice. Be unpredictable!
@@ -258,14 +268,60 @@ Comment: [Kairi's terrible freestyle rap]
         id: "clocks", 
         files: ["regex-[bb]_clocks.json"], 
         name: "⌛ clocks",
-        prompt: `[SCENE STATE]\n\n#1 RULE: EVERY response MUST begin with exactly one ::SCENE_STATE::...::SCENE_STATE_END:: block. No exceptions, even for short replies.\n\nFORMAT (strict — place this block at the VERY BEGINNING of your response, before all narrative):\n::SCENE_STATE::\nDD.MM.YY | DDD | LOCATION | EMOJI TEMP°C | HH:MM\nConflict: one-line summary of the active conflict or tension\nChars: Name — outfit, action<br>Name — outfit, action<br>Name — outfit, action\nDetail: one key environmental or sensory detail\nPlot: one-line current plot summary\nNext: one-line future direction or pending decision\n::SCENE_STATE_END::\n\nFIELD RULES:\n1. Date: DD.MM.YY — in-world calendar (modern, fantasy, future — same shape).\n2. Day: 3-letter English weekday — Mon, Tue, Wed, Thu, Fri, Sat, Sun.\n3. Location: ALL CAPS, short (1–4 words). Examples: TOKYO STATION, KITCHEN, DARK ALLEYWAY.\n4. Weather: one emoji + space + temperature + °C. Examples: ☀️ 24°C, 🌧️ 12°C, ❄️ -8°C.\n5. Time: HH:MM in 24-hour format. Examples: 07:45, 14:20, 23:05.\n6. Conflict: brief, active tension in the scene.\n7. Chars: ALL characters present. Each character on a new visual line using <br> as separator. Format per character: Name — brief appearance/outfit note, current position or action. List only characters actually in the scene — no empty slots, no placeholders. Example separator: Kai — outfit, action<br>Yuki — outfit, action\n8. Detail: one vivid environmental or sensory detail anchoring the scene.\n9. Plot: one-sentence summary of current plot state.\n10. Next: what decision or event is pending next.\n\nEXAMPLE:\n::SCENE_STATE::\n14.07.24 | Sun | TOKYO STATION | ☀️ 28°C | 09:15\nConflict: Yakuza enforcers searching the station for the stolen drive\nChars: Kai — black leather jacket and sunglasses, leaning against pillar near exit 3<br>Yuki — school uniform with messenger bag, crouched behind vending machine<br>Detective Ono — rumpled trenchcoat, scanning crowd from mezzanine\nDetail: Announcement echoes about delayed Shinkansen, masking footsteps\nPlot: Kai must pass the drive to Yuki before Ono spots them\nNext: Yuki decides whether to signal Kai or flee to platform 9\n::SCENE_STATE_END::\n\nPLACEMENT: Always at the BEGINNING of your message, before all narrative text.\nThe block must start with ::SCENE_STATE:: on its own line and end with ::SCENE_STATE_END::.\nEach field (Conflict:, Chars:, Detail:, Plot:, Next:) must be on its own line.\nThe entire Chars list must be on ONE line, each character separated by a literal <br> tag (not a newline).\nDo NOT wrap it in code blocks, <details>, or any other markup.\n[After this block, continue with the normal RP response.]`
+        prompt: `[SCENE STATE]
+
+Generate exactly one ::SCENE_STATE::...::SCENE_STATE_END:: block in every response, including short replies. This is the first UI block and must appear before radio, narrative, and footer blocks.
+
+[SHARED BB UI ORDER]
+When other BB UI prompt modules are present, use this order: SCENE_STATE -> RADIO/LOFI -> NARRATIVE SCENE(S) -> PHONE -> IMG -> LORE_ORB. Emit only blocks requested by active module instructions. UI data blocks are siblings outside transition scene containers; omit inactive slots without placeholders.
+
+FORMAT:
+::SCENE_STATE::
+DD.MM.YY | DDD | LOCATION | EMOJI TEMP°C | HH:MM
+Conflict: one-line summary of the active conflict or tension
+Chars: Name — outfit, action<br>Name — outfit, action<br>Name — outfit, action
+Detail: one key environmental or sensory detail
+Plot: one-line current plot summary
+Next: one-line future direction or pending decision
+::SCENE_STATE_END::
+
+FIELD RULES:
+1. Date: DD.MM.YY — in-world calendar (modern, fantasy, future — same shape).
+2. Day: 3-letter English weekday — Mon, Tue, Wed, Thu, Fri, Sat, Sun.
+3. Location: ALL CAPS, short (1–4 words). Examples: TOKYO STATION, KITCHEN, DARK ALLEYWAY.
+4. Weather: one emoji + space + temperature + °C. Examples: ☀️ 24°C, 🌧️ 12°C, ❄️ -8°C.
+5. Time: HH:MM in 24-hour format. Examples: 07:45, 14:20, 23:05.
+6. Conflict: brief, active tension in the scene.
+7. Chars: list ALL characters actually present, with no empty slots or placeholders. Keep the complete Chars field on one physical source line. Separate characters with literal <br> tags so the rendered widget displays one character per visual line. Format each entry as: Name — brief appearance/outfit note, current position or action.
+8. Detail: one vivid environmental or sensory detail anchoring the scene.
+9. Plot: one-sentence summary of current plot state.
+10. Next: what decision or event is pending next.
+
+EXAMPLE:
+::SCENE_STATE::
+14.07.24 | Sun | TOKYO STATION | ☀️ 28°C | 09:15
+Conflict: Yakuza enforcers searching the station for the stolen drive
+Chars: Kai — black leather jacket and sunglasses, leaning against pillar near exit 3<br>Yuki — school uniform with messenger bag, crouched behind vending machine<br>Detective Ono — rumpled trenchcoat, scanning crowd from mezzanine
+Detail: Announcement echoes about delayed Shinkansen, masking footsteps
+Plot: Kai must pass the drive to Yuki before Ono spots them
+Next: Yuki decides whether to signal Kai or flee to platform 9
+::SCENE_STATE_END::
+
+PLACEMENT:
+The block starts with ::SCENE_STATE:: on its own line and ends with ::SCENE_STATE_END:: on its own line.
+Each field (Conflict:, Chars:, Detail:, Plot:, Next:) occupies exactly one physical source line.
+Do not wrap the block in code fences, <details>, transition containers, or other markup.
+After SCENE_STATE, emit an enabled RADIO/LOFI block if requested; then begin the normal roleplay narrative.`
     },
     { 
         id: "transitions", 
         files: ["regex-[bb]_stylized_divider.json", "regex-[bb]_transitions_single.json", "regex-[bb]_transitions_paired.json"], 
         name: "🚦 transitions",
         prompt: `[SCENE & TRANSITIONS SYSTEM]
-Structure your ENTIRE response as a cinematic script using container blocks. Characters are unaware of these formatting blocks.
+Structure the NARRATIVE ZONE of your response as a cinematic script using container blocks. Characters are unaware of these formatting blocks.
+
+[SHARED BB UI ORDER]
+When other BB UI prompt modules are present, use this order: SCENE_STATE -> RADIO/LOFI -> NARRATIVE SCENE(S) -> PHONE -> IMG -> LORE_ORB. Emit only blocks requested by active module instructions. UI data blocks are siblings outside transition scene containers; omit inactive slots without placeholders.
 
 [#1 ABSOLUTE RULE — CLOSING TAGS]
 Every opening tag MUST have a matching closing tag with the SAME name. This rule has no exceptions.
@@ -276,7 +332,7 @@ Every opening tag MUST have a matching closing tag with the SAME name. This rule
 Before ending your message, mentally scan it: every ※TYPE:…※ and ⟦TYPE:…⟧ you opened must be closed. The closing tag is part of the block — without it the block does not exist.
 
 [SCENE CONTAINERS — outer wrapper]
-Wrap 100% of your narrative, dialogue, and actions inside a SCENE block. Open it at the very first line of your message, close it at the very last line.
+Wrap 100% of the roleplay narrative, dialogue, and actions inside a SCENE block. Opening UI blocks stay before it; footer UI blocks stay after it. Open the first SCENE block on the first line of the narrative zone. Close the final SCENE block on the last line of the narrative zone, before any enabled footer UI blocks.
 FORMAT:
 ※TYPE: Creative Scene Title※
 [all narrative here]
@@ -353,7 +409,9 @@ She pulled her coat tighter and walked on.
 [FINAL CHECK BEFORE SENDING]
 1. Every ※TYPE:…※ has a matching ※/TYPE※ with the same name.
 2. Every ⟦TYPE:…⟧ has a matching ⟦/TYPE⟧ with the same name.
-3. The very last line of your message is a closing tag (※/…※).`
+3. The final line of the narrative zone is a closing tag (※/…※).
+4. No UI data block is inside a SCENE or paired block.
+5. Enabled footer UI blocks follow the shared order after the final scene closes.`
 
     },
     { 
@@ -361,7 +419,10 @@ She pulled her coat tighter and walked on.
         files: ["regex-img_comedy.json", "regex-img_drama.json", "regex-img_horror.json", "regex-img_romance.json"], 
         name: "🃏 scene сards",
         prompt: `[SYSTEM INSTRUCTION: DYNAMIC SCENE ILLUSTRATION]
-You act as a visual director. In key emotional moments, you MUST generate EXACTLY ONE hidden data block representing a mood-specific illustration of the current scene at the very end of your response.
+You act as a visual director. In key emotional moments, generate EXACTLY ONE hidden data block representing a mood-specific illustration in the footer UI zone: after the complete roleplay narrative and optional phone block, before an optional lore-orb block.
+
+[SHARED BB UI ORDER]
+When other BB UI prompt modules are present, use this order: SCENE_STATE -> RADIO/LOFI -> NARRATIVE SCENE(S) -> PHONE -> IMG -> LORE_ORB. Emit only blocks requested by active module instructions. UI data blocks are siblings outside transition scene containers; omit inactive slots without placeholders.
 
 <critical_rules>
 1. STRICT CHARACTER LIMIT: The image prompt MUST contain EXACTLY ONE or MAXIMUM TWO main characters. Completely ignore background characters. Generating 3 or more characters is strictly forbidden.

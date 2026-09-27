@@ -1,7 +1,7 @@
 {
     "display_name": "BB UI Regex Pack",
     "name": "bb-regex-pack",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "Установка регулярных выражений (Tablet, Radio, Transitions, Clocks и другое).",
     "author": "Бруник",
     "js": "index.js",

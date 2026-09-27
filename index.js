@@ -480,11 +480,21 @@ let promptHooksRegistered = false;
 
 const bbModuleStyles = {
     orbs: [
-        { id: defaultStyleId, name: "Эфирный текст" },
+        { id: defaultStyleId, name: "Призма · без панели" },
         {
             id: "readable_veil",
-            name: "Читаемая вуаль",
+            name: "Призма · с панелью",
             files: ["styles/regex-[bb]_lore_orb_(readable_veil).json"],
+        },
+        {
+            id: "astral_core_no_background",
+            name: "Ядро · без панели",
+            files: ["styles/regex-[bb]_lore_orb_(astral_core_no_background).json"],
+        },
+        {
+            id: "astral_core",
+            name: "Ядро · с панелью",
+            files: ["styles/regex-[bb]_lore_orb_(astral_core).json"],
         },
     ],
     phone: [

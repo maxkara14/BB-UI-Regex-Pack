@@ -19,6 +19,8 @@
     align-items: center;
     gap: 8px 10px;
     min-height: 48px;
+    min-width: 0;
+    box-sizing: border-box;
     padding: 9px 10px;
     border: 1px solid color-mix(in srgb, var(--SmartThemeBorderColor, #4b5563) 76%, transparent);
     border-left: 3px solid #64748b;
@@ -61,7 +63,8 @@
     flex-direction: column;
     gap: 6px;
     min-width: 0;
-    flex: 1 1 0%;
+    /* Wrap actions when the panel is narrow, even on a wide desktop viewport. */
+    flex: 1 1 220px;
 }
 
 .bb-rm-main-toggle input[type="checkbox"] {
@@ -106,18 +109,17 @@
 
 .bb-rm-module-name {
     min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    white-space: normal;
+    overflow-wrap: anywhere;
     font-size: 0.96em;
 }
 
-.bb-rm-style-select {
+#bb-regex-manager .bb-rm-style-select {
     box-sizing: border-box;
     width: calc(100% - 40px);
-    max-width: 230px;
+    max-width: calc(100% - 40px);
     min-width: 0;
-    min-height: 26px;
+    min-height: 32px;
     margin-left: 40px;
     padding: 2px 26px 2px 8px;
     border: 1px solid rgba(148, 163, 184, 0.34);
@@ -127,6 +129,7 @@
     font-size: 0.78em;
     font-weight: 700;
     cursor: pointer;
+    text-overflow: ellipsis;
 }
 
 .bb-rm-style-select:hover,
@@ -142,6 +145,9 @@
     justify-content: flex-end;
     gap: 6px;
     flex-shrink: 0;
+    flex-wrap: wrap;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .bb-rm-prompt-toggle,
@@ -192,14 +198,41 @@
     transform: translateY(0);
 }
 
-@media (max-width: 520px) {
+#bb-rm-list {
+    container-type: inline-size;
+    container-name: bb-regex-list;
+}
+
+@container bb-regex-list (max-width: 400px) {
+    .bb-rm-module-block {
+        flex-basis: 100%;
+    }
+
     .bb-rm-actions {
+        width: 100%;
+        justify-content: flex-start;
+        padding-left: 40px;
+    }
+}
+
+@media (max-width: 520px) {
+    .bb-rm-module-block {
+        flex-basis: 100%;
+    }
+
+    .bb-rm-actions {
+        width: 100%;
         justify-content: flex-start;
         padding-left: 40px;
     }
 
-    .bb-rm-style-select {
-        max-width: none;
+    .bb-rm-prompt-toggle,
+    .bb-rm-copy {
+        min-height: 36px;
+    }
+
+    .bb-rm-copy {
+        min-width: 36px;
     }
 }
 

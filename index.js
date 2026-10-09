@@ -820,7 +820,7 @@ function renderManagerUI() {
         const styles = getModuleStyles(mod);
         const selectedStyle = getSelectedStyle(mod);
         const styleSelectHtml = isModuleStyleable(mod) ? `
-            <select class="bb-rm-style-select" data-mod-id="${mod.id}" title="Стиль модуля">
+            <select class="bb-rm-style-select" data-mod-id="${mod.id}" title="Стиль модуля: ${selectedStyle.name}" aria-label="Стиль модуля ${mod.name}">
                 ${styles.map(style => `<option value="${style.id}" ${style.id === selectedStyle.id ? "selected" : ""}>${style.name}</option>`).join("")}
             </select>
         ` : "";

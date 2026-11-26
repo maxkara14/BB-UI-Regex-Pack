@@ -1,0 +1,19 @@
+{
+    "id": "1617fd49-df8d-48f9-bc58-1b0c6f4fa891",
+    "scriptName": "[BB] brass and wax scene state",
+    "findRegex": "/::SCENE_STATE::\\s*(.*?)\\s*\\|\\s*(.*?)\\s*\\|\\s*(.*?)\\s*\\|\\s*(.*?)\\s*\\|\\s*(.*?)\\s*\\nConflict:\\s*(.*?)\\s*\\nChars:\\s*(.*?)\\s*\\nDetail:\\s*(.*?)\\s*\\nPlot:\\s*(.*?)\\s*\\nNext:\\s*(.*?)\\s*::SCENE_STATE_END::/g",
+    "replaceString": "<div class=\"bb-brass-state\">\n<label class=\"bb-brass-clock\">\n<input type=\"checkbox\" class=\"bb-brass-toggle\">\n<strong class=\"bb-brass-time\">$5</strong>\n<span class=\"bb-brass-date\">$1 · $2</span>\n<span class=\"bb-brass-place\"><span class=\"bb-brass-lantern\" aria-hidden=\"true\"></span>$3</span>\n<span class=\"bb-brass-weather\">$4</span>\n</label>\n<div class=\"bb-brass-slide\"><div class=\"bb-brass-slide-inner\">\n<dl class=\"bb-brass-details\">\n<div class=\"bb-brass-detail\"><dt>Conflict</dt><dd>$6</dd></div>\n<div class=\"bb-brass-detail\"><dt>Characters</dt><dd>$7</dd></div>\n<div class=\"bb-brass-detail\"><dt>Detail</dt><dd>$8</dd></div>\n<div class=\"bb-brass-detail\"><dt>Plot</dt><dd>$9</dd></div>\n<div class=\"bb-brass-detail\"><dt>Next</dt><dd>$10</dd></div>\n</dl>\n</div></div>\n</div>",
+    "trimStrings": [],
+    "placement": [
+        1,
+        2,
+        6
+    ],
+    "disabled": false,
+    "markdownOnly": true,
+    "promptOnly": false,
+    "runOnEdit": true,
+    "substituteRegex": 0,
+    "minDepth": null,
+    "maxDepth": null
+}

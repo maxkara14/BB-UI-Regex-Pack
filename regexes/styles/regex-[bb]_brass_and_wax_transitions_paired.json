@@ -1,0 +1,19 @@
+{
+    "id": "95b33750-1b56-4180-8da9-ea010298335b",
+    "scriptName": "[BB] brass and wax transitions paired",
+    "findRegex": "/⟦([A-Za-zА-Яа-яЁё\\s]+?)\\s*:\\s*(.*?)⟧(?:<br[^>]*>|<\\/?p[^>]*>|\\s)*([\\s\\S]*?)(?:<br[^>]*>|<\\/?p[^>]*>|\\s)*⟦\\/\\s*\\1\\s*⟧/g",
+    "replaceString": "<div class=\"bb-brass-insert\" data-bb-type=\"$1\" markdown=\"1\">\n<div class=\"bb-brass-caption\"><span class=\"bb-brass-mark\" aria-hidden=\"true\"></span><span class=\"bb-brass-kind\">$1</span><span class=\"bb-brass-theme\">$2</span></div>\n<div class=\"bb-brass-insert-text\" markdown=\"1\">\n$3\n</div>\n</div>",
+    "trimStrings": [],
+    "placement": [
+        1,
+        2,
+        6
+    ],
+    "disabled": false,
+    "markdownOnly": true,
+    "promptOnly": false,
+    "runOnEdit": true,
+    "substituteRegex": 0,
+    "minDepth": null,
+    "maxDepth": null
+}

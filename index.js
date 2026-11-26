@@ -530,6 +530,7 @@ const bbModuleStyles = {
         { id: "red_gold", name: "Красно-золотой", files: ["styles/regex-[bb]_clocks_(red_-_gold).json"] },
         { id: "dusty_rose", name: "Пыльная роза", files: ["styles/regex-[bb]_clocks_(dusty_rose_textured).json"] },
         { id: "silver", name: "Хроники Сильвера", files: ["styles/regex-[bb]_silver_clocks.json"] },
+        { id: "brass_and_wax", name: "Латунь и сургуч", files: ["styles/regex-[bb]_brass_and_wax_clocks.json"] },
     ],
     transitions: [
         { id: defaultStyleId, name: "Классическое стекло" },
@@ -558,6 +559,15 @@ const bbModuleStyles = {
                 "styles/regex-[bb]_silver_divider.json",
                 "styles/regex-[bb]_silver_transitions_single.json",
                 "styles/regex-[bb]_silver_transitions_paired.json",
+            ],
+        },
+        {
+            id: "brass_and_wax",
+            name: "Латунь и сургуч",
+            files: [
+                "styles/regex-[bb]_brass_and_wax_stylized_divider.json",
+                "styles/regex-[bb]_brass_and_wax_transitions_single.json",
+                "styles/regex-[bb]_brass_and_wax_transitions_paired.json",
             ],
         },
     ],

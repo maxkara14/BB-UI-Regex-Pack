@@ -1,0 +1,17 @@
+{
+    "id": "2ddba07f-7965-4e18-8083-62ddec56d986",
+    "scriptName": "[BB] brass and wax divider",
+    "findRegex": "/(^|\\r?\\n)[\\t ]*\\*{3,}[\\t ]*(?=\\r?\\n|$)/g",
+    "replaceString": "$1<div class=\"bb-brass-divider\" role=\"separator\"><span aria-hidden=\"true\"></span></div>",
+    "trimStrings": [],
+    "placement": [
+        2
+    ],
+    "disabled": false,
+    "markdownOnly": true,
+    "promptOnly": false,
+    "runOnEdit": true,
+    "substituteRegex": 0,
+    "minDepth": null,
+    "maxDepth": null
+}

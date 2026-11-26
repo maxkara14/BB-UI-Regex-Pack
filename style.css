@@ -394,3 +394,389 @@
     animation: bbSilCrystalSpin 6s linear infinite;
     box-shadow: 0 0 10px rgba(186, 230, 253, 0.5);
 }
+
+/* Латунь и сургуч. SillyTavern adds custom- to classes in message HTML. */
+.mes_text .custom-bb-brass-state,
+.mes_text .custom-bb-brass-scene {
+    --SmartThemeEmColor: #d8cbbd;
+    --SmartThemeQuoteColor: #f1cf94;
+    --SmartThemeUnderlineColor: #efdbaf;
+    margin: 0.85em 0;
+    color: #f2e8db;
+    overflow-wrap: anywhere;
+    text-shadow: none;
+}
+
+.mes_text .custom-bb-brass-state {
+    background: #1d1917;
+    border: 1px solid #68503a;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px #0f0b0980;
+    overflow: hidden;
+}
+
+.mes_text .custom-bb-brass-clock {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.3em 0.8em;
+    min-height: 2.9em;
+    padding: 0.5em 1em;
+    background: linear-gradient(105deg, #423021, #2a211b 55%, #211c19);
+    color: #ead4ae;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.mes_text .custom-bb-brass-toggle {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    clip-path: inset(50%);
+}
+
+.mes_text .custom-bb-brass-clock:has(.custom-bb-brass-toggle:focus-visible) {
+    outline: 2px solid #e1c697;
+    outline-offset: -2px;
+}
+
+.mes_text .custom-bb-brass-clock::after {
+    content: "";
+    width: 0.42em;
+    height: 0.42em;
+    margin-inline-start: auto;
+    border: solid currentColor;
+    border-width: 0 1px 1px 0;
+    transform: rotate(45deg);
+}
+
+.mes_text .custom-bb-brass-clock:hover {
+    background: linear-gradient(105deg, #4d3826, #30251d 55%, #29211c);
+}
+
+.mes_text .custom-bb-brass-clock:has(.custom-bb-brass-toggle:checked)::after {
+    transform: rotate(-135deg);
+}
+
+.mes_text .custom-bb-brass-slide {
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+}
+
+.mes_text .custom-bb-brass-slide-inner {
+    min-height: 0;
+    overflow: hidden;
+}
+
+.mes_text .custom-bb-brass-clock:has(.custom-bb-brass-toggle:checked) + .custom-bb-brass-slide {
+    grid-template-rows: 1fr;
+    visibility: visible;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .mes_text .custom-bb-brass-slide {
+        transition: grid-template-rows 400ms cubic-bezier(0.2, 0.8, 0.2, 1),
+            visibility 0s 400ms;
+    }
+
+    .mes_text .custom-bb-brass-clock:has(.custom-bb-brass-toggle:checked) + .custom-bb-brass-slide {
+        transition-delay: 0s;
+    }
+
+    .mes_text .custom-bb-brass-clock::after {
+        transition: transform 260ms ease;
+    }
+}
+
+.mes_text .custom-bb-brass-time {
+    color: #f5dfb5;
+    font-family: Georgia, serif;
+    font-size: 1.4em;
+    font-variant-numeric: tabular-nums;
+}
+
+.mes_text .custom-bb-brass-date::before,
+.mes_text .custom-bb-brass-place::before,
+.mes_text .custom-bb-brass-weather::before {
+    content: "";
+    display: inline-block;
+    width: 0.3em;
+    height: 0.3em;
+    margin-inline-end: 0.7em;
+    vertical-align: 0.2em;
+    background: #bb945d;
+    transform: rotate(45deg);
+}
+
+.mes_text .custom-bb-brass-place {
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.mes_text .custom-bb-brass-lantern {
+    display: inline-block;
+    position: relative;
+    width: 6px;
+    height: 8px;
+    margin-inline-end: 0.5em;
+    border: 1px solid #b99461;
+    border-radius: 2px;
+    background: #745430;
+}
+
+.mes_text .custom-bb-brass-lantern::before {
+    content: "";
+    position: absolute;
+    inset: -4px 1px auto;
+    height: 3px;
+    border: 1px solid #b99461;
+    border-bottom: 0;
+    border-radius: 3px 3px 0 0;
+}
+
+.mes_text .custom-bb-brass-details {
+    margin: 0;
+    padding: 0.2em 1em;
+    border-top: 1px solid #584530;
+    background: linear-gradient(155deg, #2b221c, #1d1917 75%);
+    font-size: 0.92em;
+    line-height: 1.58;
+}
+
+.mes_text .custom-bb-brass-detail {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25em 1em;
+    padding: 0.62em 0;
+}
+
+.mes_text .custom-bb-brass-detail + .custom-bb-brass-detail {
+    border-top: 1px solid #be915a33;
+}
+
+.mes_text .custom-bb-brass-details dt {
+    flex: 0 0 7.8em;
+    padding-top: 0.18em;
+    color: #d9af7c;
+    font-size: 0.76em;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.mes_text .custom-bb-brass-details dd {
+    flex: 1 1 18.5em;
+    min-width: 0;
+    margin: 0;
+}
+
+.mes_text .custom-bb-brass-scene {
+    position: relative;
+    padding: 1.1em clamp(0.95em, 4vw, 2.2em) 1.35em;
+    background: url("./assets/brass-paper.png"),
+        radial-gradient(ellipse 80% 16em at 50% 0%, #68492d70, transparent),
+        linear-gradient(90deg, #15100c66, transparent 5% 95%, #15100c66),
+        linear-gradient(155deg, #31261f, #221b17 70%);
+    border: 1px solid #72563c;
+    box-shadow: 0 9px 24px #0f0b0973;
+    font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
+}
+
+.mes_text .custom-bb-brass-scene::before {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    pointer-events: none;
+    border: 1px solid #ab865354;
+}
+
+.mes_text .custom-bb-brass-heading {
+    --bb-brass-seal-size: clamp(3.4rem, 9vw, 4.25rem);
+    display: grid;
+    grid-template-columns: var(--bb-brass-seal-size) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(0.65rem, 2.4vw, 1.35rem);
+    max-width: 68ch;
+    margin: 0 auto 0.95em;
+    padding: 0.3em 0.4em 0.7em;
+    border-bottom: 1px solid #ad84594f;
+    background: radial-gradient(ellipse 55% 100% at 11% 48%, #8c48542d, transparent);
+    color: #e9c890;
+}
+
+.mes_text .custom-bb-brass-scene[data-bb-type="EPISODE" i] .custom-bb-brass-heading {
+    --bb-brass-seal-size: clamp(3.75rem, 10vw, 4.75rem);
+}
+
+.mes_text .custom-bb-brass-seal {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    background: url("./assets/brass-butterfly-seal.png") center / contain no-repeat;
+    filter: drop-shadow(0 3px 4px #160b0bcc);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .mes_text .custom-bb-brass-seal {
+        animation: bbBrassSealLight 1.15s 100ms ease-out both;
+    }
+}
+
+@keyframes bbBrassSealLight {
+    0%, 100% { filter: drop-shadow(0 3px 4px #160b0bcc); }
+    32% { filter: brightness(1.18) drop-shadow(0 0 9px #d5916c6b); }
+}
+
+.mes_text .custom-bb-brass-kind {
+    font: 600 0.72em/1.35 system-ui, sans-serif;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.mes_text .custom-bb-brass-title {
+    margin: 0.18em 0 0;
+    color: #e5d2b2;
+    font: 600 clamp(1.3rem, 1rem + 1.25vw, 1.85rem)/1.16 "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    text-wrap: balance;
+}
+
+.mes_text .custom-bb-brass-story {
+    max-width: 68ch;
+    margin-inline: auto;
+    font-weight: 400;
+    line-height: 1.63;
+}
+
+.mes_text .custom-bb-brass-story > p:not(:last-child) {
+    margin-bottom: 0.8em;
+}
+
+.mes_text .custom-bb-brass-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.65em;
+    margin: 0.75em 0;
+    min-height: 0.8em;
+    color: #c29a61;
+}
+
+.mes_text .custom-bb-brass-divider::before,
+.mes_text .custom-bb-brass-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, currentColor);
+}
+
+.mes_text .custom-bb-brass-divider::after {
+    transform: scaleX(-1);
+}
+
+.mes_text .custom-bb-brass-divider > span,
+.mes_text .custom-bb-brass-mark {
+    width: 0.36em;
+    height: 0.36em;
+    flex: none;
+    background: currentColor;
+    transform: rotate(45deg);
+}
+
+.mes_text .custom-bb-brass-insert[data-bb-type="WHISPER" i] .custom-bb-brass-mark {
+    width: 0.65em;
+    height: 0.65em;
+    border: 1px solid currentColor;
+    border-radius: 47% 50% 46% 51%;
+    background: radial-gradient(circle, #733848 32%, #a56372 41%, #773747 54%);
+    transform: none;
+}
+
+.mes_text .custom-bb-brass-insert {
+    --SmartThemeEmColor: #e3d5c1;
+    --SmartThemeQuoteColor: #f1cf94;
+    --SmartThemeUnderlineColor: #efdbaf;
+    margin: 0.95em 0;
+    padding: 0.65em 0.9em 0.75em;
+    border: 1px solid #a9895940;
+    border-inline-start: 2px solid #9c8059;
+    border-radius: 5px;
+    background: linear-gradient(115deg, #3b2d23, #2e251f);
+    color: #f1e6d6;
+    line-height: 1.58;
+    overflow-wrap: anywhere;
+}
+
+.mes_text .custom-bb-brass-caption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.15em 0.6em;
+    margin-bottom: 0.3em;
+    color: #dfbd86;
+}
+
+.mes_text .custom-bb-brass-mark {
+    align-self: center;
+}
+
+.mes_text .custom-bb-brass-theme {
+    font-size: 0.9em;
+}
+
+.mes_text .custom-bb-brass-insert[data-bb-type="WHISPER" i] {
+    --SmartThemeEmColor: #ead4dc;
+    --SmartThemeQuoteColor: #f4d0dc;
+    border: 0;
+    border-inline-start: 3px solid #9d5870;
+    border-radius: 0;
+    background: url("./assets/brass-paper.png"), linear-gradient(112deg, #392830, #2c2227 75%);
+    color: #f3e3e8;
+}
+
+.mes_text .custom-bb-brass-insert[data-bb-type="WHISPER" i] .custom-bb-brass-caption {
+    color: #e0aebb;
+}
+
+.mes_text .custom-bb-brass-insert[data-bb-type="WHISPER" i] .custom-bb-brass-insert-text {
+    font-style: italic;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .mes_text .custom-bb-brass-insert[data-bb-type="WHISPER" i] .custom-bb-brass-mark {
+        transition: box-shadow 240ms ease;
+    }
+
+    .mes_text .custom-bb-brass-insert[data-bb-type="WHISPER" i]:hover .custom-bb-brass-mark {
+        box-shadow: 0 0 0 2px #e6a6a030, 0 0 9px #e6a6a068;
+    }
+}
+
+.mes_text .custom-bb-brass-insert[data-bb-type="MEMORY" i] {
+    border: 0;
+    border-block: 1px solid #a2835e8c;
+    border-radius: 0;
+    background: url("./assets/brass-paper.png"), linear-gradient(115deg, #493726, #35291f);
+    color: #f3dfba;
+}
+
+.mes_text .custom-bb-brass-insert[data-bb-type="MEMORY" i] .custom-bb-brass-mark {
+    width: auto;
+    height: auto;
+    background: none;
+    transform: none;
+}
+
+.mes_text .custom-bb-brass-insert[data-bb-type="MEMORY" i] .custom-bb-brass-mark::before {
+    content: "❦";
+}
+
+.mes_text .custom-bb-brass-story > :first-child,
+.mes_text .custom-bb-brass-insert-text > :first-child {
+    margin-top: 0;
+}
+
+.mes_text .custom-bb-brass-story > :last-child,
+.mes_text .custom-bb-brass-insert-text > :last-child {
+    margin-bottom: 0;
+}
